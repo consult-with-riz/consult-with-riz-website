@@ -221,7 +221,7 @@ function Slide({ t, active, onOpen }: { t: Testimonial; active: boolean; onOpen:
  * its size. Native <dialog>: Esc, the close button or a click on the
  * backdrop closes it, and focus returns to the button that opened it.
  */
-function TestimonialDialog({ t, onClose }: { t: Testimonial | null; onClose: () => void }) {
+export function TestimonialDialog({ t, onClose }: { t: Testimonial | null; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
