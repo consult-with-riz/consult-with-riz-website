@@ -73,16 +73,10 @@ const timeline = [
     quote: "Manual journals down 65%. The fastest close is the one nobody has to chase.",
   },
   {
-    year: "2025",
-    company: "Independent",
-    body: "Went independent. Designing AI workflow automations for founder-led teams: 20+ workflows live across 7+ clients.",
-    quote: "Around 40 hours a week of manual work removed per engagement. Fix the process, then automate it.",
-  },
-  {
     year: "Now",
-    company: "Fractional COO",
-    body: "Sitting next to founders as a fractional COO or Chief of Staff. I run the operations so the founder can run the company.",
-    quote: "And whatever repeats gets automated before I leave.",
+    company: "Fractional COO / Chief of Staff",
+    body: "Went fractional in 2025. Sitting next to founders as COO or Chief of Staff, and automating what repeats: 20+ workflows live across 7+ clients.",
+    quote: "Around 40 hours a week of manual work removed per engagement. I run the operations so the founder can run the company.",
   },
 ];
 
@@ -154,9 +148,9 @@ const beyondFacts: BeyondFact[] = [
   },
   {
     icon: Handshake,
-    title: "Fractional, already",
-    body: "Product Manager at Shaping Wealth, working on Lydia, an AI coaching platform for financial advisors.",
-    extra: "Embedded part-time in someone else's team. The same model I offer you.",
+    title: "Fractional, proven",
+    body: "Chief of Staff, operations, product and project lead at Shaping Wealth, building Lydia, an AI coaching platform for financial advisors.",
+    extra: "Embedded part-time in someone else's team, 2025–26. The same model I offer you.",
   },
 ];
 

@@ -64,6 +64,51 @@ export const testimonials: Testimonial[] = [
     image: "/images/testimonials/biola-babawale.jpg",
   },
   {
+    id: "brian-portnoy",
+    name: "Brian Portnoy",
+    company: "Shaping Wealth",
+    roleLine: "Founder & CEO, Shaping Wealth",
+    industry: "Behavioral Finance & AI",
+    meta: ["United States", "Fractional", "Chief of Staff"],
+    hats: [
+      "Chief of Staff",
+      "Operations Manager",
+      "Product Manager",
+      "Project Manager",
+      "Gets It Done",
+    ],
+    // Drafted for Brian from the engagement record (Lydia routing,
+    // platform brief, agent specs, team comms). Riz has his approval.
+    quote:
+      "Riz was the person on our team who made things happen. Chief of staff one week, product manager the next, project and operations lead in between. Whatever Lydia needed, he picked it up and finished it.",
+    fullQuote: [
+      "Riz worked with me at Shaping Wealth while we built Lydia, our AI coaching platform for financial advisors. His title said product manager. In practice he was my chief of staff, our operations manager, our product manager and our project manager, often in the same week.",
+      "He took decisions that were stuck in conversation and turned them into something the team could act on: a clear recommendation on how Lydia should be structured, a plain-English brief on why our existing platform couldn't carry it, and the specs and templates our engineers built from. He kept the team informed, kept the work moving, and never needed chasing.",
+      "The simplest way I can put it: Riz gets things done. If you're a founder with more priorities than people, he's the person you want next to you.",
+    ],
+    initials: "BP",
+    accent: "#22332C",
+    image: "/images/testimonials/brian-portnoy.jpg",
+  },
+  {
+    id: "shahzad-akhtar",
+    name: "Shahzad Akhtar",
+    company: "Strateasy Consulting",
+    roleLine: "Founder & Managing Director, Strateasy Consulting",
+    industry: "Management Consulting",
+    meta: ["Pakistan", "5 months", "GTM & Personal Positioning"],
+    metrics: [
+      { value: "29%", label: "Outreach Reply Rate" },
+      { value: "6×", label: "Profile Views in 60 Days" },
+      { value: "11", label: "Qualified Conversations" },
+    ],
+    quote:
+      "I had the credentials, the track record, the institutional relationships. What I did not have was a way to make any of it visible to the right people without being in the room first. Every engagement still started from zero.",
+    initials: "SA",
+    accent: "#103129",
+    image: "/images/testimonials/shahzad-akhtar.jpg",
+  },
+  {
     id: "kaitlin-malaspina",
     name: "Kaitlin Malaspina",
     company: "Brenna & Co.",

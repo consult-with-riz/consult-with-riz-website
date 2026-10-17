@@ -1984,7 +1984,13 @@ html:has(.tdialog[open]) {
    interlock instead of sitting in tidy rows. Copy is written to the tile,
    not the other way round: the small and tall tiles carry shorter bodies.
 --------------------------------------------------------------------------- */
+/* Shorter top than the default section padding: the hero above already
+   ends on 64px of its own, so the full 112px read as dead space. */
 .whatido { background: var(--bg); }
+.section-pad.whatido { padding-top: 48px; }
+@media (max-width: 767px) {
+  .section-pad.whatido { padding-top: 32px; }
+}
 .whatido-title { max-width: 20ch; }
 
 /* Six cards placed around a reserved centre, with a hub in the void and
@@ -2293,18 +2299,19 @@ html:has(.tdialog[open]) {
   0%, 100% { box-shadow: 0 0 0 5px rgba(255,92,53,0.18); }
   50%      { box-shadow: 0 0 0 11px rgba(255,92,53,0.06); }
 }
-.bnum-tl-mark { flex: 0 0 112px; display: flex; align-items: center; }
+.bnum-tl-mark { flex: 0 0 168px; display: flex; align-items: center; }
 /* Logos are sized by eye to sit at the weight of the set names: the wide
    wordmarks by width, Bolt (a tall mark) by height. */
 .bnum-tl-logo { display: block; height: auto; width: 96px; }
 .bnum-tl-logo[data-logo="bolt"] { width: auto; height: 34px; }
 .bnum-tl-name {
+  white-space: pre-line; line-height: 1.2;
   font-family: var(--font-inter-tight), sans-serif;
   font-size: 20px; font-weight: 600; letter-spacing: -0.015em; color: #22332C;
 }
 .bnum-tl-year {
   font-family: var(--font-montserrat), sans-serif;
-  font-size: 0.875rem; font-weight: 500; color: #5C5750;
+  font-size: 0.875rem; font-weight: 500; color: var(--board-ink);
   font-variant-numeric: tabular-nums;
 }
 .bnum-lede {
@@ -2314,20 +2321,24 @@ html:has(.tdialog[open]) {
 }
 
 /* ── The board ───────────────────────────────────────────────────────── */
+/* Warm near-black, not jet. The site's ink green read as grey at board
+   sizes and weights. */
+.bnum { --board-ink: #1C1B19; }
 .bnum-head,
 .bnum-row {
   display: grid;
-  grid-template-columns: 78px 116px minmax(0, 1fr) 98px minmax(150px, 172px);
+  grid-template-columns: 78px 172px minmax(0, 1fr) 98px minmax(132px, 150px);
   align-items: center;
   gap: 0;
 }
 .bnum-head {
   padding-bottom: 10px;
-  border-bottom: 1.5px solid #22332C;
+  border-bottom: 1.5px solid var(--board-ink);
   font-family: var(--font-dm-mono), monospace;
-  font-size: 10.5px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--faint);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--board-ink);
 }
+.bnum .bnum-head > span { color: var(--board-ink); }
 .bnum-head > span,
 .bnum-row > span { padding: 0 14px; }
 .bnum-head > span:first-child,
@@ -2351,15 +2362,16 @@ html:has(.tdialog[open]) {
 
 .bnum-when {
   font-family: var(--font-dm-mono), monospace;
-  font-size: 13px; color: #22332C; white-space: nowrap;
+  font-size: 13.5px; font-weight: 500; color: var(--board-ink); white-space: nowrap;
 }
 .bnum-where {
+  white-space: pre-line; line-height: 1.3;
   font-family: var(--font-inter-tight), sans-serif;
-  font-size: 15px; font-weight: 600; color: #22332C; letter-spacing: -0.01em;
+  font-size: 15.5px; font-weight: 600; color: var(--board-ink); letter-spacing: -0.01em;
 }
 .bnum-what {
   font-family: var(--font-dm-sans), sans-serif;
-  font-size: 14.5px; line-height: 1.45; color: #22332C;
+  font-size: 15px; font-weight: 500; line-height: 1.45; color: var(--board-ink);
 }
 .bnum-status { justify-content: flex-start; }
 .bnum-chip {
@@ -2382,7 +2394,7 @@ html:has(.tdialog[open]) {
 
 @media (max-width: 1279px) {
   .bnum-head, .bnum-row {
-    grid-template-columns: 70px 104px minmax(0, 1fr) 90px minmax(126px, 140px);
+    grid-template-columns: 70px 162px minmax(0, 1fr) 90px minmax(112px, 128px);
   }
   .bnum-head > span, .bnum-row > span { padding: 0 10px; }
   .bnum-read { font-size: 25px; }
@@ -2392,7 +2404,7 @@ html:has(.tdialog[open]) {
   .bnum-grid { grid-template-columns: 1fr; gap: 40px; }
   .bnum-left { padding-right: 0; }
   .bnum-head, .bnum-row {
-    grid-template-columns: 78px 116px minmax(0, 1fr) 98px minmax(150px, 172px);
+    grid-template-columns: 78px 172px minmax(0, 1fr) 98px minmax(132px, 150px);
   }
   .bnum-read { font-size: 30px; }
 }
@@ -2407,7 +2419,7 @@ html:has(.tdialog[open]) {
   }
   .bnum-row > span,
   .bnum-row > span + span { border-left: 0; padding: 0; }
-  .bnum-when { grid-row: 1; font-size: 12px; color: var(--faint); }
+  .bnum-when { grid-row: 1; font-size: 12.5px; color: var(--board-ink); }
   .bnum-where { grid-row: 1; justify-content: flex-end; }
   .bnum-what { grid-row: 2; grid-column: 1 / 3; }
   .bnum-status { grid-row: 3; }

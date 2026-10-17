@@ -3,10 +3,10 @@ import { useState } from "react";
 
 /* ── geometry constants ──────────────────────────────────────────── */
 const CX = 294;          // SVG center x
-const CY = 252;          // SVG center y
-const CR = 101;          // center circle radius
-const OR = 182;          // orbit radius (center-to-node-center)
-const NR = 62;           // node circle radius
+const CY = 268;          // SVG center y
+const CR = 104;          // center circle radius
+const OR = 192;          // orbit radius (center-to-node-center)
+const NR = 74;           // node circle radius
 
 // Node positions in the initial SVG viewport
 // Three nodes at 120° steps: top, bottom-right, bottom-left. Path order.
@@ -39,8 +39,8 @@ export default function ServicesHubDiagram() {
 
   return (
     <svg
-      viewBox="0 0 588 504"
-      style={{ width: "100%", maxWidth: 640, height: "auto" }}
+      viewBox="0 0 588 536"
+      style={{ width: "100%", maxWidth: 560, height: "auto", display: "block", margin: "0 auto" }}
     >
       {/* ── spokes (inside orbit group so they track the nodes) ───── */}
       <g style={orbitStyle}>
@@ -59,9 +59,9 @@ export default function ServicesHubDiagram() {
       {/* ── center circle - pulse only, does NOT rotate ───────────── */}
       <g style={{ transformOrigin: `${CX}px ${CY}px`, animation: "svc-pulse 3s ease-in-out infinite" } as React.CSSProperties}>
         <circle cx={CX} cy={CY} r={CR} fill="#22332C" />
-        <text x={CX} y={CY - 20} textAnchor="middle" fontSize="14.5" fill="rgba(255,255,255,0.72)" letterSpacing="0.03em" style={{ fontFamily: "var(--font-body), sans-serif" }}>Ops that run</text>
-        <text x={CX} y={CY + 2}  textAnchor="middle" fontSize="14.5" fill="rgba(255,255,255,0.72)" style={{ fontFamily: "var(--font-body), sans-serif" }}>without the</text>
-        <text x={CX} y={CY + 24} textAnchor="middle" fontSize="14.5" fill="rgba(255,255,255,0.72)" style={{ fontFamily: "var(--font-body), sans-serif" }}>founder</text>
+        <text x={CX} y={CY - 22} textAnchor="middle" fontSize="18" fill="rgba(255,255,255,0.9)" letterSpacing="0.03em" style={{ fontFamily: "var(--font-body), sans-serif" }}>Ops that run</text>
+        <text x={CX} y={CY + 3}  textAnchor="middle" fontSize="18" fill="rgba(255,255,255,0.9)" style={{ fontFamily: "var(--font-body), sans-serif" }}>without the</text>
+        <text x={CX} y={CY + 28} textAnchor="middle" fontSize="18" fill="rgba(255,255,255,0.9)" style={{ fontFamily: "var(--font-body), sans-serif" }}>founder</text>
       </g>
 
       {/* ── orbiting nodes ────────────────────────────────────────── */}
@@ -101,9 +101,9 @@ export default function ServicesHubDiagram() {
 
                   {/* number - display face, centered in circle */}
                   <text
-                    x={n.cx} y={n.cy - 11}
+                    x={n.cx} y={n.cy - 6}
                     textAnchor="middle" dominantBaseline="auto"
-                    fontSize="28" fontWeight="500" fill="#fff"
+                    fontSize="32" fontWeight="500" fill="#fff"
                     style={{ pointerEvents: "none", fontFamily: "var(--font-display), sans-serif", letterSpacing: "-0.012em" } as React.CSSProperties}
                   >
                     {n.num}
@@ -111,12 +111,13 @@ export default function ServicesHubDiagram() {
 
                   {/* label - mono, below number, stays inside circle */}
                   <text
-                    x={n.cx} y={n.cy + 18}
+                    x={n.cx} y={n.cy + 24}
                     textAnchor="middle" dominantBaseline="auto"
                     fontFamily="var(--font-dm-mono), monospace"
-                    fontSize={isHovered ? "10" : "9.5"}
-                    fill={isHovered ? "#fff" : "rgba(255,255,255,0.78)"}
-                    letterSpacing="0.1em"
+                    fontSize={isHovered ? "13" : "12.5"}
+                    fill="#fff"
+                    fontWeight="600"
+                    letterSpacing="0.05em"
                     style={{ pointerEvents: "none", transition: "fill 0.2s ease" } as React.CSSProperties}
                   >
                     {n.label}

@@ -71,27 +71,27 @@ const ROWS: Row[] = [
     reading: "92%",
   },
   {
-    when: "2025–",
-    company: "Independent",
-    moved: "Manual work automated, per week, per client engagement",
-    status: "Ongoing",
-    reading: "~40 hrs",
+    when: "2025–26",
+    company: "Shaping Wealth",
+    moved: "Lydia taken from concept to working build",
+    status: "Shipped",
+    reading: "0 → 1",
   },
   {
     when: "2025–",
-    company: "Shaping Wealth",
-    moved: "Lydia taken from concept to working build",
+    company: "Fractional COO\u00A0/\nChief of Staff",
+    moved: "Founder-led clients, run as COO or Chief of Staff, repeat work automated",
     status: "Ongoing",
-    reading: "0 → 1",
+    reading: "7+",
   },
 ];
 
-/* The career line on the left. Shaping Wealth is fractional and runs
-   alongside independent work rather than after it, so it is not a stop of its own. */
+/* The career line on the left. Shaping Wealth runs alongside the other
+   fractional work rather than after it, so it is not a stop of its own. */
 const STOPS = ROWS.filter((r) => r.company !== "Shaping Wealth");
 
 /* A company with a logo shows it; one without falls back to its name set
-   at a weight that holds its own beside the marks. Motive, Independent and
+   at a weight that holds its own beside the marks. Motive, the fractional work and
    Shaping Wealth have no asset in public/logos, and neither does S&P
    Global yet — drop the file in and add the line here, nothing else. */
 const LOGOS: Record<string, string> = {

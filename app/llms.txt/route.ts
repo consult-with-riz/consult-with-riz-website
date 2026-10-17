@@ -16,12 +16,19 @@ export function GET() {
 
 For work beyond operations, Riz brings in trusted specialists in AI implementation, branding, marketing, content and social, and websites, while remaining the single point of contact.
 
+## What clients say
+
+- Biola Babawale, Founder, Cycle Together: fractional COO and chief of staff engagement.
+- Brian Portnoy, Founder & CEO, Shaping Wealth: chief of staff, operations, product and project management on Lydia (2025–26).
+- Shahzad Akhtar, Founder & MD, Strateasy Consulting: GTM and personal positioning.
+- Kaitlin Malaspina, Principal & Founder, Brenna & Co.: SOPs and systems organised in five days.
+
 ## Track record
 
 - Bolt: courier costs cut from 21% to 14% of GMV, $3.9M saved in 6 months across 20 countries.
 - Wise: month-end close cut from 8 to 3 days; ~92% straight-through reconciliation.
 - Careem: dispatch time cut from 3 minutes to 20 seconds.
-- Independent (2025–): 20+ client automation workflows live, ~40 hours a week of manual work removed per engagement.
+- Fractional COO / Chief of Staff (2025–): 20+ client automation workflows live, ~40 hours a week of manual work removed per engagement.
 
 ## Pages
 

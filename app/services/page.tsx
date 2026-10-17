@@ -402,7 +402,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "What's your background?",
-    a: "Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. At Bolt I took courier costs from 21% to 14% of GMV across 20 countries. At Wise, month-end close went from 8 days to 3. ACCA-qualified. Independent since 2025.",
+    a: "Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. At Bolt I took courier costs from 21% to 14% of GMV across 20 countries. At Wise, month-end close went from 8 days to 3. ACCA-qualified. Fractional COO and Chief of Staff since 2025.",
   },
 ];
 
@@ -458,6 +458,20 @@ export default function Services() {
           font-size: 0.9rem;
           color: var(--muted);
         }
+        /* Page rhythm. The default 112px section padding plus the 70vh hero
+           left a screen of empty cream on desktop; these keep the same
+           structure at a tighter pace. */
+        .svc-hero-section { min-height: 0; padding: 112px 0 48px; }
+        .svc-hero-diagram { width: 100%; }
+        .svc-hero-diagram > * { width: 100%; }
+        .svc-section,
+        .svc-tight { padding: 72px 0; }
+        .svc-row { gap: 3rem; }
+        @media (max-width: 767px) {
+          .svc-hero-section { padding: 96px 0 32px; }
+          .svc-section,
+          .svc-tight { padding: 48px 0; }
+        }
         .svc-step {
           display: block;
           font-family: var(--font-geist-mono), monospace;
@@ -492,7 +506,7 @@ export default function Services() {
         .svc-shape-name { font-weight: 600; color: var(--ink); }
         .svc-shape-body { font-size: 0.9rem; line-height: 1.5; color: var(--body); }
         .svc-bench-line {
-          margin: 3rem 0 0;
+          margin: 2rem 0 0;
           padding-top: 1.5rem;
           border-top: 1px solid var(--line-2);
           color: var(--body);
@@ -707,7 +721,7 @@ export default function Services() {
       {sectionDivider}
 
       {/* 1:1 SESSION */}
-      <section id="session" className="section-pad" style={{ background: "#fff", scrollMarginTop: 96 }}>
+      <section id="session" className="svc-tight" style={{ background: "#fff", scrollMarginTop: 96 }}>
         <div className="max-w-site">
           <AnimateIn>
             <div className="svc-advisory">
@@ -732,7 +746,7 @@ export default function Services() {
       {sectionDivider}
 
       {/* FAQ */}
-      <section className="section-pad" style={{ background: "var(--cream)" }}>
+      <section className="svc-tight" style={{ background: "var(--cream)" }}>
         <div className="max-w-site">
           <div className="block-head is-center">
             <span className="pill-eyebrow">Questions</span>

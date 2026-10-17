@@ -208,7 +208,7 @@ const caseRowsBase: CaseRow[] = [
   {
     id: "cs-07",
     num: "07",
-    tag: "INDEPENDENT · AUTOMATION",
+    tag: "FRACTIONAL COO / CHIEF OF STAFF · AUTOMATION",
     title: "The layer underneath: AI that runs the process",
     result: "20+ workflows live · ~40 hrs/week removed",
     area: "Automation",
@@ -248,7 +248,8 @@ const LOGOS: Record<string, string> = {
 function splitTag(tag: string) {
   const [co, ...rest] = tag.split("·").map((t) => t.trim());
   const title = (w: string) => w.charAt(0) + w.slice(1).toLowerCase();
-  return { company: title(co), area: rest.join(" · ").toLowerCase() };
+  const company = co.startsWith("FRACTIONAL") ? "Fractional COO / Chief of Staff" : title(co);
+  return { company, area: rest.join(" · ").toLowerCase() };
 }
 
 /* ─── page ───────────────────────────────────────────────────────────────────── */

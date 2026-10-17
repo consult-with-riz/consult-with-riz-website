@@ -287,7 +287,6 @@ export default function WhatIDo() {
     <section className="section-pad whatido">
       <div className="max-w-site">
         <div className="block-head is-center">
-          <span className="pill-eyebrow">What I own</span>
           <h2 className="block-title">
             The operating system{" "}
             <span className="text-ramp">a growing company runs on.</span>
