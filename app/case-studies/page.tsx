@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect, Suspense, CSSProperties } from "react";
 import { useSearchParams } from "next/navigation";
-import { ChevronDown } from "lucide-react";
 import AnimateIn from "@/components/AnimateIn";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
+import TestimonialsSection from "@/components/Testimonials";
 
 /* ─── data ──────────────────────────────────────────────────────────────────── */
 
@@ -12,43 +12,12 @@ import ScrollProgressBar from "@/components/ScrollProgressBar";
    CV records a result but not the method, "what I did" stays general on
    purpose. TODOs mark the places Riz should add specifics in his own words. */
 
-const AREAS = [
-  "All",
-  "Cost",
-  "Finance ops",
-  "Compliance",
-  "Growth",
-  "Launches",
-  "Service ops",
-  "Automation",
-];
 
 const STAT_CARDS = [
   { label: "SAVED", number: "$3.9M", desc: "courier cost, 6 months, Bolt" },
   { label: "CLOSE", number: "8→3", desc: "days to month-end close, Wise" },
   { label: "DISPATCH", number: "20s", desc: "down from 3 minutes, Careem" },
   { label: "AUTOMATED", number: "~40h", desc: "manual work removed weekly, per client" },
-];
-
-const CASE_IMAGES: Record<string, string> = {
-  logistics: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&q=80",
-  accounting: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=400&q=80",
-  finance: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80",
-  healthcare: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&q=80",
-  saas: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&q=80",
-  property: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80",
-  ecommerce: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80",
-};
-
-const ACCENT_PALETTE = [
-  "#e8431b", // coral (brand-derived, darkened for AA contrast)
-  "#B8562F", // rust
-  "#5E7145", // olive / sage
-  "#C2410C", // deep coral / burnt orange
-  "#2E7C74", // teal
-  "#8C6A1E", // muted gold
-  "#B5576B", // dusty rose
-  "#3E6B4F", // forest green
 ];
 
 type CaseRow = {
@@ -58,7 +27,6 @@ type CaseRow = {
   title: string;
   result: string;
   area: string;
-  imageKey: string;
   details: {
     situation: string[];
     did: string[];
@@ -76,7 +44,6 @@ const caseRowsBase: CaseRow[] = [
     title: "Courier cost, cut by a third",
     result: "21% → 14% of GMV · $3.9M saved",
     area: "Cost",
-    imageKey: "logistics",
     details: {
       // TODO(Riz): name the two or three levers that actually moved the number.
       situation: [
@@ -106,7 +73,6 @@ const caseRowsBase: CaseRow[] = [
     title: "Delivery economics, tested not guessed",
     result: "+$2.1M from fee A/B tests in 6 months",
     area: "Growth",
-    imageKey: "ecommerce",
     details: {
       // TODO(Riz): one line on how the tests were set up and who ran them.
       situation: [
@@ -135,7 +101,6 @@ const caseRowsBase: CaseRow[] = [
     title: "EU Platform Workers' Directive, built in",
     result: "80%+ compliance · −70% manual effort",
     area: "Compliance",
-    imageKey: "property",
     details: {
       // TODO(Riz): what the two microservices did, in one plain sentence each.
       situation: [
@@ -164,7 +129,6 @@ const caseRowsBase: CaseRow[] = [
     title: "Month-end close, from 8 days to 3",
     result: "3-day close · ~92% straight-through",
     area: "Finance ops",
-    imageKey: "accounting",
     details: {
       // TODO(Riz): what made the close slow before — the one bottleneck worth naming.
       situation: [
@@ -195,7 +159,6 @@ const caseRowsBase: CaseRow[] = [
     title: "Products and markets, shipped faster",
     result: "12+ products · 13+ launches · 70+ countries",
     area: "Launches",
-    imageKey: "finance",
     details: {
       // TODO(Riz): what his role was on launches — the ops checklist, the sign-off, the owner?
       situation: [
@@ -223,7 +186,6 @@ const caseRowsBase: CaseRow[] = [
     title: "Dispatch, from 3 minutes to 20 seconds",
     result: "20s dispatch · was 3 min",
     area: "Service ops",
-    imageKey: "healthcare",
     details: {
       // TODO(Riz): one line on what the service was and what changed in the flow.
       situation: [
@@ -250,7 +212,6 @@ const caseRowsBase: CaseRow[] = [
     title: "The layer underneath: AI that runs the process",
     result: "20+ workflows live · ~40 hrs/week removed",
     area: "Automation",
-    imageKey: "saas",
     details: {
       situation: [
         "Founder-led teams of a handful of people",
@@ -273,15 +234,26 @@ const caseRowsBase: CaseRow[] = [
   },
 ];
 
-const caseRows = caseRowsBase.map((row, i) => ({
-  ...row,
-  accent: ACCENT_PALETTE[i % ACCENT_PALETTE.length],
-}));
+const caseRows = caseRowsBase;
+
+/* Logos for the companies that have one in public/logos. Anything else
+   (client work) falls back to its name. */
+const LOGOS: Record<string, string> = {
+  Bolt: "/logos/bolt.png",
+  Wise: "/logos/wise.svg",
+  Careem: "/logos/careem.png",
+};
+
+/** "BOLT · COST" → { company: "Bolt", area: "Cost" } */
+function splitTag(tag: string) {
+  const [co, ...rest] = tag.split("·").map((t) => t.trim());
+  const title = (w: string) => w.charAt(0) + w.slice(1).toLowerCase();
+  return { company: title(co), area: rest.join(" · ").toLowerCase() };
+}
 
 /* ─── page ───────────────────────────────────────────────────────────────────── */
 
 function CaseStudiesContent() {
-  const [activeFilter, setActiveFilter] = useState("All");
   const [activeCase, setActiveCase] = useState<string | null>(null);
   const searchParams = useSearchParams();
 
@@ -294,114 +266,12 @@ function CaseStudiesContent() {
     });
   }, [searchParams]);
 
-  const visibleRows =
-    activeFilter === "All"
-      ? caseRows
-      : caseRows.filter((row) => row.area === activeFilter);
+  // Seven cases read fine as one list; filter tabs were one more decision.
+  const visibleRows = caseRows;
 
   return (
     <main style={{ background: "var(--bg)" }}>
       <style>{`
-        .proof-row {
-          display: grid;
-          grid-template-columns: 60px 180px 1fr 1fr auto;
-          gap: 24px;
-          align-items: center;
-          padding: 28px 0;
-          border-bottom: 1px solid var(--line);
-          border-left: 3px solid transparent;
-          padding-left: 0;
-          transition: background-color 0.22s ease, border-left-color 0.22s ease, border-left-width 0.22s ease, padding-left 0.22s ease;
-          cursor: pointer;
-          text-decoration: none;
-        }
-        .proof-row:hover {
-          background-color: var(--row-accent-bg-hover, rgba(255,92,53,0.02));
-          border-left-color: var(--row-accent, #ff5c35);
-          padding-left: 20px;
-        }
-        .proof-row.active {
-          background-color: var(--row-accent-bg-active, rgba(255,92,53,0.06));
-          border-left-color: var(--row-accent, #ff5c35);
-          border-left-width: 4px;
-          padding-left: 20px;
-        }
-        .proof-row-num {
-          font-family: var(--font-geist-mono), 'Geist Mono', monospace;
-          font-size: 14px;
-          color: var(--row-accent, #ff5c35);
-          letter-spacing: 0.1em;
-        }
-        .proof-row-tag {
-          font-family: var(--font-geist-mono), 'Geist Mono', monospace;
-          font-size: 1rem;
-          font-weight: 600;
-          color: var(--row-accent, #ff5c35);
-          letter-spacing: 0.08em;
-          line-height: 1.4;
-          text-transform: uppercase;
-        }
-        .proof-row-title {
-          font-size: 20px;
-          font-weight: 600;
-          color: #22332C;
-          font-family: var(--font-fraunces), serif;
-        }
-        .proof-row-result {
-          font-size: 14px;
-          color: rgba(34,51,44,0.72);
-          line-height: 1.5;
-        }
-        .proof-row-arrow {
-          display: inline-flex;
-          color: #5E594E;
-          transition: color 0.2s ease-out, transform 0.2s ease-out;
-          justify-self: end;
-        }
-        .proof-row:hover .proof-row-arrow {
-          color: var(--row-accent, #ff5c35);
-        }
-        .proof-row.active .proof-row-arrow {
-          color: var(--row-accent, #ff5c35);
-          transform: rotate(180deg);
-        }
-
-        /* filter tabs */
-        .filter-tabs {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0;
-          border-bottom: 1px solid var(--line);
-          margin-bottom: 48px;
-          padding-bottom: 0;
-        }
-        .filter-tab {
-          display: inline-flex;
-          align-items: center;
-          padding: 8px 4px;
-          margin-right: 24px;
-          font-size: 1rem;
-          font-weight: 500;
-          color: #4A4A45;
-          cursor: pointer;
-          background: none;
-          border: none;
-          border-bottom: 2px solid transparent;
-          border-radius: 0;
-          white-space: nowrap;
-          transition: all 0.25s ease;
-        }
-        .filter-tab:hover {
-          color: #22332C;
-          border-bottom-color: rgba(34,51,44,0.2);
-        }
-        .filter-tab.active {
-          color: #22332C;
-          font-weight: 600;
-          border-bottom: 2px solid #ff5c35;
-        }
-
-        /* hero section */
         .case-hero-band {
           background: var(--cream);
           border-bottom: 1px solid var(--line);
@@ -541,171 +411,102 @@ function CaseStudiesContent() {
           }
         }
 
-        .case-row-wrap {
-          transition: opacity 0.2s ease;
-        }
-        .case-row-wrap.dimmed {
-          opacity: 0.7;
-        }
-        .case-row-wrap.dimmed:hover {
-          opacity: 1;
-        }
-
-        /* expanded case panel */
-        .case-panel {
-          position: relative;
-          box-sizing: border-box;
-          max-height: 0;
-          overflow: hidden;
-          opacity: 0;
-          background: white;
-          border: 1.5px solid transparent;
-          border-top: none;
-          border-radius: 0 0 20px 20px;
-          transition: max-height 0.4s ease, opacity 0.3s ease;
-        }
-        .case-panel.active {
-          max-height: 900px;
-          opacity: 1;
-          border-color: var(--line);
-          box-shadow: inset 0 3px 0 0 var(--row-accent, #ff5c35);
-        }
-        .case-panel-header {
-          background: #22332C;
-          padding: 20px 36px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .case-panel-header-title {
-          font-size: 16px;
-          font-weight: 600;
-          color: var(--cream);
-          font-family: var(--font-fraunces), serif;
-        }
-        .case-panel-close {
-          background: rgba(255,255,255,0.1);
-          border: 1px solid rgba(255,255,255,0.15);
-          color: var(--cream);
-          font-family: var(--font-geist-mono), 'Geist Mono', monospace;
-          font-size: 14px;
-          padding: 6px 14px;
-          border-radius: 100px;
-          cursor: pointer;
-          transition: background 0.25s ease;
-        }
-        .case-panel-close:hover {
-          background: rgba(255,255,255,0.2);
-        }
-        .case-panel-content {
+        /* ===== CASE CARDS ===== */
+        .cases-section { padding: var(--section-pad) 0; background: var(--paper); border-top: 1px solid var(--line); }
+        .cases-grid {
           display: grid;
-          grid-template-columns: 280px 1fr 1fr;
-          gap: 0;
+          grid-template-columns: 1fr 1fr;
+          gap: var(--grid-gap);
+          margin-top: var(--heading-gap);
         }
-        .case-panel-image {
-          width: 280px;
-          min-height: 340px;
-          overflow: hidden;
+        .case-card {
           position: relative;
+          background: #fff;
+          border: 1px solid var(--line);
+          border-radius: var(--radius-card);
+          padding: 32px 32px 28px;
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+          transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
         }
-        .case-panel-image img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          filter: brightness(0.85);
-          display: block;
+        .case-anchor { position: absolute; top: -96px; }
+        .case-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--line-2); }
+        .case-card.is-target { border-color: var(--coral); box-shadow: 0 18px 44px rgba(255,92,53,0.14); }
+        .case-card.is-wide { grid-column: 1 / -1; }
+        .case-card-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
         }
-        .case-panel-image-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(135deg, rgba(255,92,53,0.3) 0%, transparent 60%);
+        .case-card-co { display: flex; align-items: center; gap: 12px; min-width: 0; }
+        .case-card-logo { height: 24px; width: auto; max-width: 92px; object-fit: contain; display: block; }
+        .case-card-coname { font-weight: 700; font-size: 17px; color: var(--ink); }
+        .case-card-years {
+          font-family: var(--font-geist-mono), monospace;
+          font-size: 13px;
+          color: var(--muted);
+          white-space: nowrap;
         }
-        .case-panel-col-ba {
-          padding: 32px 28px;
-          border-right: 1px solid var(--line);
-        }
-        .case-panel-label-sm {
-          font-family: var(--font-geist-mono), 'Geist Mono', monospace;
-          font-size: 1rem;
+        .case-card-area {
+          font-family: var(--font-geist-mono), monospace;
+          font-size: 12px;
           font-weight: 600;
-          color: #ff5c35;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          color: var(--coral);
+          background: rgba(255,92,53,0.08);
+          padding: 4px 10px;
+          border-radius: 999px;
+          white-space: nowrap;
+        }
+        .case-card-hero { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; }
+        .case-card-num {
+          font-size: clamp(2.6rem, 2rem + 2vw, 3.4rem);
+          font-weight: 500;
+          line-height: 1;
+          letter-spacing: -0.02em;
+          color: var(--ink);
+        }
+        .case-card-numlabel { font-size: 15px; color: var(--body); max-width: 26ch; line-height: 1.4; }
+        .case-card-title { font-size: 1.3rem; font-weight: 600; color: var(--ink); line-height: 1.3; margin: 0; }
+        .case-card-label {
+          font-family: var(--font-geist-mono), monospace;
+          font-size: 12px;
+          font-weight: 600;
           letter-spacing: 0.08em;
-          margin-bottom: 12px;
+          text-transform: uppercase;
+          color: var(--muted);
+          margin-bottom: 8px;
         }
-        .case-panel-label-sm.after {
-          color: #ff5c35;
+        .case-card-problem { margin: 0; font-size: 15px; line-height: 1.6; color: var(--body); }
+        .case-card-did { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+        .case-card-did li { display: flex; gap: 10px; font-size: 15px; line-height: 1.5; color: var(--ink); }
+        .case-card-did li::before { content: "→"; color: var(--coral); flex-shrink: 0; }
+        .case-card-metrics {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+          gap: 12px;
+          padding: 16px 0 0;
+          border-top: 1px solid var(--line);
         }
-        .case-panel-list-v2 {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-        .case-panel-list-v2 li {
-          font-size: 14px;
-          color: #22332C;
-          font-weight: 500;
-          line-height: 1.7;
-        }
-        .case-panel-list-v2.after li {
-          color: #22332C;
-          font-weight: 500;
-        }
-        .case-panel-divider-v2 {
-          height: 1px;
-          background: linear-gradient(90deg, #ff5c35, var(--line));
-          margin: 16px 0;
-        }
-        .case-panel-col-outcomes {
-          padding: 32px 28px;
-        }
-        .case-stat-v2 {
-          border-left: 3px solid #ff5c35;
-          padding-left: 14px;
-          margin-bottom: 20px;
-        }
-        .case-stat-v2-number {
-          font-size: 26px;
-          font-weight: 500;
-          color: #22332C;
-          background: linear-gradient(90deg, #22332C, #ff5c35);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .case-stat-v2-desc {
-          font-family: var(--font-geist-mono), 'Geist Mono', monospace;
-          font-size: 14px;
-          color: #5E594E;
-          letter-spacing: 0.04em;
-          margin-top: 2px;
-        }
-        .case-delivered-v2-label {
-          margin-top: 16px;
-        }
-        .case-delivered-v2-value {
-          font-size: 16px;
-          font-weight: 600;
-          color: #22332C;
-        }
-        .case-takeaway {
+        .case-card-metric b { display: block; font-size: 1.35rem; font-weight: 600; color: var(--ink); line-height: 1.1; }
+        .case-card-metric span { display: block; font-size: 13px; line-height: 1.4; color: var(--muted); margin-top: 4px; }
+        .case-card-take {
+          margin-top: auto;
+          background: var(--cream);
+          border-radius: 12px;
+          padding: 14px 16px;
           font-size: 15px;
-          line-height: 1.6;
-          color: #22332C;
-          margin: 0;
+          line-height: 1.55;
+          color: var(--ink);
         }
-        @media (max-width: 768px) {
-          .case-panel-content {
-            grid-template-columns: 1fr;
-          }
-          .case-panel-image {
-            width: 100%;
-            min-height: 200px;
-          }
-          .case-panel-col-ba {
-            border-right: none;
-            border-bottom: 1px solid var(--line);
-          }
+        .case-card-take strong { color: var(--coral); font-weight: 600; margin-right: 6px; }
+        .cases-foot { text-align: center; margin-top: 40px; }
+        @media (max-width: 860px) {
+          .cases-grid { grid-template-columns: 1fr; }
+          .case-card { padding: 26px 22px 22px; }
         }
       `}</style>
 
@@ -755,122 +556,93 @@ function CaseStudiesContent() {
         </section>
       </div>
 
-      <section className="case-hero-section case-hero-section--list">
-        <div>
-          <nav className="filter-tabs">
-            {AREAS.map((area) => (
-              <button
-                key={area}
-                onClick={() => setActiveFilter(area)}
-                className={`filter-tab${activeFilter === area ? " active" : ""}`}
-              >
-                {area}
-              </button>
-            ))}
-          </nav>
+      {/* IN THEIR WORDS */}
+      <TestimonialsSection
+        heading={
+          <>
+            Founders I&apos;ve <span style={{ color: "var(--coral)" }}>worked with.</span>
+          </>
+        }
+      />
 
-          {visibleRows.map((row, i) => {
-            const isActive = activeCase === row.id;
-            const isDimmed = activeCase !== null && !isActive;
-            const rowAccentStyle = {
-              "--row-accent": row.accent,
-              "--row-accent-bg-hover": `${row.accent}05`,
-              "--row-accent-bg-active": `${row.accent}0F`,
-            } as CSSProperties;
-            return (
-              <AnimateIn
-                as="div"
-                key={row.id}
-                delay={Math.min(i, 6) * 80}
-                className={`case-row-wrap${isDimmed ? " dimmed" : ""}`}
-                style={rowAccentStyle}
-              >
-                <div
-                  id={row.id}
-                  className={`proof-row${isActive ? " active" : ""}`}
-                  onClick={() => setActiveCase(isActive ? null : row.id)}
-                  role="button"
-                  tabIndex={0}
-                  aria-expanded={isActive}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setActiveCase(isActive ? null : row.id);
-                    }
-                  }}
+      {/* THE CASES */}
+      <section className="cases-section">
+        <div className="max-w-site">
+          <div className="block-head is-center">
+            <span className="pill-eyebrow">Inside scaling companies</span>
+            <h2 className="block-title">
+              The problem, what I did,{" "}
+              <span className="text-ramp">what moved.</span>
+            </h2>
+          </div>
+
+          <div className="cases-grid">
+            {caseRows.map((row, i) => {
+              const { company, area } = splitTag(row.tag);
+              const [lead, ...rest] = row.details.outcomes;
+              const years = row.details.where.split("·").pop()?.trim();
+              const wide = i === caseRows.length - 1 && caseRows.length % 2 === 1;
+              return (
+                <AnimateIn
+                  key={row.id}
+                  as="article"
+                  delay={(i % 2) * 100}
+                  className={`case-card${wide ? " is-wide" : ""}${activeCase === row.id ? " is-target" : ""}`}
                 >
-                  <span className="proof-row-num">{row.num}</span>
-                  <span className="proof-row-tag">{row.tag}</span>
-                  <span className="proof-row-title">{row.title}</span>
-                  <span className="proof-row-result">{row.result}</span>
-                  <span className="proof-row-arrow" aria-hidden="true">
-                    <ChevronDown size={18} strokeWidth={2} />
-                  </span>
-                </div>
-
-                <div className={`case-panel${isActive ? " active" : ""}`}>
-                  <div className="case-panel-header">
-                    <span className="case-panel-header-title">{row.title}</span>
-                    <button
-                      className="case-panel-close"
-                      onClick={() => setActiveCase(null)}
-                    >
-                      ✕ CLOSE
-                    </button>
-                  </div>
-
-                  <div className="case-panel-content">
-                    <div className="case-panel-image">
-                      <img src={CASE_IMAGES[row.imageKey]} alt={row.title} />
-                      <div className="case-panel-image-overlay" />
+                    <span id={row.id} className="case-anchor" aria-hidden="true" />
+                    <div className="case-card-top">
+                      <div className="case-card-co">
+                        {LOGOS[company] ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img className="case-card-logo" src={LOGOS[company]} alt={company} />
+                        ) : (
+                          <span className="case-card-coname">{company}</span>
+                        )}
+                        <span className="case-card-years">{years}</span>
+                      </div>
+                      <span className="case-card-area">{area}</span>
                     </div>
 
-                    <div className="case-panel-col-ba">
-                      <div className="case-panel-label-sm">THE SITUATION</div>
-                      <ul className="case-panel-list-v2">
-                        {row.details.situation.map((item, i) => (
-                          <li key={i}>
-                            <span style={{ color: "rgba(34,51,44,0.72)" }}>→ </span>
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="case-panel-divider-v2" />
-                      <div className="case-panel-label-sm after">WHAT I DID</div>
-                      <ul className="case-panel-list-v2 after">
-                        {row.details.did.map((item, i) => (
-                          <li key={i}>
-                            <span style={{ color: "#ff5c35" }}>→ </span>
-                            {item}
-                          </li>
+                    <div className="case-card-hero">
+                      <span className="case-card-num">{lead.number}</span>
+                      <span className="case-card-numlabel">{lead.label}</span>
+                    </div>
+
+                    <h3 className="case-card-title">{row.title}</h3>
+
+                    <div>
+                      <p className="case-card-label">The problem</p>
+                      <p className="case-card-problem">{row.details.situation.join(". ")}.</p>
+                    </div>
+
+                    <div>
+                      <p className="case-card-label">What I did</p>
+                      <ul className="case-card-did">
+                        {row.details.did.map((d) => (
+                          <li key={d}>{d}</li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="case-panel-col-outcomes">
-                      <div className="case-panel-label-sm">RESULT</div>
-                      {row.details.outcomes.map((stat, i) => (
-                        <div className="case-stat-v2" key={i}>
-                          <div className="case-stat-v2-number">{stat.number}</div>
-                          <div className="case-stat-v2-desc">{stat.label}</div>
-                        </div>
-                      ))}
-
-                      <div className="case-panel-label-sm" style={{ marginTop: 24, marginBottom: 10 }}>
-                        FOR A FOUNDER
+                    {rest.length > 0 && (
+                      <div className="case-card-metrics">
+                        {rest.map((m) => (
+                          <div key={m.label} className="case-card-metric">
+                            <b>{m.number}</b>
+                            <span>{m.label}</span>
+                          </div>
+                        ))}
                       </div>
-                      <p className="case-takeaway">{row.details.takeaway}</p>
+                    )}
 
-                      <div className="case-panel-label-sm case-delivered-v2-label">
-                        WHERE
-                      </div>
-                      <div className="case-delivered-v2-value">{row.details.where}</div>
-                    </div>
-                  </div>
-                </div>
-              </AnimateIn>
-            );
-          })}
+                    <p className="case-card-take">
+                      <strong>For a founder:</strong>
+                      {row.details.takeaway}
+                    </p>
+                </AnimateIn>
+              );
+            })}
+          </div>
         </div>
       </section>
     </main>

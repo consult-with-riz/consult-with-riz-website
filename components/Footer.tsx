@@ -75,9 +75,9 @@ const navColumns: { label: string; links: FooterLink[] }[] = [
   {
     label: "Work with me",
     links: [
-      { label: "Fractional COO", href: "/services#fractional-coo" },
-      { label: "Chief of Staff", href: "/services#chief-of-staff" },
       { label: "Ops Diagnostic", href: "/services#ops-diagnostic" },
+      { label: "Fractional COO / CoS", href: "/services#fractional-coo" },
+      { label: "1:1 session", href: "/services#session" },
     ],
   },
   {
@@ -107,7 +107,7 @@ function FooterNavLink({ href, external, children }: { href: string; external?: 
 
 export default function Footer({ showCta }: { showCta?: boolean } = {}) {
   const pathname = usePathname();
-  const shouldShowCta = showCta ?? (pathname !== "/" && !pathname?.startsWith("/services"));
+  const shouldShowCta = showCta ?? pathname !== "/booking";
   const watermarkRef = useParallax<HTMLDivElement>(0.15);
 
   return (

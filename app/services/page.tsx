@@ -2,11 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import AnimateIn from "@/components/AnimateIn";
 import ServicesHubDiagram from "@/components/ServicesHubDiagram";
-import DirectLineCTA from "@/components/DirectLineCTA";
 import CalBookingButton from "@/components/CalModal";
 import { useParallax, useScrollFadeOut } from "@/hooks/useParallax";
 
-const SERVICE_IDS = ["fractional-coo", "chief-of-staff", "ops-diagnostic"];
+const SERVICE_IDS = ["ops-diagnostic", "fractional-coo", "session"];
 
 /* ─── shared micro-styles ─────────────────────────── */
 const sublineStyle = (color: string): React.CSSProperties => ({
@@ -226,224 +225,34 @@ function CooMockup() {
   );
 }
 
-/* ─── mockup: founder's desk workflow (dark card) ─ */
-function wfNode(
-  icon: string,
-  label: string,
-  accentBg: string,
-  accentBorder: string,
-  textColor: string,
-  iconColor: string,
-  isActive: boolean
-) {
-  return (
-    <div
-      style={{
-        position: "relative",
-        background: accentBg,
-        border: `1px solid ${isActive ? "var(--coral)" : accentBorder}`,
-        borderRadius: 7,
-        padding: "0.5rem 0.85rem",
-        display: "flex",
-        alignItems: "center",
-        gap: "0.4rem",
-        flexShrink: 0,
-        boxShadow: isActive
-          ? "0 0 0 3px rgba(255,92,53,0.18), 0 0 14px rgba(255,92,53,0.35)"
-          : "none",
-        transition: "border-color 0.4s ease, box-shadow 0.4s ease",
-      }}
-    >
-      {isActive && (
-        <span
-          style={{
-            position: "absolute",
-            top: -4,
-            right: -4,
-            width: 7,
-            height: 7,
-            borderRadius: "50%",
-            background: "var(--coral)",
-            boxShadow: "0 0 6px rgba(255,92,53,0.85)",
-          }}
-        />
-      )}
-      <span style={{ fontSize: "0.875rem", color: isActive ? "var(--coral)" : iconColor }}>
-        {icon}
-      </span>
-      <span
-        style={{
-          fontFamily: "var(--font-dm-mono), monospace",
-          fontSize: "1rem",
-          color: textColor,
-          whiteSpace: "nowrap",
-        }}
-      >
-        {label}
-      </span>
-    </div>
-  );
-}
+type Step = { icon: string; label: string; value: string };
 
-const wfArrow = (
-  <span style={{ color: "rgba(255,255,255,0.72)", fontSize: "1rem", flexShrink: 0 }}>
-    →
-  </span>
-);
-
-function ChiefOfStaffMockup() {
-  const { ref, active } = useCardAnimation<HTMLDivElement>();
-  const [step, setStep] = useState(0);
-  const totalSteps = 7;
-
-  useEffect(() => {
-    if (!active) return;
-    const id = setInterval(() => setStep((s) => (s + 1) % totalSteps), 800);
-    return () => clearInterval(id);
-  }, [active]);
-
-  const isStep = (i: number) => active && step === i;
-
-  return (
-    <div ref={ref} className="wf-card">
-      <div className="wf-dotgrid" aria-hidden="true" />
-      <div className="wf-card-inner">
-        {/* header */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: "1.5rem",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-dm-mono), monospace",
-              fontSize: "1rem",
-              color: "var(--coral)",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-            }}
-          >
-            Founder&apos;s desk
-
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.4rem",
-              fontFamily: "var(--font-dm-sans), sans-serif",
-              fontSize: "0.875rem",
-              color: "#4ade80",
-            }}
-          >
-            <span
-              className="animate-pulse-dot"
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "#4ade80",
-                display: "inline-block",
-              }}
-            />
-            Live
-          </span>
-        </div>
-
-        {/* flow */}
-        <div className="wf-flow">
-          {/* row 1 */}
-          <div className="wf-flow-row">
-            {wfNode("▶", "Leadership sync", "rgba(255,92,53,0.22)", "rgba(255,92,53,0.4)", "rgba(255,255,255,0.9)", "var(--coral)", isStep(0))}
-            {wfArrow}
-            {wfNode("✦", "Claude notes", "rgba(255,255,255,0.07)", "rgba(255,255,255,0.1)", "rgba(255,255,255,0.72)", "rgba(255,255,255,0.72)", isStep(1))}
-            {wfArrow}
-            {wfNode("✳", "Owners + dates", "rgba(215,154,54,0.18)", "rgba(215,154,54,0.35)", "rgba(255,255,255,0.85)", "var(--amber)", isStep(2))}
-          </div>
-
-          {/* connector: branch from Enrich down into row 2 */}
-          <div className="wf-elbow" />
-
-          {/* row 2 */}
-          <div className="wf-flow-row">
-            {wfNode("⋯", "Follow-up nudges", "rgba(167,139,250,0.16)", "rgba(167,139,250,0.4)", "rgba(255,255,255,0.88)", "#C4B5FD", isStep(3))}
-            {wfArrow}
-            {wfNode("◎", "Board update draft", "rgba(255,255,255,0.07)", "rgba(255,255,255,0.1)", "rgba(255,255,255,0.72)", "rgba(255,255,255,0.72)", isStep(4))}
-          </div>
-
-          {/* connector: row 2 down into row 3 */}
-          <div className="wf-elbow" />
-
-          {/* row 3 */}
-          <div className="wf-flow-row">
-            {wfNode("□", "Founder review", "rgba(255,255,255,0.07)", "rgba(255,255,255,0.1)", "rgba(255,255,255,0.72)", "rgba(255,255,255,0.72)", isStep(5))}
-            {wfArrow}
-            {wfNode("✉", "Sent", "rgba(255,255,255,0.07)", "rgba(255,255,255,0.1)", "rgba(255,255,255,0.72)", "rgba(255,255,255,0.72)", isStep(6))}
-          </div>
-        </div>
-
-        {/* status + tech stack */}
-        <div
-          style={{
-            marginTop: "1.75rem",
-            paddingTop: "1.25rem",
-            borderTop: "1px solid rgba(255,255,255,0.07)",
-          }}
-        >
-          <div className="wf-status-row">
-            <span>⏱ Runs after every leadership sync</span>
-            <span style={{ color: "#4ade80" }}>✓ Founder signs off</span>
-          </div>
-
-          <div
-            style={{
-              marginTop: "0.9rem",
-              display: "flex",
-              gap: "0.5rem",
-              flexWrap: "wrap",
-            }}
-          >
-            {["n8n", "Claude", "Notion", "Slack"].map((t) => (
-              <span
-                key={t}
-                style={{
-                  padding: "0.3rem 0.75rem",
-                  borderRadius: 99,
-                  background: "rgba(255,255,255,0.06)",
-                  fontFamily: "var(--font-dm-mono), monospace",
-                  fontSize: "0.875rem",
-                  color: "rgba(255,255,255,0.72)",
-                }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── mockup: Ops Diagnostic plan card ─────────── */
-function DiagnosticMockup() {
+function StepsMockup({
+  color,
+  ink = "var(--ink)",
+  eyebrow,
+  title,
+  sub,
+  rows,
+  cta,
+}: {
+  color: string;
+  ink?: string;
+  eyebrow: string;
+  title: string;
+  sub: string;
+  rows: Step[];
+  cta: string;
+}) {
   const { ref, active } = useCardAnimation<HTMLDivElement>();
   const [row, setRow] = useState(0);
 
   useEffect(() => {
     if (!active) return;
-    const id = setInterval(() => setRow((r) => (r + 1) % 3), 1333);
+    const id = setInterval(() => setRow((r) => (r + 1) % rows.length), 1333);
     return () => clearInterval(id);
-  }, [active]);
+  }, [active, rows.length]);
 
-  const rows = [
-    { icon: "⏱", label: "Week 1", value: "Map how the work actually flows today" },
-    { icon: "◎", label: "Week 2", value: "Find where it waits, breaks and leaks money" },
-    { icon: "◈", label: "Day 14", value: "90-day ops plan + what to automate first" },
-  ];
 
   return (
     <div
@@ -457,32 +266,32 @@ function DiagnosticMockup() {
         marginLeft: "auto",
       }}
     >
-      {/* amber header */}
-      <div style={{ background: "var(--amber)", padding: "2rem 1.75rem", position: "relative" }}>
-        <span className="meta-label" style={{ color: "#22332C" }}>
-          Fixed scope · Fixed fee
+      {/* coloured header */}
+      <div style={{ background: color, padding: "2rem 1.75rem", position: "relative" }}>
+        <span className="meta-label" style={{ color: ink }}>
+          {eyebrow}
         </span>
         <h4
           style={{
             fontFamily: "var(--font-playfair), serif",
             fontSize: "1.375rem",
             fontWeight: 600,
-            color: "var(--ink)",
+            color: ink,
             lineHeight: 1.2,
             marginTop: "0.4rem",
             marginBottom: "0.3rem",
           }}
         >
-          Ops Diagnostic
+          {title}
         </h4>
         <p
           style={{
             fontFamily: "var(--font-dm-sans), sans-serif",
             fontSize: "0.875rem",
-            color: "var(--ink)",
+            color: ink,
           }}
         >
-          Two weeks · remote or on-site
+          {sub}
         </p>
 
         <div
@@ -509,7 +318,7 @@ function DiagnosticMockup() {
             >
               <span
                 style={{
-                  color: "var(--amber)",
+                  color,
                   flexShrink: 0,
                   fontSize: "1rem",
                   marginTop: "0.1rem",
@@ -548,114 +357,48 @@ function DiagnosticMockup() {
           );
         })}
 
-        <div
-          style={{
-            marginTop: "0.5rem",
-            background: "var(--amber)",
-            borderRadius: 8,
-            padding: "0.8rem",
-            textAlign: "center",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-dm-sans), sans-serif",
-              fontWeight: 600,
-              fontSize: "1rem",
-              color: "var(--ink)",
-            }}
-          >
-            Start with a diagnostic →
-          </span>
-        </div>
+        <CalBookingButton className="btn-coral" style={{ width: "100%", marginTop: "0.5rem" }}>
+          {cta}
+        </CalBookingButton>
       </div>
     </div>
   );
 }
 
-/* ─── engagement detail: 30/90 days, cadence, price, automation layer ── */
-type EngagementFacts = {
-  first30: string;
-  by90: string;
-  cadence: string;
-  price: string;
-  automation: string;
-};
-
-function EngagementFacts({ color, facts }: { color: string; facts: EngagementFacts }) {
-  const rows = [
-    { label: "First 30 days", value: facts.first30 },
-    { label: "By day 90", value: facts.by90 },
-    { label: "Cadence", value: facts.cadence },
-    { label: "Pricing", value: facts.price },
-  ];
+function DiagnosticMockup() {
   return (
-    <AnimateIn delay={200}>
-      <div className="svc-facts">
-        <dl className="svc-facts-grid">
-          {rows.map((r) => (
-            <div key={r.label} className="svc-facts-row">
-              <dt className="meta-label" style={{ color }}>{r.label}</dt>
-              <dd>{r.value}</dd>
-            </div>
-          ))}
-        </dl>
-        <p className="svc-facts-ai">
-          <span className="svc-facts-ai-tag" style={{ color, borderColor: color }}>
-            Automation layer
-          </span>
-          {facts.automation}
-        </p>
-      </div>
-    </AnimateIn>
+    <StepsMockup
+      color="var(--coral)"
+      ink="#fff"
+      eyebrow="Fixed scope · Fixed fee"
+      title="Ops Diagnostic"
+      sub="Two weeks · remote or on-site"
+      rows={[
+        { icon: "⏱", label: "Week 1", value: "Map how the work actually flows today" },
+        { icon: "◎", label: "Week 2", value: "Find where it waits, breaks and leaks money" },
+        { icon: "◈", label: "Day 14", value: "90-day ops plan + what to automate first" },
+      ]}
+      cta="Start with a diagnostic →"
+    />
   );
 }
 
-const COMPARE = [
-  {
-    id: "fractional-coo",
-    title: "Fractional COO",
-    color: "var(--coral)",
-    points: [
-      "You need someone to own operations, not advise on them.",
-      "The business has outgrown the founder running it from memory.",
-      "Costs, hiring and process are all moving at once.",
-      "Reports to the CEO. Sits in the leadership team.",
-    ],
-  },
-  {
-    id: "chief-of-staff",
-    title: "Chief of Staff",
-    color: "var(--ink)",
-    points: [
-      "The founder is the bottleneck, not the operation.",
-      "Decisions get made. Follow-through doesn't.",
-      "Board updates, priorities and meetings eat the week.",
-      "Works for the founder. Extends their reach.",
-    ],
-  },
-];
-
 const FAQ: { q: string; a: string }[] = [
   {
-    q: "What does fractional actually mean here?",
-    a: "One to two days a week, inside your team. Same Slack, same meetings, same accountability as a full-time hire. You get ten years of ops experience at a fraction of a full-time COO salary, and no recruiting cycle.",
+    q: "Why start with the Diagnostic?",
+    a: "Because most founders can name the symptom, not the problem. Two weeks inside the business tells us whether you need a six-week fix, an ongoing COO or Chief of Staff, or neither. If it's neither, you still leave with the 90-day plan.",
   },
   {
-    q: "COO or Chief of Staff. I can't tell which I need.",
-    a: "If the operation is the problem, COO. If the founder's week is the problem, Chief of Staff. If you can't tell, start with the Ops Diagnostic. Two weeks in, the answer is usually obvious.",
+    q: "COO or Chief of Staff. What's the difference?",
+    a: "A COO owns the operation: cadence, metrics, cost, process. A Chief of Staff works for the founder: priorities, follow-through, board updates. Most early-stage companies need a mix. The Diagnostic tells us which, so you don't have to decide up front.",
   },
   {
     q: "Where does the AI part come in?",
-    a: "After the process is clear, never before. Once a weekly report, a handoff or a follow-up runs the same way three times, it gets automated. I design it on n8n and the Claude API. You keep the systems when I leave.",
+    a: "After the process is clear, never before. Once a report, a handoff or a follow-up runs the same way three times, it gets automated on n8n and the Claude API. You keep the systems when I leave.",
   },
   {
-    q: "What does it cost?",
-    a: "The Ops Diagnostic is $3,500, fixed, and credited against the first month if we carry on. COO and Chief of Staff work is a monthly retainer scoped to your stage and days per week, quoted once the Diagnostic shows what the job actually is. A single 60-minute session is $140 if you just need a second brain on something.",
-  },
-  {
-    q: "How long do engagements run?",
-    a: "Most run three to six months. The goal is to install the operating system, automate what repeats, and hand it to someone on your team. Not to become a permanent line item.",
+    q: "What if we need more than operations?",
+    a: "I have a bench of specialists I trust for AI implementation, branding, marketing, content and websites. I bring them in when the work needs them. You still deal with one person: me.",
   },
   {
     q: "What's your background?",
@@ -689,86 +432,6 @@ export default function Services() {
   return (
     <>
       <style>{`
-        .svc-facts {
-          border-top: 1px solid var(--line);
-          padding-top: 1.5rem;
-          margin: 0 0 2rem;
-          max-width: 520px;
-        }
-        .svc-facts-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1.25rem 2rem;
-          margin: 0 0 1.5rem;
-        }
-        .svc-facts-row dt { margin-bottom: 0.35rem; }
-        .svc-facts-row dd {
-          margin: 0;
-          font-size: 0.95rem;
-          line-height: 1.55;
-          color: var(--ink);
-        }
-        .svc-facts-ai {
-          font-size: 0.95rem;
-          line-height: 1.6;
-          color: var(--body);
-          background: var(--paper);
-          border: 1px solid var(--line);
-          border-radius: 12px;
-          padding: 1rem 1.15rem;
-          margin: 0;
-        }
-        .svc-facts-ai-tag {
-          display: inline-block;
-          font-family: var(--font-geist-mono), monospace;
-          font-size: 0.72rem;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          border: 1px solid;
-          border-radius: 999px;
-          padding: 2px 10px;
-          margin-right: 0.6rem;
-          vertical-align: 2px;
-        }
-        .svc-compare {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: var(--grid-gap);
-          margin-top: var(--heading-gap);
-        }
-        .svc-compare-card {
-          background: #fff;
-          border: 1px solid var(--line);
-          border-radius: var(--radius-card);
-          padding: var(--card-pad);
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
-        }
-        .svc-compare-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-        .svc-compare-title {
-          font-size: 1.5rem;
-          font-weight: 600;
-          color: var(--ink);
-          margin: 0;
-        }
-        .svc-compare-list { list-style: none; padding: 0; margin: 0; flex: 1; }
-        .svc-compare-link {
-          font-weight: 600;
-          font-size: 0.95rem;
-          text-decoration: none;
-        }
-        .svc-compare-link:hover { text-decoration: underline; }
-        .svc-compare-note {
-          text-align: center;
-          margin: 2rem auto 0;
-          max-width: 56ch;
-          color: var(--body);
-        }
-        .svc-compare-note a { color: var(--coral); font-weight: 600; text-decoration: none; }
-        .svc-compare-note a:hover { text-decoration: underline; }
         .svc-advisory {
           display: flex;
           align-items: center;
@@ -794,6 +457,50 @@ export default function Services() {
           font-family: var(--font-geist-mono), monospace;
           font-size: 0.9rem;
           color: var(--muted);
+        }
+        .svc-step {
+          display: block;
+          font-family: var(--font-geist-mono), monospace;
+          font-size: 0.8rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          margin-bottom: 0.5rem;
+        }
+        .svc-price-line {
+          margin: 0 0 1.5rem;
+          color: var(--body);
+          font-size: 1rem;
+        }
+        .svc-price-line strong { color: var(--ink); font-size: 1.35rem; font-weight: 600; margin-right: 4px; }
+        .svc-shapes {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+          max-width: 520px;
+          margin-bottom: 1rem;
+        }
+        .svc-shape {
+          background: #fff;
+          border: 1px solid var(--line);
+          border-radius: 14px;
+          padding: 16px 18px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .svc-shape-name { font-weight: 600; color: var(--ink); }
+        .svc-shape-body { font-size: 0.9rem; line-height: 1.5; color: var(--body); }
+        .svc-bench-line {
+          margin: 3rem 0 0;
+          padding-top: 1.5rem;
+          border-top: 1px solid var(--line-2);
+          color: var(--body);
+          max-width: 70ch;
+        }
+        .svc-bench-line strong { color: var(--ink); font-weight: 600; }
+        @media (max-width: 520px) {
+          .svc-shapes { grid-template-columns: 1fr; }
         }
         .svc-faq { max-width: 760px; margin: var(--heading-gap) auto 0; display: flex; flex-direction: column; gap: 12px; }
         .svc-faq-item {
@@ -829,12 +536,10 @@ export default function Services() {
         .svc-faq-a { overflow: hidden; min-height: 0; margin: 0; padding: 0 24px; color: var(--body); line-height: 1.65; }
         .svc-faq-item.is-open .svc-faq-a { padding-bottom: 20px; }
         @media (max-width: 768px) {
-          .svc-compare { grid-template-columns: 1fr; }
-          .svc-facts-grid { grid-template-columns: 1fr; }
           .svc-advisory { padding: 28px 24px; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .svc-faq-a-wrap, .svc-faq-sign, .svc-compare-card { transition: none !important; }
+          .svc-faq-a-wrap, .svc-faq-sign { transition: none !important; }
         }
       `}</style>
 
@@ -850,16 +555,16 @@ export default function Services() {
               </AnimateIn>
               <AnimateIn delay={150}>
                 <p className="svc-body" style={{ ...bodyStyle, marginTop: "1.25rem" }}>
-                  Three ways in. Each one ends the same way: an operation that runs
-                  without the founder holding it together, and the repeat work automated.
+                  Three steps. You only choose the first. Most founders start with
+                  the Diagnostic, and it tells us what the job actually is.
                 </p>
               </AnimateIn>
               <AnimateIn delay={240}>
                 <div className="svc-tabs">
                   {[
-                    { label: "Fractional COO", id: "fractional-coo" },
-                    { label: "Chief of Staff", id: "chief-of-staff" },
                     { label: "Ops Diagnostic", id: "ops-diagnostic" },
+                    { label: "Fractional COO / CoS", id: "fractional-coo" },
+                    { label: "1:1 session", id: "session" },
                   ].map((pill) => (
                     <a
                       key={pill.id}
@@ -885,140 +590,7 @@ export default function Services() {
 
       {sectionDivider}
 
-      {/* FRACTIONAL COO */}
-      <section
-        id="fractional-coo"
-        className="svc-section"
-        style={{ background: "#fff", scrollMarginTop: 96 }}
-      >
-        <div className="max-w-site">
-          <div className="svc-row">
-            <div className="svc-row-text">
-              <AnimateIn>
-                <p className="svc-subline" style={sublineStyle("var(--coral)")}>Fractional COO.</p>
-              </AnimateIn>
-              <AnimateIn delay={100}>
-                <p className="svc-body" style={bodyStyle}>
-                  For founders whose company has outgrown being run from their head.
-                  Usually 10 to 50 people, post-funding, everything moving at once.
-                  I own operations. Not advise on them. Own them.
-                </p>
-              </AnimateIn>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 2rem" }}>
-                {[
-                  "Operating cadence: leadership sync, weekly metrics, quarterly plans",
-                  "The KPI tree, and a dashboard people actually open",
-                  "Cost and unit economics, line by line",
-                  "Process and SOPs for the handoffs that keep breaking",
-                  "Hiring ops: roles, onboarding, who owns what",
-                ].map((b, i) => checkBullet("var(--coral)", b, i))}
-              </ul>
-              <EngagementFacts
-                color="var(--coral)"
-                facts={{
-                  first30: "Map the operation, set the weekly rhythm, fix the two things hurting most.",
-                  by90: "Metrics trusted, owners clear, costs understood, the founder out of the weeds.",
-                  cadence: "1–2 days a week, embedded in the leadership team.",
-                  price: "Monthly retainer, scoped to your stage. Quoted after the Diagnostic.",
-                  automation:
-                    "Every process I install gets automated before I hand it over. Reporting, handoffs, follow-ups. Designed by me on n8n and Claude.",
-                }}
-              />
-              <AnimateIn delay={260}>
-                <CalBookingButton className="btn-coral">Book an intro call →</CalBookingButton>
-              </AnimateIn>
-            </div>
-
-            <div className="svc-row-card">
-              <AnimateIn delay={150}>
-                <CooMockup />
-              </AnimateIn>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div style={{ borderTop: "1.5px solid var(--coral)", opacity: 0.35 }} />
-
-      {/* CHIEF OF STAFF */}
-      <section
-        id="chief-of-staff"
-        className="svc-section"
-        style={{ background: "var(--cream)", scrollMarginTop: 96 }}
-      >
-        <div className="max-w-site">
-          <div className="svc-row">
-            <div className="svc-row-text">
-              <AnimateIn>
-                <p className="svc-subline" style={sublineStyle("var(--ink)")}>Chief of Staff.</p>
-              </AnimateIn>
-              <AnimateIn delay={100}>
-                <p className="svc-body" style={bodyStyle}>
-                  For founders who are the bottleneck. Decisions get made in meetings
-                  and die in Slack. The board update is always late. Every question
-                  still routes through you.
-                </p>
-              </AnimateIn>
-              <AnimateIn delay={140}>
-                <p className="svc-body" style={bodyStyle}>
-                  I work for the founder. Extend your reach. Make sure what you decide
-                  actually happens.
-                </p>
-              </AnimateIn>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 2rem" }}>
-                {[
-                  "Priorities for the quarter, and the discipline to hold them",
-                  "Leadership meetings that end with owners and dates",
-                  "Board and investor updates, drafted and on time",
-                  "Cross-team follow-through, chased so you don't have to",
-                  "Special projects: fundraise prep, launches, reorgs",
-                ].map((b, i) => checkBullet("var(--ink)", b, i))}
-              </ul>
-              <EngagementFacts
-                color="var(--ink)"
-                facts={{
-                  first30: "Audit your week. Cut what shouldn't reach you. Set the meeting rhythm.",
-                  by90: "Board updates on autopilot, decisions tracked, your calendar back.",
-                  cadence: "1–2 days a week, plus async on Slack.",
-                  price: "Monthly retainer, scoped to your stage. Quoted after the Diagnostic.",
-                  automation:
-                    "Meeting notes to actions, actions to owners, nudges until done, board update drafted from live numbers. You review. The system does the chasing.",
-                }}
-              />
-              <AnimateIn delay={260}>
-                <CalBookingButton
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    minHeight: 52,
-                    padding: "0.75rem 1.75rem",
-                    borderRadius: 8,
-                    background: "var(--ink)",
-                    color: "#fff",
-                    fontFamily: "var(--font-dm-sans), sans-serif",
-                    fontWeight: 600,
-                    fontSize: "1rem",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  Book an intro call →
-                </CalBookingButton>
-              </AnimateIn>
-            </div>
-
-            <div className="svc-row-card">
-              <AnimateIn delay={150}>
-                <ChiefOfStaffMockup />
-              </AnimateIn>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {sectionDivider}
-
-      {/* OPS DIAGNOSTIC */}
+      {/* 01 · OPS DIAGNOSTIC */}
       <section
         id="ops-diagnostic"
         className="svc-section"
@@ -1028,54 +600,30 @@ export default function Services() {
           <div className="svc-row">
             <div className="svc-row-text">
               <AnimateIn>
-                <p className="svc-subline" style={sublineStyle("var(--amber)")}>Ops Diagnostic.</p>
+                <span className="svc-step" style={{ color: "var(--coral)" }}>01 · Start here</span>
+                <p className="svc-subline" style={sublineStyle("var(--coral)")}>Ops Diagnostic.</p>
               </AnimateIn>
               <AnimateIn delay={100}>
                 <p className="svc-body" style={bodyStyle}>
-                  For founders who know something is off and can&apos;t name it yet.
-                  Two weeks. Fixed scope. The cheapest way to find out what you
-                  actually need, including whether you need me at all.
+                  Two weeks inside the business. I find where work waits, breaks and
+                  leaks money, and hand you a 90-day plan to fix it, including what to
+                  automate first and what to leave alone.
                 </p>
               </AnimateIn>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 2rem" }}>
                 {[
                   "Interviews with the founder and team leads",
-                  "A map of how work actually moves, not the org chart version",
-                  "Where it waits, where it breaks, what it costs",
-                  "A prioritised 90-day ops plan",
-                  "The list of what to automate first, and what not to",
-                ].map((b, i) => checkBullet("var(--amber)", b, i))}
+                  "A map of how work actually moves",
+                  "A prioritised 90-day plan, walked through live",
+                ].map((b, i) => checkBullet("var(--coral)", b, i))}
               </ul>
-              <EngagementFacts
-                color="var(--amber)"
-                facts={{
-                  first30: "Day 1–14: interviews, mapping, the diagnosis. Day 14: the plan, walked through live.",
-                  by90: "You run the plan yourself, or I run it with you as COO or Chief of Staff.",
-                  cadence: "Two weeks, fixed scope. Remote or on-site.",
-                  price: "$3,500 fixed. Credited against month one if we continue.",
-                  automation:
-                    "Every bottleneck gets a verdict: fix by hand, automate, or leave alone. The automate list is scoped well enough to build straight away.",
-                }}
-              />
+              <AnimateIn delay={200}>
+                <p className="svc-price-line">
+                  <strong>$3,500</strong> fixed · credited against month one if we continue
+                </p>
+              </AnimateIn>
               <AnimateIn delay={260}>
-                <CalBookingButton
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    minHeight: 52,
-                    padding: "0.75rem 1.75rem",
-                    borderRadius: 8,
-                    background: "var(--amber)",
-                    color: "var(--ink)",
-                    fontFamily: "var(--font-dm-sans), sans-serif",
-                    fontWeight: 600,
-                    fontSize: "1rem",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  Start with a diagnostic →
-                </CalBookingButton>
+<CalBookingButton className="btn-coral">Start with a diagnostic →</CalBookingButton>
               </AnimateIn>
             </div>
 
@@ -1088,53 +636,87 @@ export default function Services() {
         </div>
       </section>
 
-      {sectionDivider}
+      <div style={{ borderTop: "1.5px solid var(--coral)", opacity: 0.35 }} />
 
-      {/* WHICH DO YOU NEED */}
-      <section className="section-pad" style={{ background: "var(--paper)" }}>
+      {/* 02 · FRACTIONAL COO / CHIEF OF STAFF */}
+      <section
+        id="fractional-coo"
+        className="svc-section"
+        style={{ background: "var(--cream)", scrollMarginTop: 96 }}
+      >
         <div className="max-w-site">
-          <div className="block-head is-center">
-            <span className="pill-eyebrow">Which one</span>
-            <h2 className="block-title">
-              Fractional COO or Chief of Staff?{" "}
-              <span className="text-ramp">Which do you need?</span>
-            </h2>
-          </div>
-          <div className="svc-compare">
-            {COMPARE.map((c, ci) => (
-              <AnimateIn key={c.id} delay={ci * 120}>
-                <div className="svc-compare-card">
-                  <h3 className="svc-compare-title" style={{ color: c.color }}>{c.title}</h3>
-                  <ul className="svc-compare-list">
-                    {c.points.map((p, i) => checkBullet(c.color, p, i))}
-                  </ul>
-                  <a href={`#${c.id}`} className="svc-compare-link" style={{ color: c.color }}>
-                    See how it works →
-                  </a>
-                </div>
+          <div className="svc-row">
+            <div className="svc-row-text">
+              <AnimateIn>
+                <span className="svc-step" style={{ color: "var(--coral)" }}>02 · Then</span>
+                <p className="svc-subline" style={sublineStyle("var(--coral)")}>
+                  Fractional COO or Chief of Staff.
+                </p>
               </AnimateIn>
-            ))}
+              <AnimateIn delay={100}>
+                <p className="svc-body" style={bodyStyle}>
+                  I join the team and own the operation. COO when the operation is the
+                  problem, Chief of Staff when your week is. Usually a bit of both.
+                </p>
+              </AnimateIn>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 2rem" }}>
+                {[
+                  "Operating cadence and the metrics people trust",
+                  "Cost, process and the handoffs that keep breaking",
+                  "Priorities, board updates and follow-through",
+                  "The repeat work automated before I hand it over",
+                ].map((b, i) => checkBullet("var(--coral)", b, i))}
+              </ul>
+              <AnimateIn delay={200}>
+                <div className="svc-shapes">
+                  <div className="svc-shape">
+                    <span className="svc-shape-name">Sprint</span>
+                    <span className="svc-shape-body">One problem, six weeks, fixed and handed over.</span>
+                  </div>
+                  <div className="svc-shape">
+                    <span className="svc-shape-name">Ongoing</span>
+                    <span className="svc-shape-body">1–2 days a week inside your leadership team.</span>
+                  </div>
+                </div>
+                <p className="svc-price-line">
+                  Scoped to your stage. The Diagnostic tells us which shape.
+                </p>
+              </AnimateIn>
+              <AnimateIn delay={260}>
+                <CalBookingButton className="btn-coral">Book an intro call →</CalBookingButton>
+              </AnimateIn>
+            </div>
+
+            <div className="svc-row-card">
+              <AnimateIn delay={150}>
+                <CooMockup />
+              </AnimateIn>
+            </div>
           </div>
-          <p className="svc-compare-note">
-            Can&apos;t tell? That&apos;s normal. <a href="#ops-diagnostic">Start with the Ops Diagnostic</a>.
-            Two weeks in, the answer is usually obvious.
-          </p>
+
+          <AnimateIn delay={120}>
+            <p className="svc-bench-line">
+              <strong>Need more than ops?</strong> I bring in a bench I trust for AI
+              implementation, branding, marketing, content and websites. You still
+              deal with me.
+            </p>
+          </AnimateIn>
         </div>
       </section>
 
       {sectionDivider}
 
-      {/* ADVISORY HOURS */}
-      <section className="section-pad" style={{ background: "#fff" }}>
+      {/* 1:1 SESSION */}
+      <section id="session" className="section-pad" style={{ background: "#fff", scrollMarginTop: 96 }}>
         <div className="max-w-site">
           <AnimateIn>
             <div className="svc-advisory">
               <div>
-                <span className="pill-eyebrow">Advisory</span>
-                <h3>Just need a second brain?</h3>
+                <span className="pill-eyebrow">Not ready yet?</span>
+                <h3>Start with an hour.</h3>
                 <p>
-                  An hour on a hiring plan, a cost problem, a messy process, or
-                  what to automate first. No retainer, no commitment.
+                  One problem, sixty minutes. You leave with a plan, whether or not
+                  we work together.
                 </p>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 }}>
@@ -1181,16 +763,6 @@ export default function Services() {
         </div>
       </section>
 
-      {sectionDivider}
-
-      {/* BOTTOM CTA - reused Direct Line component from the homepage */}
-      <section className="section-pad" style={{ background: "#fff" }}>
-        <div className="max-w-site">
-          <AnimateIn>
-            <DirectLineCTA />
-          </AnimateIn>
-        </div>
-      </section>
     </>
   );
 }

@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { playServiceTone } from "@/lib/sounds";
-import CalBookingButton from "@/components/CalModal";
 
 /**
  * The service grid.
@@ -13,8 +11,6 @@ import CalBookingButton from "@/components/CalModal";
  * are genuinely different lengths, and forcing them into equal columns either
  * strands whitespace or clips text.
  *
- * The last cell is the ask rather than a ninth service, so the section ends
- * on an action instead of trailing off.
  */
 type Slot = "tl" | "tr" | "ml" | "mr" | "bl" | "br";
 
@@ -341,25 +337,6 @@ export default function WhatIDo() {
             </article>
           ))}
 
-          <article className="soft-card wid-card wid-cta">
-            <h3 className="wid-title">Not sure which role you need?</h3>
-            <p className="wid-body">
-              COO or Chief of Staff depends on where the founder is stuck. One call is
-              usually enough to tell.
-            </p>
-            <CalBookingButton className="btn-coral wid-cta-btn">Book a call</CalBookingButton>
-          </article>
-
-          <article className="soft-card wid-card wid-quiet">
-            <h3 className="wid-title">Already have an ops hire drowning?</h3>
-            <p className="wid-body">
-              I can work alongside them. Set the structure, automate the grind, and leave
-              them owning it.
-            </p>
-            <Link href="/case-studies" className="wid-link">
-              See the track record
-            </Link>
-          </article>
         </div>
       </div>
     </section>

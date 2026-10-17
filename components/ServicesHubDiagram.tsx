@@ -9,13 +9,12 @@ const OR = 182;          // orbit radius (center-to-node-center)
 const NR = 62;           // node circle radius
 
 // Node positions in the initial SVG viewport
-// Fractional COO -90° (top),  Chief of Staff +30° (bottom-right),  Ops Diagnostic +150° (bottom-left)
+// Three nodes at 120° steps: top, bottom-right, bottom-left. Path order.
 const NODES = [
-  { id: "fractional-coo", cx: 294,                                          cy: CY - OR,       fill: "#ff5c35", num: "01", label: "FRACTIONAL COO" },
-  { id: "chief-of-staff", cx: Math.round(CX + OR * Math.cos(Math.PI / 6)), cy: Math.round(CY + OR * Math.sin(Math.PI / 6)),  fill: "#22332C", num: "02", label: "CHIEF OF STAFF" },
-  { id: "ops-diagnostic", cx: Math.round(CX + OR * Math.cos(5 * Math.PI / 6)), cy: Math.round(CY + OR * Math.sin(5 * Math.PI / 6)), fill: "#D79A36", num: "03", label: "OPS DIAGNOSTIC" },
+  { id: "ops-diagnostic", cx: CX,                                             cy: CY - OR,                                             fill: "#ff5c35", num: "01", label: "OPS DIAGNOSTIC" },
+  { id: "fractional-coo", cx: Math.round(CX + OR * Math.cos(Math.PI / 6)),     cy: Math.round(CY + OR * Math.sin(Math.PI / 6)),     fill: "#22332C", num: "02", label: "FRACTIONAL COO" },
+  { id: "session",        cx: Math.round(CX + OR * Math.cos(5 * Math.PI / 6)), cy: Math.round(CY + OR * Math.sin(5 * Math.PI / 6)), fill: "#5A6660", num: "03", label: "1:1 SESSION" },
 ] as const;
-// → fractional-coo (294, 70)   chief-of-staff (452, 343)   ops-diagnostic (136, 343)
 
 /* ── component ───────────────────────────────────────────────────── */
 export default function ServicesHubDiagram() {

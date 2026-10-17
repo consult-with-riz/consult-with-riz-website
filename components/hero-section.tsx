@@ -369,9 +369,8 @@ export default function HeroSection() {
                 </p>
 
                 <ul className="hz-role-list">
-                  <li><span className="hz-role-arrow">→</span>Fractional COO, 1–2 days a week inside your leadership team</li>
-                  <li><span className="hz-role-arrow">→</span>Chief of Staff for the founder&apos;s desk</li>
-                  <li><span className="hz-role-arrow">→</span>Two-week Ops Diagnostic, fixed scope</li>
+                  <li><span className="hz-role-arrow">→</span>Fractional COO or Chief of Staff, 1–2 days a week</li>
+                  <li><span className="hz-role-arrow">→</span>Most founders start with a two-week Ops Diagnostic</li>
                 </ul>
 
                 <div className="hz-cta-row">
