@@ -14,52 +14,70 @@ import { testimonials, TestimonialDialog } from "@/components/Testimonials";
 /* One row per stop. Facts from the CV (see CV-AUDIT.md). The lesson column
    is drafted copy, adapted from the previous About page; Riz to check it
    sounds like him. */
-const PATH = [
+type PathRow = {
+  when: string;
+  where: string;
+  owned: string;
+  taught: string;
+  logo?: string;
+  monogram?: string;
+  live?: boolean;
+};
+
+const PATH: PathRow[] = [
   {
     when: "2015–17",
     where: "Perbal Clothing",
+    monogram: "PC",
     owned: "My own clothing brand in Pakistan. Sourcing, cash, stock, people.",
     taught: "A good product with bad operations is an expensive hobby.",
   },
   {
     when: "2017–19",
     where: "S&P Global",
+    logo: "/logos/spglobal.svg",
     owned: "Insurance client operations. 2,000+ cases across Product, Support and Content.",
     taught: "Big companies run on somebody's undocumented spreadsheet.",
   },
   {
     when: "2019–20",
     where: "Careem",
+    logo: "/logos/careem.png",
     owned: "Emergency dispatch, built with the KPK Ministry of Health.",
     taught: "When the stakes are real, the process is the product.",
   },
   {
     when: "2020–21",
     where: "Motive",
+    logo: "/logos/motive.svg",
     owned: "Taking a certified ELD product into Canada.",
     taught: "‘Launch a market’ is thirty unglamorous tasks wearing one word.",
   },
   {
     when: "2021–25",
     where: "Bolt",
+    logo: "/logos/bolt.png",
     owned: "Courier cost, reporting and compliance across 20 countries.",
     taught: "Constraint is the best operator I've worked with.",
   },
   {
     when: "2025",
     where: "Wise",
+    logo: "/logos/wise.svg",
     owned: "Finance operations and the month-end close.",
     taught: "The fastest close is the one nobody has to chase.",
   },
   {
     when: "2025–26",
     where: "Shaping Wealth",
+    logo: "/logos/shapingwealth.png",
     owned: "Chief of Staff, operations, product and project lead on Lydia.",
     taught: "In a small team, the job is whatever is stuck.",
   },
   {
     when: "Now",
     where: "Fractional COO /\nChief of Staff",
+    logo: "/favicon/v1-coral-circle-serif-icon-black-R.png",
     owned: "Operations for founder-led companies, with the repeat work automated.",
     taught: "I run the operations so the founder can run the company.",
     live: true,
@@ -104,6 +122,7 @@ export function AboutPath() {
         <div className="ab-board" role="table" aria-label="Career path">
           <div className="ab-head" role="row">
             <span role="columnheader">When</span>
+            <span role="columnheader" aria-label="Logo" />
             <span role="columnheader">Where</span>
             <span role="columnheader">What I owned</span>
             <span role="columnheader">What it taught me</span>
@@ -114,6 +133,14 @@ export function AboutPath() {
                 <span className="ab-when" role="cell">
                   {r.live && <span className="ab-dot" aria-hidden="true" />}
                   {r.when}
+                </span>
+                <span className="ab-logo" role="cell">
+                  {r.logo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={r.logo} alt="" className={r.live ? "is-mark" : undefined} />
+                  ) : (
+                    <span className="ab-monogram" aria-hidden="true">{r.monogram}</span>
+                  )}
                 </span>
                 <span className="ab-where" role="cell">{r.where}</span>
                 <span className="ab-owned" role="cell">{r.owned}</span>
@@ -231,7 +258,7 @@ export function AboutStyles() {
       .ab-board { --board-ink: #1C1B19; }
       .ab-head, .ab-row {
         display: grid;
-        grid-template-columns: 96px 176px minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns: 88px 116px 172px minmax(0, 1fr) minmax(0, 1fr);
         align-items: stretch;
       }
       .ab-head {
@@ -252,6 +279,14 @@ export function AboutStyles() {
         font-size: 13.5px; font-weight: 500; color: var(--board-ink); white-space: nowrap;
       }
       .ab-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 4px rgba(255,92,53,0.18); flex-shrink: 0; }
+      .ab-logo img { display: block; max-width: 92px; max-height: 26px; width: auto; height: auto; object-fit: contain; }
+      .ab-logo img.is-mark { max-height: 34px; }
+      .ab-monogram {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 34px; height: 34px; border-radius: 8px;
+        background: var(--board-ink); color: var(--cream);
+        font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+      }
       .ab-where { white-space: pre-line; line-height: 1.3; font-size: 15.5px; font-weight: 600; color: var(--board-ink); }
       .ab-owned { font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--board-ink); }
       .ab-taught { font-size: 15px; line-height: 1.5; color: var(--coral); font-weight: 500; }
@@ -313,6 +348,7 @@ export function AboutStyles() {
         .ab-row { grid-template-columns: 1fr; gap: 6px; padding: 18px 0; }
         .ab-row > span, .ab-row > span + span { border-left: 0; padding: 0; }
         .ab-where { white-space: normal; }
+        .ab-logo { margin: 2px 0; }
         .ab-principles, .ab-tcards { grid-template-columns: 1fr; }
       }
     `}</style>
