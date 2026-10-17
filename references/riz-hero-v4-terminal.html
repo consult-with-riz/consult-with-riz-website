@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riz — Hero V4: The Deadpan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #22332C;
+    --coral: #EA6A47;
+    --coral-d: #CE5430;
+    --cream: #F3ECDD;
+    --amber: #D79A36;
+    --muted: #7A8C85;
+    --bg: #FFFFFF;
+    --border: #E5DDD0;
+    --terminal-bg: #1C2B25;
+    --terminal-text: #C8D8D2;
+    --terminal-green: #5DB887;
+    --terminal-coral: #EA6A47;
+    --terminal-amber: #D79A36;
+    --terminal-muted: #5A7068;
+  }
+
+  html, body { min-height: 100vh; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .nav-dot { width: 8px; height: 8px; background: var(--coral); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.7;transform:scale(1.3)} }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a { font-size: 0.9rem; color: var(--muted); text-decoration: none; }
+  .nav-cta { background: var(--coral); color: white; padding: 10px 22px; border-radius: 6px; font-size: 0.875rem; text-decoration: none; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 100px 48px 60px;
+    max-width: 1280px;
+    margin: 0 auto;
+    gap: 64px;
+  }
+
+  /* LEFT */
+  .hero-left { display: flex; flex-direction: column; gap: 24px; }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 4.5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.08;
+    color: var(--ink);
+  }
+  h1 em { font-style: italic; color: var(--coral); display: block; }
+  .hero-sub {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 440px;
+  }
+  .hero-sub strong { color: var(--ink); font-weight: 500; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
+  .btn-primary {
+    background: var(--coral); color: white;
+    padding: 13px 26px; border-radius: 6px;
+    font-size: 0.9rem; font-weight: 500;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--coral-d); }
+  .btn-secondary {
+    color: var(--ink); border: 1.5px solid var(--border);
+    padding: 12px 22px; border-radius: 6px;
+    font-size: 0.9rem; text-decoration: none; background: transparent;
+    transition: border-color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--ink); }
+
+  /* TERMINAL */
+  .terminal-wrap {
+    background: var(--terminal-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 4px 16px rgba(0,0,0,0.1);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* Window chrome */
+  .terminal-chrome {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .chrome-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .chrome-dot.red { background: #FF5F56; }
+  .chrome-dot.yellow { background: #FFBD2E; }
+  .chrome-dot.green { background: #27C93F; }
+  .chrome-title {
+    flex: 1; text-align: center;
+    font-size: 0.72rem;
+    color: var(--terminal-muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* Terminal body */
+  .terminal-body {
+    padding: 20px 20px 16px;
+    height: 420px;
+    overflow-y: auto;
+    display: flex; flex-direction: column;
+    gap: 0;
+    scroll-behavior: smooth;
+  }
+  .terminal-body::-webkit-scrollbar { width: 4px; }
+  .terminal-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+  .t-line {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--terminal-text);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .t-line.prompt::before {
+    content: '> ';
+    color: var(--terminal-coral);
+    font-weight: 500;
+  }
+  .t-line.system { color: var(--terminal-muted); font-style: italic; }
+  .t-line.output { color: var(--terminal-text); padding-left: 12px; }
+  .t-line.highlight { color: var(--terminal-coral); }
+  .t-line.success { color: var(--terminal-green); }
+  .t-line.amber { color: var(--terminal-amber); }
+  .t-line.gap { height: 8px; }
+  .t-link { color: var(--terminal-coral); text-decoration: underline; cursor: pointer; }
+  .t-link:hover { opacity: 0.8; }
+
+  /* INPUT LINE */
+  .terminal-input-row {
+    display: flex; align-items: center; gap: 0;
+    padding: 12px 20px 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .input-prompt { color: var(--terminal-coral); font-family: 'DM Mono', monospace; font-size: 0.82rem; margin-right: 8px; }
+  .terminal-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--terminal-text);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    caret-color: var(--terminal-coral);
+  }
+
+  /* QUICK CHIPS */
+  .quick-chips {
+    padding: 0 20px 14px;
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .chip-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--terminal-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .chip-btn:hover { background: rgba(234,106,71,0.15); border-color: var(--terminal-coral); color: var(--terminal-coral); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding: 90px 24px 60px; gap: 40px; }
+    .terminal-body { height: 300px; }
+    nav { padding: 16px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><div class="nav-dot"></div>Riz</div>
+  <div class="nav-links">
+    <a href="#">Services</a>
+    <a href="#">Case studies</a>
+    <a href="#">Writing</a>
+    <a href="#">About</a>
+    <a href="#" class="nav-cta">Book a call</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <!-- LEFT -->
+  <div class="hero-left">
+    <div class="kicker">Operator · Builder · Tallinn</div>
+    <h1>
+      AI doesn't fix bad thinking.
+      <em>It scales it.</em>
+    </h1>
+    <p class="hero-sub">
+      I'm Riz. Ten years in ops at <strong>Careem, Bolt and Wise</strong>. 
+      Cambridge. ACCA. Wrongful termination win. Anthropic Partner.<br><br>
+      Now I help founders think clearly enough that automation actually works.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">See what I've built →</a>
+      <a href="#" class="btn-secondary">Read how I think →</a>
+    </div>
+  </div>
+
+  <!-- RIGHT — TERMINAL -->
+  <div class="terminal-wrap">
+    <div class="terminal-chrome">
+      <div class="chrome-dot red"></div>
+      <div class="chrome-dot yellow"></div>
+      <div class="chrome-dot green"></div>
+      <div class="chrome-title">riz.sh — ask me anything</div>
+    </div>
+    <div class="terminal-body" id="terminalBody"></div>
+    <div class="quick-chips" id="quickChips">
+      <button class="chip-btn" onclick="runCommand('whoami')">whoami</button>
+      <button class="chip-btn" onclick="runCommand('work')">work</button>
+      <button class="chip-btn" onclick="runCommand('wins')">wins</button>
+      <button class="chip-btn" onclick="runCommand('pricing')">pricing</button>
+      <button class="chip-btn" onclick="runCommand('stack')">stack</button>
+      <button class="chip-btn" onclick="runCommand('why')">why</button>
+    </div>
+    <div class="terminal-input-row">
+      <span class="input-prompt">></span>
+      <input class="terminal-input" id="termInput" placeholder="type a command or question..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    </div>
+  </div>
+</section>
+
+<script>
+// KNOWLEDGE BASE
+const KB = {
+  whoami: [
+    { type: 'output', text: 'Riz. Operator, builder, occasional comedian.' },
+    { type: 'output', text: 'Ten years running operations across four continents.' },
+    { type: 'output', text: 'Cambridge. ACCA. Careem → Bolt → Wise → own thing.' },
+    { type: 'output', text: 'Based in Tallinn. Working globally.' },
+    { type: 'gap' },
+    { type: 'output', text: 'The short version: I fix the thinking, then I build the system.' },
+    { type: 'amber', text: '→ try: work, wins, soch, pricing, why' },
+  ],
+  work: [
+    { type: 'amber', text: 'Career timeline:' },
+    { type: 'output', text: '2024–now  Soch · Co-founder · Tallinn' },
+    { type: 'output', text: '2022–2024 Wise · Senior Ops Manager · London' },
+    { type: 'output', text: '2020–2022 Bolt · Product Operations · Tallinn' },
+    { type: 'output', text: '2018–2020 Careem · Ops Lead · Dubai' },
+    { type: 'output', text: '2016–2018 Motive Technologies · Operations' },
+    { type: 'gap' },
+    { type: 'output', text: 'Cambridge certificate in 2019. ACCA qualified.' },
+    { type: 'amber', text: '→ drill in: bolt, wise, careem, soch' },
+  ],
+  bolt: [
+    { type: 'amber', text: 'Bolt (2020–2022):' },
+    { type: 'output', text: 'Product Ops. Dispatch latency: 3 min → 20 sec.' },
+    { type: 'output', text: 'Courier cost reduction: $3.9M annually.' },
+    { type: 'output', text: 'Wrongful termination. Fought it. Won. Published everything.' },
+    { type: 'success', text: '→ put it on my LinkedIn headline. On purpose.' },
+  ],
+  wise: [
+    { type: 'amber', text: 'Wise (2022–2024):' },
+    { type: 'output', text: '92% straight-through matching on transfers.' },
+    { type: 'output', text: 'Built the ops infrastructure for MENA expansion.' },
+    { type: 'output', text: 'Left to start Soch. No regrets.' },
+  ],
+  careem: [
+    { type: 'amber', text: 'Careem (2018–2020):' },
+    { type: 'output', text: 'Ops Lead across 4 countries.' },
+    { type: 'output', text: 'Pre-Uber acquisition. Saw what scale actually looks like.' },
+    { type: 'output', text: 'First time I realized ops is just thinking at speed.' },
+  ],
+  soch: [
+    { type: 'amber', text: 'Soch — my company:' },
+    { type: 'output', text: 'We build AI workflow systems for founders and ops teams.' },
+    { type: 'output', text: 'n8n automations, AI agents, internal tools.' },
+    { type: 'output', text: 'Co-founded with Umair Shahzad.' },
+    { type: 'highlight', text: '→ withsoch.com' },
+  ],
+  wins: [
+    { type: 'amber', text: 'Things worth mentioning:' },
+    { type: 'output', text: '✓ Bug Catcher — browser game built with zero prior code.' },
+    { type: 'output', text: '  Hand-tracking, no controller, shipped on LinkedIn.' },
+    { type: 'output', text: '  20k+ impressions on launch post.' },
+    { type: 'gap' },
+    { type: 'output', text: '✓ Bolt case — wrongful termination. Won.' },
+    { type: 'output', text: '  Published every document. Became a case study in ops credibility.' },
+    { type: 'gap' },
+    { type: 'output', text: '✓ Anthropic Claude Partner Network. Not applied, selected.' },
+    { type: 'amber', text: '→ see: bolt, soch' },
+  ],
+  pricing: [
+    { type: 'amber', text: 'How to work with me:' },
+    { type: 'output', text: 'Consulting / Advisory — from $160/hr.' },
+    { type: 'output', text: 'Projects (system builds) — scoped fixed price via Soch.' },
+    { type: 'output', text: 'Speaking / Workshops — ask.' },
+    { type: 'output', text: 'Learn — just read the Substack. It\'s free.' },
+    { type: 'gap' },
+    { type: 'highlight', text: '→ cal.com/riz — book a 30min scoping call' },
+  ],
+  stack: [
+    { type: 'amber', text: 'Tools I actually use:' },
+    { type: 'output', text: 'Automation  n8n, Make, Zapier' },
+    { type: 'output', text: 'AI          Anthropic API, OpenAI, Gemini' },
+    { type: 'output', text: 'Data        Airtable, Google Sheets, Supabase' },
+    { type: 'output', text: 'Comms       Slack, ClickUp' },
+    { type: 'output', text: 'Web         Next.js, Webflow, Framer' },
+    { type: 'gap' },
+    { type: 'output', text: 'Not a developer. Never claimed to be.' },
+    { type: 'success', text: 'Build with the best tool for the job. Full stop.' },
+  ],
+  why: [
+    { type: 'output', text: 'Why do this at all?' },
+    { type: 'gap' },
+    { type: 'output', text: 'Because most "automation" doesn\'t fail at the tech level.' },
+    { type: 'output', text: 'It fails because the thinking underneath it is broken.' },
+    { type: 'gap' },
+    { type: 'output', text: 'AI scales what you already do.' },
+    { type: 'highlight', text: 'If you think clearly, AI is leverage.' },
+    { type: 'highlight', text: 'If you don\'t, AI is a faster way to make more mistakes.' },
+    { type: 'gap' },
+    { type: 'output', text: 'I fix the thinking first. Then we build.' },
+  ],
+  contact: [
+    { type: 'amber', text: 'Get in touch:' },
+    { type: 'highlight', text: '→ riz@withsoch.com' },
+    { type: 'highlight', text: '→ cal.com/riz (book a call)' },
+    { type: 'output', text: '→ linkedin.com/in/riz' },
+    { type: 'output', text: '→ conversationswithriz.substack.com' },
+    { type: 'output', text: '→ youtube.com/@VibeWithRiz' },
+  ],
+  education: [
+    { type: 'amber', text: 'Education:' },
+    { type: 'output', text: 'Cambridge Certificate in Finance — 2019.' },
+    { type: 'output', text: 'ACCA qualified.' },
+    { type: 'output', text: 'Real education: ten years in the room where decisions get made.' },
+  ],
+  help: [
+    { type: 'amber', text: 'Available commands:' },
+    { type: 'output', text: 'whoami     — who is Riz' },
+    { type: 'output', text: 'work       — career timeline' },
+    { type: 'output', text: 'bolt       — the Bolt chapter' },
+    { type: 'output', text: 'wise       — the Wise chapter' },
+    { type: 'output', text: 'careem     — the Careem chapter' },
+    { type: 'output', text: 'soch       — the company' },
+    { type: 'output', text: 'wins       — things worth mentioning' },
+    { type: 'output', text: 'pricing    — how to work together' },
+    { type: 'output', text: 'stack      — tools I use' },
+    { type: 'output', text: 'why        — why any of this' },
+    { type: 'output', text: 'education  — Cambridge, ACCA' },
+    { type: 'output', text: 'contact    — get in touch' },
+    { type: 'output', text: 'clear      — reset terminal' },
+  ],
+};
+
+// Fuzzy match
+const aliases = {
+  'who are you': 'whoami', 'who is riz': 'whoami', 'about you': 'whoami', 'tell me about yourself': 'whoami',
+  'experience': 'work', 'career': 'work', 'background': 'work', 'timeline': 'work',
+  'what have you built': 'wins', 'achievements': 'wins', 'projects': 'wins', 'case studies': 'wins',
+  'how much': 'pricing', 'rates': 'pricing', 'cost': 'pricing', 'hire': 'pricing', 'services': 'pricing',
+  'tools': 'stack', 'tech': 'stack', 'technology': 'stack',
+  'motivation': 'why', 'philosophy': 'why', 'point of view': 'why', 'pov': 'why',
+  'company': 'soch', 'withsoch': 'soch',
+  'email': 'contact', 'social': 'contact', 'reach out': 'contact', 'book': 'contact', 'calendly': 'contact',
+  'cambridge': 'education', 'acca': 'education', 'university': 'education',
+  '?': 'help', 'commands': 'help', 'ls': 'help',
+};
+
+const body = document.getElementById('terminalBody');
+const input = document.getElementById('termInput');
+let history = []; let histIdx = -1;
+
+function addLine(cls, text) {
+  const el = document.createElement('div');
+  el.className = 't-line ' + cls;
+  if (cls === 'gap') { body.appendChild(el); return; }
+  el.textContent = text;
+  body.appendChild(el);
+  body.scrollTop = body.scrollHeight;
+}
+
+function typeLines(lines, idx = 0, delay = 30) {
+  if (idx >= lines.length) return;
+  const line = lines[idx];
+  setTimeout(() => {
+    if (line.type === 'gap') addLine('gap', '');
+    else addLine(line.type, line.text);
+    body.scrollTop = body.scrollHeight;
+    typeLines(lines, idx + 1, delay + 10);
+  }, delay);
+}
+
+function runCommand(cmd) {
+  cmd = cmd.trim().toLowerCase();
+  if (!cmd) return;
+  history.unshift(cmd); histIdx = -1;
+  addLine('prompt', cmd);
+  if (cmd === 'clear') { body.innerHTML = ''; return; }
+  const resolved = KB[cmd] || KB[aliases[cmd]] || KB[aliases[Object.keys(aliases).find(k => cmd.includes(k)) || '']] || null;
+  if (resolved) {
+    typeLines(resolved);
+  } else {
+    addLine('output', 'Unknown command. Try: help');
+    addLine('amber', '→ hint: whoami, work, wins, pricing, why');
+  }
+  input.value = '';
+}
+
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { runCommand(input.value); }
+  else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (histIdx < history.length - 1) { histIdx++; input.value = history[histIdx]; }
+  }
+  else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (histIdx > 0) { histIdx--; input.value = history[histIdx]; }
+    else { histIdx = -1; input.value = ''; }
+  }
+  else if (e.key === 'Tab') {
+    e.preventDefault();
+    const cmds = Object.keys(KB);
+    const match = cmds.find(c => c.startsWith(input.value));
+    if (match) input.value = match;
+  }
+});
+
+// Boot sequence
+const bootLines = [
+  { type: 'system', text: '── riz.sh v1.0 ──────────────────────────────' },
+  { type: 'system', text: 'loading knowledge base...' },
+  { type: 'gap' },
+];
+typeLines(bootLines, 0, 30);
+setTimeout(() => {
+  typeLines(KB.whoami);
+  setTimeout(() => {
+    addLine('gap', '');
+    addLine('system', 'Type a command or question. Tab to autocomplete.');
+    input.focus();
+  }, KB.whoami.length * 60 + 400);
+}, 400);
+</script>
+</body>
+</html>

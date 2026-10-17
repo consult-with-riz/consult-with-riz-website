@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riz — v2.1 The Operator's Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --cream: #F3ECDD;
+    --cream-2: #F8F3E9;
+    --ink: #22332C;
+    --body: #4A4A4A;
+    --muted: #8A857B;
+    --faint: #B7B1A4;
+    --coral: #EA6A47;
+    --coral-d: #CE5430;
+    --amber: #D79A36;
+    --line: #E7E0D2;
+    --green-dark: #1a2b24;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-dot {
+    width: 7px; height: 7px;
+    background: var(--coral);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+  .nav-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 64px 80px 80px;
+  }
+
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 4.5vw, 62px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--coral);
+  }
+
+  .subtext {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--body);
+    max-width: 440px;
+    margin-bottom: 40px;
+  }
+
+  .btns {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--coral);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+  }
+  .btn-primary:hover { background: var(--coral-d); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--line);
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    text-decoration: none;
+  }
+  .btn-ghost:hover { border-color: var(--ink); }
+
+  /* DASHBOARD PANEL */
+  .hero-right {
+    background: var(--green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* grid bg */
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .dashboard {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+  }
+
+  .dash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .dash-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .dash-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #4ade80;
+    letter-spacing: 0.08em;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: pulse 1.8s infinite;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .metric-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-card:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(234,106,71,0.5);
+    transform: translateY(-2px);
+  }
+  .metric-card.firing {
+    border-color: var(--coral) !important;
+    background: rgba(234,106,71,0.12) !important;
+  }
+  .metric-card.firing .metric-num {
+    color: var(--coral) !important;
+  }
+
+  .metric-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 10px;
+  }
+  .metric-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.92);
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .metric-unit {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 4px;
+  }
+  .metric-arrow {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 11px;
+    color: #4ade80;
+  }
+
+  /* WORKFLOW FEED */
+  .workflow-feed {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .feed-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: all 0.4s;
+  }
+  .feed-row.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .feed-row:last-child { border-bottom: none; }
+  .feed-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .feed-dot.green { background: #4ade80; }
+  .feed-dot.amber { background: var(--amber); }
+  .feed-dot.coral { background: var(--coral); }
+
+  .fire-btn {
+    width: 100%;
+    background: var(--coral);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .fire-btn:hover {
+    background: var(--coral-d);
+    transform: translateY(-1px);
+  }
+  .fire-btn:active { transform: translateY(0); }
+
+  /* Portrait strip */
+  .portrait-strip {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--coral), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .hero-right:hover .portrait-strip { opacity: 1; }
+
+  /* Riz photo small */
+  .riz-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .riz-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(234,106,71,0.5);
+    flex-shrink: 0;
+  }
+  .riz-avatar img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .riz-mini-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.06em;
+  }
+  .riz-mini-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+  }
+
+  /* PROOF STRIP */
+  .proof-strip {
+    background: var(--cream);
+    padding: 18px 80px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .proof-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-shrink: 0;
+    margin-right: 8px;
+  }
+  .proof-items {
+    display: flex;
+    gap: 32px;
+    flex: 1;
+  }
+  .proof-item {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--faint);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  /* VERSION TAG */
+  .version-tag {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    Riz
+    <div class="nav-dot"></div>
+  </div>
+  <div class="nav-label">Operator · Builder · Tallinn</div>
+</nav>
+
+<section class="hero">
+  <!-- LEFT: TEXT -->
+  <div class="hero-left">
+    <div class="kicker">Operator · Builder · Tallinn</div>
+    <h1>AI doesn't fix<br>bad thinking.<br><em>It scales it.</em></h1>
+    <p class="subtext">I help founders think clearly enough that automation actually works — then I build the systems that prove it.</p>
+    <div class="btns">
+      <a href="#" class="btn-primary">See the work →</a>
+      <a href="#" class="btn-ghost">How I work</a>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE DASHBOARD -->
+  <div class="hero-right">
+    <div class="dashboard">
+      <div class="dash-header">
+        <div class="dash-title">Systems · Live</div>
+        <div class="dash-status">
+          <div class="status-dot"></div>
+          4 running
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card" id="m1">
+          <div class="metric-label">Leads processed</div>
+          <div class="metric-num" id="n1">0</div>
+          <div class="metric-unit">this month</div>
+          <div class="metric-arrow">↑ 34%</div>
+        </div>
+        <div class="metric-card" id="m2">
+          <div class="metric-label">Hours saved</div>
+          <div class="metric-num" id="n2">0</div>
+          <div class="metric-unit">per week</div>
+          <div class="metric-arrow">↑ 12h</div>
+        </div>
+        <div class="metric-card" id="m3">
+          <div class="metric-label">Workflows</div>
+          <div class="metric-num" id="n3">0</div>
+          <div class="metric-unit">running now</div>
+          <div class="metric-arrow">● live</div>
+        </div>
+        <div class="metric-card" id="m4">
+          <div class="metric-label">Last ran</div>
+          <div class="metric-num" style="font-size:26px;" id="n4">—</div>
+          <div class="metric-unit">ago</div>
+        </div>
+      </div>
+
+      <div class="workflow-feed">
+        <div class="feed-row" id="f1">
+          <div class="feed-dot green"></div>
+          Lead routed → CRM · 2 min ago
+        </div>
+        <div class="feed-row" id="f2">
+          <div class="feed-dot amber"></div>
+          Weekly report → Slack · 8 min ago
+        </div>
+        <div class="feed-row" id="f3">
+          <div class="feed-dot coral"></div>
+          Content drafted → Review · 14 min ago
+        </div>
+        <div class="feed-row" id="f4">
+          <div class="feed-dot green"></div>
+          Invoice processed · 1 hr ago
+        </div>
+      </div>
+
+      <button class="fire-btn" onclick="fireWorkflow()">▶ Fire a workflow</button>
+
+      <div class="riz-mini">
+        <div class="riz-avatar">
+          <img src="https://cdn.prod.website-files.com/68e7ded517d0693d2c345250/691d97efffebe375af48ce33_Remove%20GMNI.png" alt="Riz" onerror="this.style.background='#EA6A47'">
+        </div>
+        <div>
+          <div class="riz-mini-name">Riz</div>
+          <div class="riz-mini-text">Built by the operator. Runs without him.</div>
+        </div>
+      </div>
+    </div>
+    <div class="portrait-strip"></div>
+  </div>
+</section>
+
+<div class="proof-strip">
+  <div class="proof-label">Worked at</div>
+  <div class="proof-items">
+    <span class="proof-item">Careem</span>
+    <span class="proof-item">Bolt</span>
+    <span class="proof-item">Wise</span>
+    <span class="proof-item">Cambridge</span>
+    <span class="proof-item">ACCA</span>
+    <span class="proof-item">Anthropic Partner</span>
+  </div>
+</div>
+
+<div class="version-tag">v2.1 · Operator's Board</div>
+
+<script>
+// Count up animations
+function countUp(el, target, duration, suffix) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = Math.floor(start) + (suffix || '');
+    if (start >= target) clearInterval(timer);
+  }, 16);
+}
+
+// Animate feed rows
+function showFeed() {
+  ['f1','f2','f3','f4'].forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('visible');
+    }, 400 + i * 220);
+  });
+}
+
+// Fire workflow
+let firing = false;
+function fireWorkflow() {
+  if (firing) return;
+  firing = true;
+  const btn = document.querySelector('.fire-btn');
+  btn.textContent = '⚡ Firing...';
+  btn.style.background = '#D79A36';
+
+  // Pick random card to fire
+  const cards = ['m1','m2','m3','m4'];
+  const pick = cards[Math.floor(Math.random() * cards.length)];
+  document.getElementById(pick).classList.add('firing');
+
+  // Add new feed row
+  const feed = document.querySelector('.workflow-feed');
+  const newRow = document.createElement('div');
+  newRow.className = 'feed-row';
+  newRow.innerHTML = `<div class="feed-dot coral"></div>New workflow fired · just now`;
+  feed.insertBefore(newRow, feed.firstChild);
+  setTimeout(() => newRow.classList.add('visible'), 50);
+
+  // Update a metric
+  const nums = { n1: 847, n2: 23, n3: 4 };
+  const numEl = document.getElementById(pick.replace('m','n'));
+  if (nums[pick.replace('m','n')]) {
+    const cur = parseInt(numEl.textContent) + Math.floor(Math.random() * 5 + 1);
+    countUp(numEl, cur, 600);
+  }
+
+  setTimeout(() => {
+    document.getElementById(pick).classList.remove('firing');
+    btn.textContent = '▶ Fire a workflow';
+    btn.style.background = '';
+    firing = false;
+  }, 1400);
+}
+
+// Init on load
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    countUp(document.getElementById('n1'), 847, 1800);
+    countUp(document.getElementById('n2'), 23, 1200);
+    countUp(document.getElementById('n3'), 4, 600);
+    document.getElementById('n4').textContent = '3m';
+    showFeed();
+  }, 300);
+});
+</script>
+</body>
+</html>

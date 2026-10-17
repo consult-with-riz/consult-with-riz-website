@@ -1,0 +1,2425 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #FFFFFF;
+  --cream: #F1EBDE;
+  --cream-2: var(--cream);
+  --ink: #22332C;
+  --body: #333333;
+  --muted: #55514A;
+  --faint: #5E594E;
+  --coral: #ff5c35;
+  --coral-d: #e8431b;
+  --amber: #D79A36;
+  --line: #E2DACB;
+  --line-2: #D9D1C0;
+  --paper: #F5F0E8;
+  /* One step lighter than --paper. The service cards step white → this →
+     --paper → --cream, which is how the section bands itself without a
+     single divider. */
+  --paper-light: #FDFBF6;
+  /* Referenced by the icon tiles, the CTA card and the arrow ring, but never
+     actually defined — they were all rendering transparent. The soft tint
+     between cream and coral. */
+  --peach: #FFE8DD;
+  --ink2: #3C4642;
+  --shadow: 0 6px 22px rgba(34,51,44,.07);
+  --shadow-lg: 0 20px 48px rgba(34,51,44,.13);
+  --maxw: 1200px;
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --background: var(--bg);
+  --foreground: var(--ink);
+
+  /* Section spacing rhythm — enforced site-wide */
+  --section-pad: 112px;
+  --section-pad-mobile: 64px;
+  --heading-gap: 48px;
+  --card-pad: 30px;
+  --grid-gap: 28px;
+  --radius-card: 18px;
+  --radius-chip: 999px;
+  --btn-height: 52px;
+  --btn-radius: 8px;
+
+  /* Typography — one family for display and body, plus the system mono for
+     small uppercase labels. Three real roles, then the legacy variable names
+     remapped onto them so no selector has to change. */
+  --font-display: var(--font-wix-madefor-text);
+  --font-body: var(--font-wix-madefor-text);
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+
+  /* Display: --font-inter-tight is the site's headline face in practice —
+     28 declarations including .hz-headline — whatever its name suggests. */
+  --font-inter-tight: var(--font-display);
+  --font-fraunces: var(--font-display);
+  --font-playfair: var(--font-display);
+  --font-bebas: var(--font-display);
+  /* Body */
+  --font-montserrat: var(--font-body);
+  --font-dm-sans: var(--font-body);
+  /* Mono */
+  --font-geist-mono: var(--font-mono);
+  --font-plexmono: var(--font-mono);
+  --font-archivo: var(--font-display);
+  --font-intertight: var(--font-body);
+  --font-dm-mono: var(--font-mono);
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+
+  /* The blog design spec's roles, mapped onto this site's palette, so the
+     card and hero markup can use its class names unchanged: brand, ink,
+     slate, muted, mist, peach, line. Only the values are ours. */
+  --color-brand: var(--coral);
+  --color-brand-dark: var(--coral-d);
+  --color-ink: var(--ink);
+  --color-slate: var(--body);
+  --color-muted: var(--muted);
+  --color-mist: var(--paper);
+  --color-cream: var(--cream);
+  --color-peach: var(--peach);
+  --color-line: var(--line);
+
+  /* Cards are flat at rest; this only ever appears on hover, and on the
+     post hero image, which is a static visual rather than a card. */
+  --shadow-card: 0 6px 22px -12px rgba(20, 30, 25, 0.18);
+}
+
+/* The type scale, as Tailwind tokens — the name is the size, so `text-16` is
+   16px, always. Larger steps carry tighter leading. Tailwind only emits a
+   utility once markup uses it, so these cost nothing until referenced. */
+@theme {
+  --text-12: 12px;
+  --text-12--line-height: 1.5;
+  --text-13: 13px;
+  --text-13--line-height: 1.5;
+  --text-14: 14px;
+  --text-14--line-height: 1.5;
+  --text-16: 16px;
+  --text-16--line-height: 1.5;
+  --text-18: 18px;
+  --text-18--line-height: 1.45;
+  --text-20: 20px;
+  --text-20--line-height: 1.4;
+  --text-22: 22px;
+  --text-22--line-height: 1.35;
+  --text-24: 24px;
+  --text-24--line-height: 1.3;
+  --text-26: 26px;
+  --text-26--line-height: 1.25;
+  --text-32: 32px;
+  --text-32--line-height: 1.15;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+[id] {
+  scroll-margin-top: 96px;
+}
+
+/* Safety net: no element may create horizontal page scroll.
+   Must be `clip`, not `hidden`: overflow-x hidden turns body into a
+   scroll container, which silently disables every position: sticky
+   descendant (they'd stick to body's never-scrolling scrollport). */
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--body);
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Weight 500, not 900. Emphasis is carried by size, negative tracking and
+   tight leading instead — the scale below does the shouting. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), sans-serif;
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+/* Each step gets its own leading and tracking: bigger type needs less of
+   both. Every size is a clamp, so nothing steps at a breakpoint. */
+h1 {
+  font-size: clamp(2.6rem, 1.5rem + 3.9vw, 4.35rem);
+  line-height: 1.02;
+  letter-spacing: -0.018em;
+}
+h2 {
+  font-size: clamp(2.05rem, 1.4rem + 2.3vw, 3.1rem);
+  line-height: 1.06;
+  letter-spacing: -0.014em;
+}
+h3 {
+  font-size: clamp(1.6rem, 1.35rem + 1.1vw, 2.15rem);
+  line-height: 1.12;
+  letter-spacing: -0.013em;
+}
+h4 {
+  font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.6rem);
+  line-height: 1.16;
+}
+
+p, li, td, th, label, input, textarea, select {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ---------------------------------------------------------------------------
+   No italics anywhere.
+
+   Two separate things have to be true for that to hold, and only one of them
+   is "delete the italic declarations":
+
+   1. Several elements are italic by UA default — em, i, cite, dfn, var,
+      address, and q in some stylesheets. Removing our own declarations does
+      nothing for those; they need an explicit normal. The tags stay, because
+      <em> carries emphasis semantics a screen reader announces. Only the
+      slant goes.
+
+   2. If a font-style: italic ever survives or gets added back, and the family
+      has no italic cut loaded, the browser SYNTHESISES one by shearing the
+      upright glyphs. That faux-oblique is the "slanted but not really italic"
+      case — it is not a real cut, it just skews the outlines, and it looks
+      noticeably cheap at display sizes. font-synthesis-style: none forbids it
+      outright, so the worst case is upright text rather than sheared text.
+
+   Synthetic *weight* is deliberately left enabled: 400/500/600/700 are all
+   real cuts here, but disabling it would be a silent trap if a heavier weight
+   is ever used without being loaded.
+--------------------------------------------------------------------------- */
+em, i, cite, dfn, var, address, q, blockquote {
+  font-style: normal;
+}
+
+html {
+  font-synthesis-style: none;
+}
+
+/* 12px, not 16px. At 1rem/600 an uppercase mono label reads as a second
+   headline competing with the real one; at 12px with wider tracking it reads
+   as instrumentation, which is what it is. Colour is unchanged. */
+.meta-label {
+  font-family: var(--font-geist-mono), 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: #ff5c35;
+}
+
+.meta-label--inverse {
+  color: var(--cream);
+}
+
+.section-pad {
+  padding: var(--section-pad) 0;
+}
+
+@media (max-width: 767px) {
+  .section-pad {
+    padding: var(--section-pad-mobile) 0;
+  }
+}
+
+.font-mono-dm {
+  font-family: var(--font-geist-mono), 'Geist Mono', monospace;
+}
+
+.subheading {
+  font-family: var(--font-fraunces), serif;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+@keyframes talkGradient {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+@keyframes soundbar {
+  from { transform: scaleY(0.25); }
+  to   { transform: scaleY(1); }
+}
+
+@keyframes flow-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes node-light {
+  0% { background: var(--cream-2); }
+  50% { background: var(--coral); }
+  100% { background: var(--cream-2); }
+}
+
+@keyframes scrollX {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes card-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes svc-orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes svc-counter {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+@keyframes svc-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.05); }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+.animate-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  will-change: transform, opacity;
+}
+
+.animate-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  will-change: transform, opacity;
+}
+
+[data-reveal].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   MOTION SYSTEM — global reduced-motion kill switch.
+   Every scroll-reveal, parallax and hover transition on the
+   site keys off .animate-in / [data-reveal] / [data-parallax],
+   so disabling them here disables all of it in one place.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-in,
+  [data-reveal],
+  .oc-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  [data-parallax] {
+    transform: none !important;
+  }
+}
+
+.max-w-site {
+  max-width: var(--maxw);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media (max-width: 640px) {
+  .max-w-site {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+/* Type roles the blog spec asks for. The page-hero scale above them stays
+   clamp(2.4rem, 1.5rem + 3vw, 3.7rem), as on /guides and /case-studies; a
+   post's h1 deliberately drops to the h2 step rather than getting a size of
+   its own, so it carries the same weight as an h2 elsewhere. */
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.05rem, 1.4rem + 2.3vw, 3.1rem);
+  line-height: 1.08;
+  letter-spacing: -0.014em;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+}
+
+.text-h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 1.35rem + 1.1vw, 2.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.013em;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Small grid card title. The element rules above are unlayered, so they beat
+   Tailwind's `text-16` utility on an h3; this class is unlayered too and
+   carries the card's own size. */
+.article-card-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.35;
+  letter-spacing: -0.006em;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+}
+
+.article-card-meta {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* These two set a colour, and unlayered rules beat Tailwind's layered
+   `group-hover:text-brand`, so the card's hover recolour lives here too. */
+.group:hover .article-card-title,
+.group:hover .text-h3 {
+  color: var(--coral);
+}
+
+/* Category label: tinted background, brand text, never a solid brand fill. */
+.eyebrow {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: var(--peach);
+  color: var(--coral);
+  border-radius: var(--radius-chip);
+  padding: 6px 14px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.btn-coral,
+.btn-ghost {
+  min-height: var(--btn-height);
+  padding: 0 1.75rem;
+  border-radius: var(--btn-radius);
+  font-family: var(--font-inter-tight), 'Inter Tight', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.btn-coral {
+  background: var(--coral);
+  color: #fff;
+  transition: background 0.2s ease;
+  border: none;
+}
+
+.btn-coral:hover {
+  background: var(--coral-d);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--line-2);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-ghost:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+/* ============================================================
+   GLOBAL TEXT VISIBILITY RULE
+   Body text / descriptions / subtitles — baseline readability
+   ============================================================ */
+.text-body {
+  color: rgba(34,51,44,0.75);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  opacity: 1;
+}
+
+.tag-pill,
+.guide-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-chip);
+  font-family: var(--font-geist-mono), 'Geist Mono', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tag-pill {
+  background: var(--cream);
+  color: var(--muted);
+}
+
+.guide-badge {
+  background: var(--coral);
+  color: #fff;
+}
+
+/* ============================================================
+   GUIDES — shared card, used on the hub grid and in the
+   related-guides section on individual guide pages
+   ============================================================ */
+.gd-card-link {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+}
+.gd-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.75rem;
+  transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.gd-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+  border-color: var(--line-2);
+}
+.gd-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+.gd-pill {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 0.875rem;
+  border-radius: 999px;
+  padding: 5px 14px;
+  line-height: 1.3;
+}
+.gd-pill-topic {
+  background: #fff;
+  border: 1px solid var(--line-2);
+  color: var(--ink);
+  font-weight: 600;
+}
+.gd-pill-tool {
+  background: var(--coral);
+  border: 1px solid var(--coral);
+  color: #fff;
+  font-weight: 600;
+}
+.gd-card-title {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  color: var(--ink);
+  margin: 0 0 1.5rem;
+  flex: 1;
+}
+.gd-card-read {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--coral);
+  transition: color 0.2s ease, gap 0.2s ease;
+}
+.gd-card:hover .gd-card-read {
+  color: var(--coral-d);
+  gap: 9px;
+}
+
+@media (max-width: 767px) {
+  .about-hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.marquee-track {
+  display: flex;
+  gap: 1rem;
+  animation: scrollX 38s linear infinite;
+  width: max-content;
+}
+
+.marquee-wrap:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.social-scroll {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.social-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.social-card-item {
+  flex-shrink: 0;
+  min-width: 220px;
+  scroll-snap-align: start;
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.social-ticker-wrap {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+}
+
+.social-ticker-wrap:hover .social-ticker-track {
+  animation-play-state: paused;
+}
+
+.social-ticker-track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  animation: scrollLeft 18s linear infinite;
+}
+
+.social-ticker-card {
+  flex-shrink: 0;
+  width: 280px;
+  height: 160px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.social-ticker-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--coral);
+}
+
+.hear-me-pill {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.portrait-wrapper:hover .hear-me-pill {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.portrait-eq-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--coral);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  z-index: 5;
+  pointer-events: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  animation: shimmer 0.25s ease-out;
+}
+
+.portrait-eq-badge span {
+  display: block;
+  width: 3px;
+  border-radius: 2px;
+  background: #ffffff;
+  transform-origin: bottom;
+  animation: soundbar 0.6s ease-in-out infinite alternate;
+}
+
+.portrait-eq-badge span:nth-child(1) { height: 6px; animation-delay: 0s; }
+.portrait-eq-badge span:nth-child(2) { height: 14px; animation-delay: 0.15s; }
+.portrait-eq-badge span:nth-child(3) { height: 10px; animation-delay: 0.3s; }
+.portrait-eq-badge span:nth-child(4) { height: 16px; animation-delay: 0.08s; }
+
+/* ─── Personality section — Instagram CTA ─────────────────────────────── */
+
+.oc-ig-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: var(--btn-height);
+  padding: 0 1.75rem;
+  border-radius: var(--btn-radius);
+  background: var(--coral);
+  color: #FFFFFF;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.2s ease;
+}
+
+.oc-ig-cta:hover {
+  background: var(--coral-d);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.oc-ig-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.oc-ig-cta:hover .oc-ig-arrow {
+  transform: translate(3px, -3px);
+}
+
+/* ─── Personality video carousel ──────────────────────────────────────── */
+
+.pc-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.pc-marquee-viewport {
+  overflow: hidden;
+  width: 100%;
+  padding: 4px 0 12px;
+}
+
+.pc-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  margin-left: max(40px, calc((100% - var(--maxw)) / 2 + 40px));
+  will-change: transform;
+}
+
+.pc-card {
+  flex: 0 0 auto;
+  width: clamp(210px, 21vw, 288px);
+}
+
+@media (max-width: 767px) {
+  .pc-marquee-viewport {
+    padding: 4px 0 12px;
+  }
+  .pc-track {
+    margin-left: 24px;
+    gap: 14px;
+  }
+  .pc-card {
+    width: 74vw;
+    max-width: 320px;
+  }
+}
+
+.pc-video-wrap {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #12140f;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.pc-video-wrap:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.pc-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pc-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.05) 42%, transparent 68%);
+  pointer-events: none;
+}
+
+.pc-gradient--placeholder {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.35) 45%, rgba(0, 0, 0, 0.15) 100%);
+}
+
+.pc-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 5px 10px;
+  border-radius: 100px;
+  color: white;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  z-index: 2;
+}
+
+.pc-badge--soon {
+  background: rgba(255,92,53, 0.85);
+}
+
+.pc-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 3;
+}
+
+.pc-video-wrap:hover .pc-play-overlay,
+.pc-play-overlay--active {
+  opacity: 1;
+}
+
+.pc-play-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease, transform 0.25s ease;
+  transform: scale(0.9);
+}
+
+.pc-video-wrap:hover .pc-play-btn,
+.pc-play-overlay--active .pc-play-btn {
+  transform: scale(1);
+}
+
+.pc-video-wrap:hover .pc-play-btn {
+  background: var(--coral);
+}
+
+/* Touch devices have no hover — keep the affordance dimly visible so users know to tap */
+@media (hover: none) {
+  .pc-play-overlay {
+    opacity: 0.85;
+  }
+  .pc-play-btn {
+    background: rgba(0, 0, 0, 0.5);
+    transform: scale(1);
+  }
+}
+
+.pc-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px 16px 18px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.pc-title {
+  font-family: var(--font-fraunces), serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.3;
+  margin: 0 0 4px;
+}
+
+.pc-desc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.45;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pc-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(6px);
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  z-index: 5;
+}
+
+.pc-arrow:hover {
+  background: var(--coral);
+  color: #fff;
+  transform: translateY(-50%) scale(1.06);
+}
+
+/* Positioned outside the card track (in the section gutter) rather than
+   on top of it, so they read as standalone nav controls, not overlays. */
+.pc-arrow-left {
+  left: max(-8px, calc((100% - var(--maxw)) / 2 - 30px));
+}
+
+.pc-arrow-right {
+  right: max(-8px, calc((100% - var(--maxw)) / 2 - 30px));
+}
+
+@media (max-width: 767px) {
+  .pc-arrow {
+    display: none;
+  }
+}
+
+/* ─── Services page layout ─────────────────────────────────────────── */
+
+.svc-hero-inner {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.svc-hero-title {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(2.4rem, 1.5rem + 3vw, 3.7rem);
+  line-height: 1.02;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  max-width: 560px;
+}
+
+.svc-row {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.svc-row-text {
+  flex: 1 1 280px;
+}
+
+.svc-row-card {
+  flex: 1 1 280px;
+}
+
+.svc-subline {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(1.5rem, 2.2vw, 1.75rem);
+  line-height: 1.25;
+  margin-bottom: 1.25rem;
+}
+
+.svc-body {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 1.75rem;
+}
+
+.svc-tabs {
+  display: inline-flex;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 2px;
+}
+
+.svc-tab {
+  display: inline-block;
+  padding: 0.55rem 1.25rem;
+  border-radius: 999px;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  color: var(--muted);
+  background: #fff;
+  border: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+
+.svc-tab:hover {
+  color: var(--coral);
+}
+
+.svc-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin-bottom: 14px;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 1rem;
+  color: var(--body);
+  line-height: 1.55;
+}
+
+.svc-check-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 0.05rem;
+}
+
+.svc-hero-section {
+  position: relative;
+  padding: var(--section-pad) 0;
+}
+
+.svc-section {
+  padding: var(--section-pad) 0;
+}
+
+@media (max-width: 767px) {
+  .svc-hero-section,
+  .svc-section {
+    padding: var(--section-pad-mobile) 0;
+  }
+}
+
+.svc-hero-texture {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--line-2) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+.svc-hero-texture--strong {
+  opacity: 0.8;
+}
+
+.svc-hero-section > .max-w-site {
+  position: relative;
+  z-index: 1;
+}
+
+.svc-hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.svc-hero-brand-word {
+  font-family: var(--font-playfair), serif;
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.svc-signature {
+  font-family: var(--font-playfair), serif;
+  font-size: 1rem;
+  color: var(--muted);
+  margin: -0.5rem 0 2rem;
+}
+
+.svc-signature-period {
+  color: var(--coral);
+  font-style: normal;
+}
+
+/* ─── Services page: per-card looping animations ─────────────────── */
+
+@keyframes svc-tick {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(12deg); }
+}
+
+.svc-anim-tick {
+  display: inline-flex;
+  animation: svc-tick 3s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.svc-anim-tick.is-active {
+  animation-play-state: running;
+}
+
+@keyframes svc-progress-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.svc-anim-progress-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(34,51,44,0.12);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.svc-anim-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--ink);
+  border-radius: 3px;
+  animation: svc-progress-fill 4s linear infinite;
+  animation-play-state: paused;
+}
+
+.svc-anim-progress-fill.is-active {
+  animation-play-state: running;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-anim-tick,
+  .svc-anim-progress-fill {
+    animation: none !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .svc-hero-section {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 60px 0;
+  }
+
+  .svc-hero-inner {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .svc-hero-title {
+    font-size: clamp(3rem, 5vw, 4.25rem);
+    line-height: 1.05;
+    max-width: none;
+  }
+
+  .svc-hero-diagram {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .svc-section {
+    padding: var(--section-pad) 0;
+  }
+
+  .svc-row {
+    display: grid;
+    grid-template-columns: 55% 40%;
+    column-gap: 5%;
+    align-items: center;
+  }
+
+  .svc-row--reverse .svc-row-text {
+    order: 2;
+  }
+
+  .svc-row--reverse .svc-row-card {
+    order: 1;
+  }
+
+  .svc-row-card {
+    min-width: 420px;
+  }
+
+  .svc-subline {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+  }
+
+  .svc-body {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    max-width: 55ch;
+  }
+}
+
+/* ─── Projects: workflow mockup card ───────────────────────────────── */
+
+.svc-row-card {
+  min-width: 0;
+}
+
+.wf-card {
+  position: relative;
+  background: var(--ink);
+  border-radius: var(--radius-card);
+  padding: 2rem 2.25rem;
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  min-height: 500px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.wf-dotgrid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.wf-card-inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.wf-flow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.55rem;
+}
+
+.wf-flow-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.wf-elbow {
+  width: 22px;
+  height: 22px;
+  margin-left: 10px;
+  border-left: 1.5px solid rgba(74, 222, 128, 0.4);
+  border-bottom: 1.5px solid rgba(74, 222, 128, 0.4);
+  border-bottom-left-radius: 10px;
+}
+
+.wf-status-row {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (max-width: 1279px) {
+  .wf-card {
+    min-height: 380px;
+    padding: 1.5rem 1.75rem;
+  }
+
+  .wf-flow-row {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+}
+
+/* ─── Testimonials (carousel, after withsocialcatalyst.com) ────────── */
+
+.testimonials-section {
+  padding: 72px 0;
+}
+
+.tcar {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  outline: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.tcar-track {
+  display: flex;
+  align-items: stretch;
+  transition: transform 500ms ease-in-out;
+}
+
+.tcar-slide {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
+/* Left: photo panel */
+.tcar-photo {
+  position: relative;
+  min-height: 22rem;
+  overflow: hidden;
+}
+
+.tcar-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.tcar-photo-initials {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 7rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.1);
+  user-select: none;
+}
+
+.tcar-photo-shade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.tcar-photo-caption {
+  position: absolute;
+  left: 32px;
+  right: 32px;
+  bottom: 32px;
+  z-index: 1;
+}
+
+.tcar-photo-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tcar-photo-industry {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Right: content */
+.tcar-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px 80px 32px 40px;
+}
+
+.tcar-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.tcar-meta {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: var(--ink2);
+  white-space: pre-wrap;
+}
+
+.tcar-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--line-2);
+}
+
+.tcar-metric-value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.tcar-metric-label {
+  margin: 4px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--ink2);
+}
+
+.tcar-hats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 24px 0 0;
+  list-style: none;
+  border-top: 1px dashed var(--line-2);
+}
+
+.tcar-hats li {
+  padding: 6px 12px;
+  border-radius: var(--radius-chip);
+  background: var(--peach);
+  color: var(--coral-d);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.tcar-quote-block {
+  padding-top: 24px;
+  border-top: 1px dashed var(--line-2);
+}
+
+.tcar-quote {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--body);
+}
+
+.tcar-author {
+  margin: 12px 0 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.tcar-author span {
+  font-weight: 400;
+  color: var(--ink2);
+}
+
+.tcar-readmore {
+  margin-top: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--coral-d);
+  cursor: pointer;
+}
+
+.tcar-readmore:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Arrows: vertically centred on the card edges */
+.tcar-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink2);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.tcar-arrow-prev { left: 24px; }
+.tcar-arrow-next { right: 24px; }
+
+.tcar-arrow:hover:not(:disabled) {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.tcar-arrow:active:not(:disabled) {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.tcar-arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Face row: one button per testimonial, in place of dots */
+.tcar-faces {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.tcar-face {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 10px 14px 10px 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper-light);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.tcar-face:hover {
+  background: #fff;
+  border-color: var(--line-2);
+  transform: translateY(-1px);
+}
+
+.tcar-face.is-active {
+  background: #fff;
+  border-color: var(--coral);
+  box-shadow: 0 6px 18px rgba(255, 92, 53, 0.14);
+}
+
+.tcar-face-avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.tcar-face-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+
+.tcar-face-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tcar-face-name,
+.tcar-face-company {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tcar-face-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink2);
+  transition: color 0.25s ease;
+}
+
+.tcar-face.is-active .tcar-face-name,
+.tcar-face:hover .tcar-face-name {
+  color: var(--ink);
+}
+
+.tcar-face-company {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Full-testimonial reading panel (native <dialog>) */
+.tdialog {
+  width: min(44rem, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: #fff;
+  color: var(--body);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.35);
+}
+
+.tdialog[open] {
+  animation: tdialogIn 260ms var(--ease);
+}
+
+.tdialog::backdrop {
+  background: rgba(34, 51, 44, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.tdialog[open]::backdrop {
+  animation: tdialogFade 260ms ease;
+}
+
+@keyframes tdialogIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes tdialogFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+html:has(.tdialog[open]) {
+  overflow: hidden;
+}
+
+.tdialog-inner {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 48px);
+}
+
+.tdialog-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tdialog-avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+}
+
+.tdialog-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+
+.tdialog-who {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tdialog-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.tdialog-role {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.tdialog-close {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tdialog-close:hover {
+  background: var(--coral);
+  color: #fff;
+}
+
+.tdialog-body {
+  overflow-y: auto;
+  padding: 24px 32px 32px;
+}
+
+.tdialog-mark {
+  display: block;
+  height: 32px;
+  font-family: var(--font-display);
+  font-size: 64px;
+  line-height: 0.9;
+  color: var(--coral);
+}
+
+.tdialog-body p {
+  margin: 16px 0 0;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .tdialog-head { padding: 16px; }
+  .tdialog-body { padding: 16px 20px 24px; }
+}
+
+@media (max-width: 1023px) {
+  .tcar-slide {
+    grid-template-columns: 1fr;
+  }
+  .tcar-photo {
+    min-height: 16rem;
+  }
+  .tcar-body {
+    padding: 32px;
+  }
+  /* centre the arrows on the photo, clear of the text */
+  .tcar-arrow {
+    top: 8rem;
+  }
+  .tcar-arrow-prev { left: 16px; }
+  .tcar-arrow-next { right: 16px; }
+  .tcar-faces {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tcar-faces::-webkit-scrollbar { display: none; }
+  .tcar-face { flex: 0 0 auto; max-width: 15rem; }
+}
+
+@media (max-width: 640px) {
+  .testimonials-section {
+    padding: 48px 0;
+  }
+  .tcar-body {
+    padding: 24px 20px 28px;
+  }
+  .tcar-photo-caption {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tcar-track,
+  .tcar-face,
+  .tcar-arrow {
+    transition: none !important;
+  }
+  .tdialog[open],
+  .tdialog[open]::backdrop {
+    animation: none !important;
+  }
+}
+
+/* ─── Cal.com booking modal ────────────────────────────────────────── */
+
+.cal-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 24, 21, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 999;
+  animation: calBackdropIn 0.2s ease;
+}
+
+@keyframes calBackdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.cal-modal-panel {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: min(760px, 90vh);
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
+  animation: calPanelIn 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes calPanelIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.cal-modal-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.cal-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(34, 51, 44, 0.08);
+  color: #22332C;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.2s ease;
+}
+
+.cal-modal-close:hover {
+  background: rgba(255,92,53, 0.16);
+  color: #ff5c35;
+}
+
+.text-ramp {
+  color: var(--coral);
+  background: linear-gradient(90deg, var(--ink) 0%, var(--coral) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===========================================================================
+   BLOCK VOCABULARY
+
+   The shared kit the big homepage/about sections are built from: a dark pill
+   eyebrow, a display heading whose tail carries the tonal ramp, and two sizes
+   of soft card that nest inside each other.
+
+   Deliberately flat — no shadows. Separation comes from the tone step between
+   --paper-light, --paper and --cream, which is what the third tier was for.
+=========================================================================== */
+
+.pill-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}
+
+.block-head { display: flex; flex-direction: column; align-items: flex-start; gap: 1.1rem; }
+.block-head.is-center { align-items: center; text-align: center; }
+
+.block-title {
+  font-size: clamp(2.05rem, 1.4rem + 2.3vw, 3.1rem);
+  line-height: 1.08;
+  letter-spacing: -0.014em;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+  max-width: 22ch;
+  text-wrap: balance;
+}
+.block-head.is-center .block-title { max-width: 26ch; }
+
+.block-lede {
+  font-size: clamp(1.0rem, 0.96rem + 0.3vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--body);
+  margin: 0;
+  max-width: 48ch;
+}
+
+/* The outer container. Big radius, deepest of the three warm tones. */
+.soft-panel {
+  background: var(--cream);
+  border-radius: 24px;
+  padding: clamp(1.25rem, 0.9rem + 1.4vw, 2rem);
+}
+
+/* The inner object. One step lighter than whatever it sits on, so nesting
+   reads without a single border. */
+.soft-card {
+  background: var(--paper);
+  border-radius: 18px;
+  padding: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+}
+
+/* ---------------------------------------------------------------------------
+   What I do — mosaic grid
+
+   Four tile sizes on a 6-column grid with dense packing, so the cards
+   interlock instead of sitting in tidy rows. Copy is written to the tile,
+   not the other way round: the small and tall tiles carry shorter bodies.
+--------------------------------------------------------------------------- */
+.whatido { background: var(--bg); }
+.whatido-title { max-width: 20ch; }
+
+/* Six cards placed around a reserved centre, with a hub in the void and
+   connectors measured to each card. Rows 3-4 of columns 3-4 are deliberately
+   left empty — that hole is the whole composition. */
+.wid-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.25rem;
+  margin-top: 3rem;
+  align-items: start;
+}
+.wid-card { display: flex; flex-direction: column; position: relative; z-index: 1; }
+
+/* Mosaic: cards span the grid at four different widths, with columns 3-4 of
+   rows 3-4 left empty for the hub. Cards are free to reach across the middle
+   because the connectors target the nearest point on a card's border rather
+   than one nominated edge — a card above the hub is simply entered through
+   its bottom. */
+/* The mosaic as it was. Four tile widths spanning the grid, with columns
+   3-4 of rows 3-4 left empty for the hub. */
+.wid-tl { grid-area: 1 / 1 / 3 / 5; }
+.wid-tr { grid-area: 1 / 5 / 3 / 7; }
+.wid-ml { grid-area: 3 / 1 / 5 / 3; }
+.wid-mr { grid-area: 3 / 5 / 5 / 7; }
+.wid-bl { grid-area: 5 / 1 / 7 / 4; }
+.wid-br { grid-area: 5 / 4 / 7 / 7; }
+.wid-cta   { grid-area: 7 / 1 / 8 / 5; }
+.wid-quiet { grid-area: 7 / 5 / 8 / 7; }
+
+.wid-hub {
+  grid-area: 3 / 3 / 5 / 5;
+  place-self: center;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: clamp(7rem, 10vw, 9.5rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--coral);
+  color: #fff;
+  box-shadow: 0 0 0 10px var(--peach);
+}
+/* Barely there on purpose: a slow breath so the hub reads as alive without
+   becoming another thing competing for attention against six looping icons.
+   
+   The ring pulses rather than the button scaling. Scaling the element makes
+   it a permanently moving hit target — it never settles, which is worse for
+   anyone with a motor impairment and stops automated tooling being able to
+   click it at all. Growing the box-shadow spread looks the same and leaves
+   the button's box exactly where it is. */
+@media (prefers-reduced-motion: no-preference) {
+  .wid-hub { animation: hub-breathe 5.5s ease-in-out infinite; }
+  @keyframes hub-breathe {
+    0%, 100% { box-shadow: 0 0 0 9px var(--peach); }
+    50%      { box-shadow: 0 0 0 15px var(--peach); }
+  }
+}
+
+.wid-hub span {
+  font-size: clamp(1.4rem, 1.1rem + 0.9vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1;
+}
+
+/* the connectors, drawn under the cards */
+.wid-spokes {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+/* Node-editor connectors: a thin line, a port at each end, an arrowhead
+   landing on the card. */
+.wid-spokes .spoke-line {
+  fill: none;
+  stroke: var(--coral);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.wid-spokes .spoke-head { fill: var(--coral); }
+.wid-spokes .spoke-port {
+  fill: var(--bg);
+  stroke: var(--coral);
+  stroke-width: 2;
+}
+
+/* The diagram needs room. Below 1280 the mosaic tightens until the gaps
+   between cards are narrower than any curve can thread — verified by
+   sampling every rendered path against every card rect at seven widths, and
+   1280 is where the last route stops fitting. Rather than ship a connector
+   that visibly cuts through a card, the whole thing becomes a plain stack:
+   no void, no hub, no wiring. */
+@media (max-width: 1279px) {
+  .wid-card { grid-area: auto !important; grid-column: span 3 !important; }
+  .wid-hub, .wid-spokes { display: none; }
+}
+@media (max-width: 720px) {
+  .wid-grid { grid-template-columns: 1fr !important; }
+  .wid-card { grid-column: auto !important; }
+}
+
+.wid-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  background: var(--peach);
+  color: var(--coral-d);
+  margin-bottom: 1.4rem;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+.wid-icon svg { width: 25px; height: 25px; overflow: visible; }
+.wid-card:hover .wid-icon { background: var(--coral); color: #fff; }
+
+.wid-title {
+  font-size: clamp(1.1rem, 1rem + 0.35vw, 1.35rem);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 0 0.6rem;
+}
+.wid-body { font-size: 15.5px; line-height: 1.6; color: var(--body); margin: 0; }
+
+.wid-cta { background: var(--peach); }
+.wid-cta-btn { margin-top: auto; align-self: flex-start; }
+.wid-cta .wid-body { margin-bottom: 1.25rem; }
+.wid-quiet { background: var(--cream); }
+.wid-link {
+  margin-top: auto;
+  align-self: flex-start;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--coral-d);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.wid-card { transition: background-color 0.25s var(--ease); }
+.wid-card:hover { background: var(--paper-light); }
+.wid-cta:hover { background: #ffdccd; }
+.wid-quiet:hover { background: var(--paper); }
+
+/* ---------------------------------------------------------------------------
+   Icon motion — always running.
+
+   Each icon loops on a 5.2s cycle: the tile pops, the moving part does the
+   thing the service does, then it rests. Most of the cycle is rest, which is
+   what keeps six simultaneous loops from reading as a fairground.
+
+   --stagger is set per card from the render, so they fire in sequence down
+   the grid rather than all at once.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* The pop: a quick overshoot and settle, to catch the eye. */
+  .wid-icon { animation: ic-pop 3.2s var(--ease) var(--stagger, 0s) infinite; }
+
+  /* Hover replaces the loop with a single fast pop that starts on the frame
+     the pointer lands. Without this the tile only reacts when its own cycle
+     next comes round, which read as lag. */
+  .wid-card:hover .wid-icon { animation: ic-pop-now 0.4s var(--ease) 0s 1; }
+  @keyframes ic-pop-now {
+    0%   { transform: scale(1); }
+    38%  { transform: scale(1.18); }
+    68%  { transform: scale(0.96); }
+    100% { transform: scale(1); }
+  }
+  @keyframes ic-pop {
+    0%, 0.1%   { transform: scale(1); }
+    5%         { transform: scale(1.16); }
+    12%        { transform: scale(0.97); }
+    19%, 100%  { transform: scale(1); }
+  }
+
+  .ic-scan, .ic-needle, .ic-travel, .ic-type, .ic-deal, .ic-lean {
+    animation-duration: 3.2s;
+    animation-timing-function: var(--ease);
+    animation-iteration-count: infinite;
+    animation-delay: var(--stagger, 0s);
+  }
+
+  /* the scan sweeps the block, then rests */
+  .ic-scan { animation-name: ic-scan; opacity: 0; }
+  @keyframes ic-scan {
+    0%       { transform: translateY(0); opacity: 0; }
+    6%, 22%  { opacity: 0.9; }
+    28%      { transform: translateY(9px); opacity: 0; }
+    100%     { transform: translateY(9px); opacity: 0; }
+  }
+
+  /* the dial takes its reading and returns */
+  .ic-needle { animation-name: ic-needle; }
+  @keyframes ic-needle {
+    0%        { transform: rotate(-38deg); }
+    14%       { transform: rotate(56deg); }
+    22%       { transform: rotate(48deg); }
+    46%, 100% { transform: rotate(-38deg); }
+  }
+
+  /* a payload crosses the wire */
+  .ic-travel { animation-name: ic-travel; }
+  @keyframes ic-travel {
+    0%       { transform: translateX(0); opacity: 0; }
+    6%, 20%  { opacity: 1; }
+    26%      { transform: translateX(6px); opacity: 0; }
+    100%     { transform: translateX(6px); opacity: 0; }
+  }
+
+  /* the agent types a burst, then waits */
+  .ic-type { animation-name: ic-type; }
+  .ic-type-2 { animation-delay: calc(var(--stagger, 0s) + 0.12s) !important; }
+  .ic-type-3 { animation-delay: calc(var(--stagger, 0s) + 0.24s) !important; }
+  @keyframes ic-type {
+    0%, 24%, 100% { transform: translateY(0); opacity: 0.5; }
+    6%            { transform: translateY(-2.5px); opacity: 1; }
+    12%           { transform: translateY(0); opacity: 0.8; }
+    18%           { transform: translateY(-2.5px); opacity: 1; }
+  }
+
+  /* the deal advances a stage, then a new one appears at the start */
+  .ic-deal { animation-name: ic-deal; }
+  @keyframes ic-deal {
+    0%        { transform: translate(0, 0); opacity: 1; }
+    16%       { transform: translate(8px, 5.5px); opacity: 1; }
+    30%       { transform: translate(8px, 5.5px); opacity: 0; }
+    31%       { transform: translate(0, 0); opacity: 0; }
+    38%, 100% { transform: translate(0, 0); opacity: 1; }
+  }
+
+  /* the room leans in and back */
+  .ic-lean { animation-name: ic-lean-l; }
+  .ic-lean-2 { animation-name: ic-lean-r; }
+  @keyframes ic-lean-l {
+    0%, 100% { transform: translate(0, 0); }
+    12%, 24% { transform: translate(1.2px, -1.2px); }
+  }
+  @keyframes ic-lean-r {
+    0%, 100% { transform: translate(0, 0); }
+    12%, 24% { transform: translate(-1.2px, -1.2px); }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   BY THE NUMBERS — the board
+   Replaces the old six-even-rows list. Everything is prefixed bnum- and
+   nothing here is a bare element selector, so the block cannot reach any
+   other page — the .svc-body collision on /services was the lesson.
+   ═════════════════════════════════════════════════════════════════════════ */
+.bnum-grid {
+  display: grid;
+  grid-template-columns: 35% 65%;
+  align-items: start;
+}
+.bnum-left { padding-right: 4rem; }
+
+.bnum-h2 {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(2.625rem, 5vw, 3.75rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.75rem;
+}
+.bnum-h2 span { display: block; color: #22332C; }
+.bnum-h2-coral { color: var(--coral) !important; }
+
+/* Career line. Motive and Soch have no logo asset, so they carry their name
+   at a weight that holds its own beside the three that do. */
+.bnum-tl { position: relative; margin-bottom: 2rem; }
+.bnum-tl-track {
+  position: absolute; left: 11px; top: 12px; bottom: 12px; width: 2px;
+  background: linear-gradient(to bottom, #C17A5A 0%, rgba(193,122,90,0.12) 100%);
+}
+.bnum-tl-row {
+  display: flex; align-items: center; gap: 0.875rem;
+  min-height: 36px; margin-bottom: 1.15rem; opacity: 0;
+}
+.bnum-tl-row:last-child { margin-bottom: 0; }
+.bnum[data-seen="true"] .bnum-tl-row {
+  animation: bnum-slide 0.5s ease forwards;
+}
+.bnum[data-seen="true"] .bnum-tl-row:nth-child(2) { animation-delay: 0.15s; }
+.bnum[data-seen="true"] .bnum-tl-row:nth-child(3) { animation-delay: 0.27s; }
+.bnum[data-seen="true"] .bnum-tl-row:nth-child(4) { animation-delay: 0.39s; }
+.bnum[data-seen="true"] .bnum-tl-row:nth-child(5) { animation-delay: 0.51s; }
+.bnum[data-seen="true"] .bnum-tl-row:nth-child(6) { animation-delay: 0.63s; }
+@keyframes bnum-slide {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.bnum-tl-node {
+  width: 24px; height: 24px; border-radius: 50%; flex: 0 0 auto;
+  border: 2px solid #C17A5A; background: var(--cream);
+  position: relative; z-index: 1;
+}
+.bnum-tl-node.is-live {
+  border-color: var(--coral); background: var(--coral);
+  animation: bnum-pulse 2.2s ease-in-out infinite;
+}
+@keyframes bnum-pulse {
+  0%, 100% { box-shadow: 0 0 0 5px rgba(255,92,53,0.18); }
+  50%      { box-shadow: 0 0 0 11px rgba(255,92,53,0.06); }
+}
+.bnum-tl-mark { flex: 0 0 112px; display: flex; align-items: center; }
+/* Logos are sized by eye to sit at the weight of the set names: the wide
+   wordmarks by width, Bolt (a tall mark) by height. */
+.bnum-tl-logo { display: block; height: auto; width: 96px; }
+.bnum-tl-logo[data-logo="bolt"] { width: auto; height: 34px; }
+.bnum-tl-name {
+  font-family: var(--font-inter-tight), sans-serif;
+  font-size: 20px; font-weight: 600; letter-spacing: -0.015em; color: #22332C;
+}
+.bnum-tl-year {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 0.875rem; font-weight: 500; color: #5C5750;
+  font-variant-numeric: tabular-nums;
+}
+.bnum-lede {
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(1.125rem, 1.5vw, 1.25rem);
+  color: #4A5868; line-height: 1.7; max-width: 300px; margin: 0;
+}
+
+/* ── The board ───────────────────────────────────────────────────────── */
+.bnum-head,
+.bnum-row {
+  display: grid;
+  grid-template-columns: 78px 116px minmax(0, 1fr) 98px minmax(150px, 172px);
+  align-items: center;
+  gap: 0;
+}
+.bnum-head {
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid #22332C;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 10.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint);
+}
+.bnum-head > span,
+.bnum-row > span { padding: 0 14px; }
+.bnum-head > span:first-child,
+.bnum-row > span:first-child { padding-left: 0; }
+.bnum-head > span + span,
+.bnum-row > span + span { border-left: 1px solid var(--line-2); }
+.bnum-r { text-align: right; }
+
+.bnum-row {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line-2);
+  opacity: 0; transform: translateY(8px);
+  transition: background 0.25s ease;
+}
+.bnum[data-seen="true"] .bnum-row {
+  animation: bnum-rise 0.45s cubic-bezier(.22,.7,.3,1) forwards var(--d);
+}
+@keyframes bnum-rise { to { opacity: 1; transform: none; } }
+.bnum-row:hover { background: #F0E8DC; }
+.bnum-row > span { align-self: stretch; display: flex; align-items: center; }
+
+.bnum-when {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 13px; color: #22332C; white-space: nowrap;
+}
+.bnum-where {
+  font-family: var(--font-inter-tight), sans-serif;
+  font-size: 15px; font-weight: 600; color: #22332C; letter-spacing: -0.01em;
+}
+.bnum-what {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 14.5px; line-height: 1.45; color: #22332C;
+}
+.bnum-status { justify-content: flex-start; }
+.bnum-chip {
+  display: inline-block; padding: 5px 8px 5px 9px; border-radius: 4px;
+  border: 1px solid var(--line-2); color: var(--faint);
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  line-height: 1.3; white-space: nowrap;
+}
+.bnum-chip[data-kind="ongoing"] { border-color: var(--coral); color: var(--coral); }
+.bnum-chip[data-kind="shipped"] { border-color: #4E8C6A; color: #3E7355; }
+/* The reading never wraps: the two longest values set the column width, and
+   the breakpoints shrink the type rather than break either over two lines. */
+.bnum-read {
+  justify-content: flex-end; text-align: right; white-space: nowrap;
+  font-family: var(--font-playfair), serif;
+  font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.025em;
+  color: var(--coral); font-variant-numeric: tabular-nums lining-nums;
+}
+
+@media (max-width: 1279px) {
+  .bnum-head, .bnum-row {
+    grid-template-columns: 70px 104px minmax(0, 1fr) 90px minmax(126px, 140px);
+  }
+  .bnum-head > span, .bnum-row > span { padding: 0 10px; }
+  .bnum-read { font-size: 25px; }
+}
+
+@media (max-width: 1023px) {
+  .bnum-grid { grid-template-columns: 1fr; gap: 40px; }
+  .bnum-left { padding-right: 0; }
+  .bnum-head, .bnum-row {
+    grid-template-columns: 78px 116px minmax(0, 1fr) 98px minmax(150px, 172px);
+  }
+  .bnum-read { font-size: 30px; }
+}
+
+/* Five columns cannot survive a phone, and a horizontally scrolling table
+   would be worse than admitting that — the row becomes a stacked record. */
+@media (max-width: 767px) {
+  .bnum-head { display: none; }
+  .bnum-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 6px; padding: 20px 0;
+  }
+  .bnum-row > span,
+  .bnum-row > span + span { border-left: 0; padding: 0; }
+  .bnum-when { grid-row: 1; font-size: 12px; color: var(--faint); }
+  .bnum-where { grid-row: 1; justify-content: flex-end; }
+  .bnum-what { grid-row: 2; grid-column: 1 / 3; }
+  .bnum-status { grid-row: 3; }
+  .bnum-read { grid-row: 3; font-size: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bnum[data-seen="true"] .bnum-row,
+  .bnum[data-seen="true"] .bnum-tl-row {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .bnum-tl-node.is-live { animation: none; }
+}
