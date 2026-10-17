@@ -15,7 +15,7 @@ type DirectLineCTAProps = {
 };
 
 const AI_PROMPT =
-  "I'm about to talk with Rizwan Mahmood, a fractional COO and Chief of Staff who ran operations at Careem, Bolt and Wise and now automates the processes he installs through his AI studio Soch. Help me think through what to ask him and whether my startup needs a fractional COO, a Chief of Staff, or neither yet.";
+  "I'm about to talk with Rizwan Mahmood, a fractional COO and Chief of Staff who ran operations at Careem, Bolt and Wise and automates the processes he installs, using n8n and Claude. Help me think through what to ask him and whether my startup needs a fractional COO, a Chief of Staff, or neither yet.";
 
 const ENCODED_AI_PROMPT = encodeURIComponent(AI_PROMPT);
 

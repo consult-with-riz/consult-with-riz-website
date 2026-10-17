@@ -60,7 +60,9 @@ const socialLinks = [
   { label: "SUBSTACK", href: "https://conversationswithriz.substack.com/", Icon: SubstackIcon, brand: "#FF6719" },
 ];
 
-const navColumns = [
+type FooterLink = { label: string; href: string | null; external?: boolean; logo?: string };
+
+const navColumns: { label: string; links: FooterLink[] }[] = [
   {
     label: "Explore",
     links: [
@@ -79,11 +81,11 @@ const navColumns = [
     ],
   },
   {
-    label: "Company",
+    label: "Contact",
     links: [
-      { label: "Soch → withsoch.com", href: "https://withsoch.com", external: true },
-      { label: "riz@withsoch.com", href: "mailto:riz@withsoch.com" },
-      { label: "Anthropic Partner", href: null, logo: "/logos/anthropic.png" },
+      { label: "riz@consultwithriz.com", href: "mailto:riz@consultwithriz.com" },
+      { label: "Book a session", href: "/booking" },
+      { label: "Tallinn, Estonia", href: null },
     ],
   },
 ];
@@ -411,7 +413,7 @@ export default function Footer({ showCta }: { showCta?: boolean } = {}) {
                 </div>
                 <div className="ftr-cta-actions">
                   <CalBookingButton className="ftr-btn-primary">Book a call</CalBookingButton>
-                  <EmailMeButton email="riz@withsoch.com" className="ftr-btn-ghost" />
+                  <EmailMeButton email="riz@consultwithriz.com" className="ftr-btn-ghost" />
                 </div>
               </div>
             </AnimateIn>

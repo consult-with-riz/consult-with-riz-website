@@ -647,11 +647,11 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Where does the AI part come in?",
-    a: "After the process is clear, never before. Once a weekly report, a handoff or a follow-up runs the same way three times, it gets automated. n8n and the Claude API, built through Soch, my automation company. You keep the systems when I leave.",
+    a: "After the process is clear, never before. Once a weekly report, a handoff or a follow-up runs the same way three times, it gets automated. I design it on n8n and the Claude API. You keep the systems when I leave.",
   },
   {
     q: "What does it cost?",
-    a: "The Ops Diagnostic is a fixed fee, agreed before it starts. COO and Chief of Staff work is a monthly retainer, scoped to days per week on an intro call. Advisory hours are from $140/hr if you just need a second brain on something.",
+    a: "The Ops Diagnostic is $3,500, fixed, and credited against the first month if we carry on. COO and Chief of Staff work is a monthly retainer scoped to your stage and days per week, quoted once the Diagnostic shows what the job actually is. A single 60-minute session is $140 if you just need a second brain on something.",
   },
   {
     q: "How long do engagements run?",
@@ -659,7 +659,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "What's your background?",
-    a: "Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. At Bolt I took courier costs from 21% to 14% of GMV across 20 countries. At Wise, month-end close went from 8 days to 3. ACCA-qualified. Now co-founder of Soch.",
+    a: "Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. At Bolt I took courier costs from 21% to 14% of GMV across 20 countries. At Wise, month-end close went from 8 days to 3. ACCA-qualified. Independent since 2025.",
   },
 ];
 
@@ -919,9 +919,9 @@ export default function Services() {
                   first30: "Map the operation, set the weekly rhythm, fix the two things hurting most.",
                   by90: "Metrics trusted, owners clear, costs understood, the founder out of the weeds.",
                   cadence: "1–2 days a week, embedded in the leadership team.",
-                  price: "Monthly retainer from $2,400, scoped on an intro call.",
+                  price: "Monthly retainer, scoped to your stage. Quoted after the Diagnostic.",
                   automation:
-                    "Every process I install gets automated before I hand it over. Reporting, handoffs, follow-ups. Built through Soch on n8n and Claude.",
+                    "Every process I install gets automated before I hand it over. Reporting, handoffs, follow-ups. Designed by me on n8n and Claude.",
                 }}
               />
               <AnimateIn delay={260}>
@@ -980,7 +980,7 @@ export default function Services() {
                   first30: "Audit your week. Cut what shouldn't reach you. Set the meeting rhythm.",
                   by90: "Board updates on autopilot, decisions tracked, your calendar back.",
                   cadence: "1–2 days a week, plus async on Slack.",
-                  price: "Monthly retainer from $2,400, scoped on an intro call.",
+                  price: "Monthly retainer, scoped to your stage. Quoted after the Diagnostic.",
                   automation:
                     "Meeting notes to actions, actions to owners, nudges until done, board update drafted from live numbers. You review. The system does the chasing.",
                 }}
@@ -1052,9 +1052,9 @@ export default function Services() {
                   first30: "Day 1–14: interviews, mapping, the diagnosis. Day 14: the plan, walked through live.",
                   by90: "You run the plan yourself, or I run it with you as COO or Chief of Staff.",
                   cadence: "Two weeks, fixed scope. Remote or on-site.",
-                  price: "Fixed fee, agreed before it starts.",
+                  price: "$3,500 fixed. Credited against month one if we continue.",
                   automation:
-                    "Every bottleneck gets a verdict: fix by hand, automate, or leave alone. The automate list is scoped well enough that Soch can quote it the same week.",
+                    "Every bottleneck gets a verdict: fix by hand, automate, or leave alone. The automate list is scoped well enough to build straight away.",
                 }}
               />
               <AnimateIn delay={260}>
@@ -1134,13 +1134,13 @@ export default function Services() {
                 <h3>Just need a second brain?</h3>
                 <p>
                   An hour on a hiring plan, a cost problem, a messy process, or
-                  what to automate first. No retainer.
+                  what to automate first. No retainer, no commitment.
                 </p>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 }}>
-                <span className="meta-label">From</span>
-                <span className="svc-advisory-price">$140<span>/hr</span></span>
-                <CalBookingButton className="btn-ghost">Book an hour →</CalBookingButton>
+                <span className="meta-label">60 minutes</span>
+                <span className="svc-advisory-price">$140<span>/session</span></span>
+                <CalBookingButton className="btn-ghost">Book a session →</CalBookingButton>
               </div>
             </div>
           </AnimateIn>

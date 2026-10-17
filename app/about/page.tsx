@@ -9,7 +9,6 @@ const pills = [
   { label: "Careem", logo: "/logos/careem.png" },
   { label: "Bolt", logo: "/logos/bolt.png" },
   { label: "Wise", logo: "/logos/wise.svg" },
-  { label: "Anthropic Partner", logo: "/logos/anthropic.png" },
 ];
 
 const timeline = [
@@ -75,9 +74,9 @@ const timeline = [
   },
   {
     year: "2025",
-    company: "Soch",
-    body: "Co-founded an AI workflow automation agency. 20+ workflows live across 7+ clients.",
-    quote: "Around 40 hours a week of manual work removed per engagement. Anthropic Claude Partner.",
+    company: "Independent",
+    body: "Went independent. Designing AI workflow automations for founder-led teams: 20+ workflows live across 7+ clients.",
+    quote: "Around 40 hours a week of manual work removed per engagement. Fix the process, then automate it.",
   },
   {
     year: "Now",
@@ -155,11 +154,9 @@ const beyondFacts: BeyondFact[] = [
   },
   {
     icon: Handshake,
-    title: "Soch",
-    body: "My AI automation agency. Where the systems I design for clients get built.",
-    extra: "n8n and the Claude API. Anthropic Claude Partner.",
-    linkText: "withsoch.com →",
-    linkHref: "https://withsoch.com",
+    title: "Fractional, already",
+    body: "Product Manager at Shaping Wealth, working on Lydia, an AI coaching platform for financial advisors.",
+    extra: "Embedded part-time in someone else's team. The same model I offer you.",
   },
 ];
 
@@ -489,7 +486,7 @@ export default function About() {
                   marginBottom: 12,
                 }}
               >
-                The difference: whatever repeats gets automated before I leave. That&apos;s Soch, my AI automation agency. You keep systems that run, not a deck.
+                The difference: whatever repeats gets automated before I leave. I design those systems myself, on n8n and Claude. You keep systems that run, not a deck.
               </p>
             </AnimateIn>
 

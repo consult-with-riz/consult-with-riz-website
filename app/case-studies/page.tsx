@@ -27,7 +27,7 @@ const STAT_CARDS = [
   { label: "SAVED", number: "$3.9M", desc: "courier cost, 6 months, Bolt" },
   { label: "CLOSE", number: "8→3", desc: "days to month-end close, Wise" },
   { label: "DISPATCH", number: "20s", desc: "down from 3 minutes, Careem" },
-  { label: "AUTOMATED", number: "~40h", desc: "manual work removed weekly, Soch" },
+  { label: "AUTOMATED", number: "~40h", desc: "manual work removed weekly, per client" },
 ];
 
 const CASE_IMAGES: Record<string, string> = {
@@ -246,7 +246,7 @@ const caseRowsBase: CaseRow[] = [
   {
     id: "cs-07",
     num: "07",
-    tag: "SOCH · AUTOMATION",
+    tag: "INDEPENDENT · AUTOMATION",
     title: "The layer underneath: AI that runs the process",
     result: "20+ workflows live · ~40 hrs/week removed",
     area: "Automation",
@@ -258,7 +258,7 @@ const caseRowsBase: CaseRow[] = [
       ],
       did: [
         "Fixed the process first, then automated it",
-        "Built on n8n and the Claude API, through Soch",
+        "Designed the automations on n8n and the Claude API",
         "Handed over systems that run without me",
       ],
       outcomes: [
@@ -268,7 +268,7 @@ const caseRowsBase: CaseRow[] = [
       ],
       takeaway:
         "This is what a fractional COO should leave behind. Not a deck. A process that runs on its own.",
-      where: "Soch · 2025–",
+      where: "Client work · 2025–",
     },
   },
 ];

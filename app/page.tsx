@@ -15,7 +15,7 @@ const PORTRAIT_URL =
 
 // ─── ASK-AN-AI POPUP (identical prompt/options/behavior as components/DirectLineCTA.tsx) ──
 const AI_PROMPT =
-  "I'm about to talk with Rizwan Mahmood, a fractional COO and Chief of Staff who ran operations at Careem, Bolt and Wise and now automates the processes he installs through his AI studio Soch. Help me think through what to ask him and whether my startup needs a fractional COO, a Chief of Staff, or neither yet.";
+  "I'm about to talk with Rizwan Mahmood, a fractional COO and Chief of Staff who ran operations at Careem, Bolt and Wise and automates the processes he installs, using n8n and Claude. Help me think through what to ask him and whether my startup needs a fractional COO, a Chief of Staff, or neither yet.";
 
 const ENCODED_AI_PROMPT = encodeURIComponent(AI_PROMPT);
 
@@ -96,7 +96,7 @@ const FLOW = [
   {
     when: "Months 2–3",
     title: "Automate",
-    body: "Whatever repeats gets built into a workflow. Reporting, handoffs, follow-ups. Through Soch, on n8n and Claude.",
+    body: "Whatever repeats gets built into a workflow. Reporting, handoffs, follow-ups. I design it on n8n and Claude.",
   },
   {
     when: "Then",
@@ -1195,12 +1195,11 @@ export default function Home() {
 
                   {/* Price block - right side, stacked vertically */}
                   <div className="merged-hero-price">
-                    <span className="route-price-from">From</span>
+                    <span className="route-price-from">Monthly retainer</span>
                     <span className="route-price-value">
-                      <span className="route-price-amount">$2,400</span>
-                      <span className="route-price-suffix">/mo</span>
+                      <span className="route-price-amount">Scoped</span>
                     </span>
-                    <span className="route-trust-line">Scoped on a 60-min call</span>
+                    <span className="route-trust-line">to your stage · quoted after the Diagnostic</span>
                   </div>
 
                   {/* CTAs - left, under headline/description */}
@@ -1266,7 +1265,7 @@ export default function Home() {
                           <path d="M20 6L9 17l-5-5" />
                         </svg>
                       </span>
-                      Anthropic Partner
+                      Ops + automation, one person
                     </span>
                   </div>
                 </div>
@@ -1290,9 +1289,9 @@ export default function Home() {
                       flexGrow: 1,
                     }}
                   >
-                    Two weeks. How the business really runs, where it breaks, and a 90-day plan with an automation shortlist.
+                    Two weeks. How the business really runs, where it breaks, and a 90-day plan with an automation shortlist. Credited against month one if we continue.
                   </p>
-                  <p className="route-authority-line">Fixed fee · quoted on the call</p>
+                  <p className="route-authority-line">$3,500 · fixed scope</p>
                   <div className="route-card-buttons">
                     <Link href="/services#ops-diagnostic" className="route-btn-primary">
                       Details <span className="route-btn-arrow">→</span>
@@ -1316,7 +1315,7 @@ export default function Home() {
                       flexGrow: 1,
                     }}
                   >
-                    One problem, sixty minutes. Cadence, hiring, cost, or what to automate first. From $140/hr.
+                    One problem, sixty minutes. Cadence, hiring, cost, or what to automate first. $140, flat.
                   </p>
                   <p className="route-authority-line">Recording and action plan included</p>
                   <div className="route-card-buttons">
@@ -1329,10 +1328,10 @@ export default function Home() {
 
               {/* CARD C - Just want to learn? */}
               <AnimateIn delay={440}>
-                <ClickableCard href="https://withsoch.com" className="route-card-v2">
+                <ClickableCard href="/case-studies" className="route-card-v2">
                   <span className="route-card-icon"><RouteBuildIcon /></span>
-                  <span className="route-tag-chip route-tag-chip--coral">AUTOMATION</span>
-                  <p className="route-card-title">Just need it built?</p>
+                  <span className="route-tag-chip route-tag-chip--coral">PROOF</span>
+                  <p className="route-card-title">Want to see the work first?</p>
                   <p
                     style={{
                       fontFamily: "var(--font-dm-sans), sans-serif",
@@ -1342,7 +1341,7 @@ export default function Home() {
                       flexGrow: 1,
                     }}
                   >
-                    You know the process. You want it automated. My studio Soch builds n8n and Claude workflows, fixed scope.
+                    Seven cases from Bolt, Wise, Careem and client work since. What the problem was, what I did, what moved.
                   </p>
                   <p
                     style={{
@@ -1352,11 +1351,11 @@ export default function Home() {
                       color: "#ff5c35",
                     }}
                   >
-                    Anthropic Claude Partner
+                    $3.9M · 8→3 days · 20s
                   </p>
                   <div className="route-card-buttons">
-                    <Link href="https://withsoch.com" target="_blank" rel="noopener noreferrer" className="route-btn-primary">
-                      See Soch <span className="route-btn-arrow">↗</span>
+                    <Link href="/case-studies" className="route-btn-primary">
+                      Case studies <span className="route-btn-arrow">→</span>
                     </Link>
                   </div>
                 </ClickableCard>
