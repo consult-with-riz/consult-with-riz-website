@@ -5,7 +5,7 @@ import ServicesHubDiagram from "@/components/ServicesHubDiagram";
 import CalBookingButton from "@/components/CalModal";
 import { useParallax, useScrollFadeOut } from "@/hooks/useParallax";
 
-const SERVICE_IDS = ["ops-diagnostic", "fractional-coo", "session"];
+const SERVICE_IDS = ["ops-diagnostic", "fractional-coo", "fit-call"];
 
 /* ─── shared micro-styles ─────────────────────────── */
 const sublineStyle = (color: string): React.CSSProperties => ({
@@ -389,6 +389,10 @@ const FAQ: { q: string; a: string }[] = [
     a: "Because most founders can name the symptom, not the problem. Two weeks inside the business tells us whether you need a six-week fix, an ongoing COO or Chief of Staff, or neither. If it's neither, you still leave with the 90-day plan.",
   },
   {
+    q: "What if the Diagnostic isn't worth it?",
+    a: "Then you don't pay for it. If the Day 14 walkthrough isn't worth $1,500 to you, say so and I refund you in full. If we carry on working together, the $1,500 is credited against your first month.",
+  },
+  {
     q: "Who do you work with?",
     a: "Mostly Seed to Series B startups, roughly 10 to 60 people, where operations is the product: marketplaces, logistics, fintech, B2B services with real delivery. Founder-led agencies and service businesses too, usually starting with the Diagnostic.",
   },
@@ -476,6 +480,9 @@ export default function Services() {
           .svc-section,
           .svc-tight { padding: 48px 0; }
         }
+        .svc-advisory-note { margin-top: 0.75rem !important; font-size: 0.9rem; }
+        .svc-advisory-note a { color: var(--coral); font-weight: 600; text-decoration: none; }
+        .svc-advisory-note a:hover { text-decoration: underline; }
         .svc-step {
           display: block;
           font-family: var(--font-geist-mono), monospace;
@@ -583,7 +590,7 @@ export default function Services() {
                   {[
                     { label: "Ops & AI Diagnostic", id: "ops-diagnostic" },
                     { label: "Fractional COO / Chief of Staff", id: "fractional-coo" },
-                    { label: "1:1 session", id: "session" },
+                    { label: "Free fit call", id: "fit-call" },
                   ].map((pill) => (
                     <a
                       key={pill.id}
@@ -638,7 +645,7 @@ export default function Services() {
               </ul>
               <AnimateIn delay={200}>
                 <p className="svc-price-line">
-                  <strong>$1,500</strong> fixed · credited against month one if we continue
+                  <strong>$1,500</strong> fixed · credited against month one if we continue · full refund if the Day 14 walkthrough isn&apos;t worth it to you
                 </p>
               </AnimateIn>
               <AnimateIn delay={260}>
@@ -725,23 +732,27 @@ export default function Services() {
 
       {sectionDivider}
 
-      {/* 1:1 SESSION */}
-      <section id="session" className="svc-tight" style={{ background: "#fff", scrollMarginTop: 96 }}>
+      {/* FREE FIT CALL */}
+      <section id="fit-call" className="svc-tight" style={{ background: "#fff", scrollMarginTop: 96 }}>
         <div className="max-w-site">
           <AnimateIn>
             <div className="svc-advisory">
               <div>
-                <span className="pill-eyebrow">Not ready yet?</span>
-                <h3>Start with an hour.</h3>
+                <span className="pill-eyebrow">Not sure yet?</span>
+                <h3>Start with a free call.</h3>
                 <p>
-                  One problem, sixty minutes. You leave with a plan, whether or not
-                  we work together.
+                  Thirty minutes. Your questions, and a straight answer on whether the
+                  Diagnostic makes sense for you. No pitch.
+                </p>
+                <p className="svc-advisory-note">
+                  Just want advice on one problem, without an engagement?{" "}
+                  <a href="/booking">Book a paid 1:1 hour</a>.
                 </p>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 }}>
-                <span className="meta-label">60 minutes</span>
-                <span className="svc-advisory-price">$140<span>/session</span></span>
-                <CalBookingButton className="btn-ghost">Book a session →</CalBookingButton>
+                <span className="meta-label">30 minutes</span>
+                <span className="svc-advisory-price">Free</span>
+                <CalBookingButton className="btn-coral">Book a free call →</CalBookingButton>
               </div>
             </div>
           </AnimateIn>

@@ -59,9 +59,9 @@ export default function BookingSection() {
                 fontStyle: "normal",
               }}
             >
-              1:1 strategy
+              paid 1:1
             </span>{" "}
-            session.
+            hour.
           </h2>
         </AnimateIn>
       </div>

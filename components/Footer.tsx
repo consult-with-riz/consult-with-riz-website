@@ -77,14 +77,14 @@ const navColumns: { label: string; links: FooterLink[] }[] = [
     links: [
       { label: "Ops & AI Diagnostic", href: "/services#ops-diagnostic" },
       { label: "Fractional COO / Chief of Staff", href: "/services#fractional-coo" },
-      { label: "1:1 session", href: "/services#session" },
+      { label: "Free fit call", href: "/services#fit-call" },
     ],
   },
   {
     label: "Contact",
     links: [
       { label: "riz@consultwithriz.com", href: "mailto:riz@consultwithriz.com" },
-      { label: "Book a session", href: "/booking" },
+      { label: "Paid 1:1 hour", href: "/booking" },
       { label: "Tallinn, Estonia", href: null },
     ],
   },

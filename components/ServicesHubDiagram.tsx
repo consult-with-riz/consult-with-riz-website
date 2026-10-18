@@ -13,7 +13,7 @@ const NR = 74;           // node circle radius
 const NODES = [
   { id: "ops-diagnostic", cx: CX,                                             cy: CY - OR,                                             fill: "#ff5c35", num: "01", label: ["OPS & AI", "DIAGNOSTIC"] },
   { id: "fractional-coo", cx: Math.round(CX + OR * Math.cos(Math.PI / 6)),     cy: Math.round(CY + OR * Math.sin(Math.PI / 6)),     fill: "#22332C", num: "02", label: ["FRACTIONAL COO /", "CHIEF OF STAFF"] },
-  { id: "session",        cx: Math.round(CX + OR * Math.cos(5 * Math.PI / 6)), cy: Math.round(CY + OR * Math.sin(5 * Math.PI / 6)), fill: "#5A6660", num: "03", label: ["1:1 SESSION"] },
+  { id: "fit-call",        cx: Math.round(CX + OR * Math.cos(5 * Math.PI / 6)), cy: Math.round(CY + OR * Math.sin(5 * Math.PI / 6)), fill: "#5A6660", num: "03", label: ["FREE", "FIT CALL"] },
 ] as const;
 
 /* ── component ───────────────────────────────────────────────────── */

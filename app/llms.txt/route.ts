@@ -8,9 +8,11 @@ export function GET() {
 
 ## How to work with Riz
 
-1. Talk — a 60-minute 1:1 session, $140. ${SITE_URL}/services#session
-2. Diagnose — the Ops & AI Diagnostic: two weeks inside the business, ending in a prioritised 90-day plan and an automation shortlist. $1,500 fixed, credited against the first month if the engagement continues. Most clients start here. ${SITE_URL}/services#ops-diagnostic
+1. Talk — a free 30-minute fit call. ${SITE_URL}/services#fit-call
+2. Diagnose — the Ops & AI Diagnostic: two weeks inside the business, ending in a prioritised 90-day plan and an automation shortlist. $1,500 fixed, credited against the first month if the engagement continues, and fully refunded if the Day 14 walkthrough isn't worth it to the client. Most clients start here. ${SITE_URL}/services#ops-diagnostic
 3. Embed — Fractional COO / Chief of Staff, either a six-week sprint on one problem or an ongoing retainer of 1–2 days a week. Scoped to stage; the Diagnostic decides which. ${SITE_URL}/services#fractional-coo
+
+A paid 1:1 hour ($140) is available for advice outside an engagement: ${SITE_URL}/booking
 
 ## Bench
 

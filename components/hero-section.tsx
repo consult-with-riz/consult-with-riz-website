@@ -363,7 +363,8 @@ export default function HeroSection() {
                 <div className="hz-rule" />
 
                 <p className="hz-value-prop">
-                  Fractional COO and Chief of Staff for Seed to Series B startups where operations is the product.{" "}
+                  I help Seed to Series B founders get out of day-to-day operations in
+                  90 days, without hiring a full-time COO.{" "}
                   <b>Ten years inside Careem, Bolt and Wise.</b> Every process I fix
                   gets automated before I hand it back.
                 </p>
@@ -374,7 +375,7 @@ export default function HeroSection() {
                 </ul>
 
                 <div className="hz-cta-row">
-                  <CalBookingButton className="hz-btn-primary">Book a 60-min call →</CalBookingButton>
+                  <CalBookingButton className="hz-btn-primary">Book a free 30-min call →</CalBookingButton>
                   <Link href="/case-studies" className="hz-btn-secondary">See the track record</Link>
                 </div>
 
