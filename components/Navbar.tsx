@@ -6,7 +6,7 @@ import Link from "next/link";
 const navLinks = [
   { label: "Services", href: "/services" },
   { label: "Case studies", href: "/case-studies" },
-  { label: "About", href: "/about" },
+  { label: "My CV", href: "/cv", cta: true },
 ];
 
 export default function Navbar() {
@@ -99,6 +99,19 @@ export default function Navbar() {
   const barColor = light ? "#ffffff" : "var(--ink)";
 
   return (
+    <>
+    <style>{`
+      .nav-cta {
+        display: inline-flex; align-items: center; justify-content: center;
+        padding: 9px 18px; border-radius: 8px;
+        background: var(--coral); color: #fff;
+        font-family: var(--font-dm-sans), sans-serif; font-weight: 600; font-size: 0.95rem;
+        text-decoration: none; white-space: nowrap;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+      .nav-cta:hover { background: var(--coral-d); transform: translateY(-1px); }
+      .nav-cta--menu { align-self: flex-start; margin-top: 0.5rem; font-size: 1.05rem; padding: 11px 22px; }
+    `}</style>
     <header
       style={{
         position: "fixed",
@@ -156,25 +169,31 @@ export default function Navbar() {
             flexShrink: 0,
           }}
         >
-          {navLinks.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              style={{
-                fontFamily: "var(--font-dm-sans), sans-serif",
-                fontWeight: 500,
-                fontSize: "1rem",
-                color: textColor,
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-                transition: "color 0.2s ease",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = textHover)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = textColor)}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {navLinks.map((l) =>
+            "cta" in l ? (
+              <Link key={l.href} href={l.href} className="nav-cta">
+                {l.label}
+              </Link>
+            ) : (
+              <Link
+                key={l.href}
+                href={l.href}
+                style={{
+                  fontFamily: "var(--font-dm-sans), sans-serif",
+                  fontWeight: 500,
+                  fontSize: "1rem",
+                  color: textColor,
+                  textDecoration: "none",
+                  whiteSpace: "nowrap",
+                  transition: "color 0.2s ease",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = textHover)}
+                onMouseLeave={(e) => (e.currentTarget.style.color = textColor)}
+              >
+                {l.label}
+              </Link>
+            )
+          )}
         </nav>
 
         {/* Hamburger */}
@@ -228,14 +247,19 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              style={{
-                fontFamily: "var(--font-dm-sans), sans-serif",
-                fontWeight: 500,
-                fontSize: "1.125rem",
-                color: "var(--body)",
-                textDecoration: "none",
-                padding: "0.5rem 0",
-              }}
+              className={"cta" in l ? "nav-cta nav-cta--menu" : undefined}
+              style={
+                "cta" in l
+                  ? undefined
+                  : {
+                      fontFamily: "var(--font-dm-sans), sans-serif",
+                      fontWeight: 500,
+                      fontSize: "1.125rem",
+                      color: "var(--body)",
+                      textDecoration: "none",
+                      padding: "0.5rem 0",
+                    }
+              }
             >
               {l.label}
             </Link>
@@ -243,5 +267,6 @@ export default function Navbar() {
         </div>
       </div>
     </header>
+    </>
   );
 }

@@ -5,6 +5,14 @@ import { useParallax, useScrollFadeOut } from "@/hooks/useParallax";
 
 const PHOTO_URL = "/riz-photo-new.jpg";
 
+/* The About hero's track record marks, at the same heights. */
+const HERO_LOGOS = [
+  { src: "/logos/spglobal.svg", alt: "S&P Global", h: 22 },
+  { src: "/logos/careem.png", alt: "Careem", h: 26 },
+  { src: "/logos/bolt.png", alt: "Bolt", h: 30 },
+  { src: "/logos/wise.svg", alt: "Wise", h: 24 },
+];
+
 export default function HeroSection() {
   const dotGridRef = useParallax<HTMLDivElement>(0.1);
   const fadeRef = useScrollFadeOut<HTMLDivElement>(420);
@@ -89,9 +97,9 @@ export default function HeroSection() {
 
         .hz-grid {
           display: grid;
-          grid-template-columns: 1.1fr 0.9fr;
-          gap: 52px;
-          align-items: stretch;
+          grid-template-columns: 1.15fr 0.85fr;
+          gap: 56px;
+          align-items: center;
         }
 
         /* LEFT */
@@ -113,10 +121,10 @@ export default function HeroSection() {
         }
 
         .hz-headline {
-          font-size: clamp(2.6rem, 1.5rem + 3.9vw, 4.35rem);
+          font-size: clamp(2.3rem, 1.4rem + 2.6vw, 3.6rem);
           font-weight: 500;
-          line-height: 1.02;
-          letter-spacing: -0.018em;
+          line-height: 1.06;
+          letter-spacing: -0.02em;
           margin-bottom: 0;
           color: var(--hz-forest);
           font-family: var(--font-inter-tight), 'Inter Tight', sans-serif;
@@ -135,7 +143,7 @@ export default function HeroSection() {
           height: 3px;
           background: #ff5c35;
           border-radius: 4px;
-          margin: 22px 0 20px;
+          margin: 20px 0 18px;
         }
 
         .hz-value-prop {
@@ -143,20 +151,20 @@ export default function HeroSection() {
           line-height: 1.55;
           color: var(--hz-forest);
           max-width: 490px;
-          margin-bottom: 28px;
+          margin-bottom: 22px;
           font-family: var(--font-inter-tight), 'Inter Tight', sans-serif;
         }
 
         .hz-role-list {
           list-style: none;
-          margin-bottom: 32px;
+          margin-bottom: 26px;
           padding: 0;
         }
         .hz-role-list li {
           display: flex;
           align-items: flex-start;
           gap: 12px;
-          padding: 13px 0;
+          padding: 11px 0;
           border-bottom: 1px solid var(--hz-line);
           font-size: 16px;
           font-weight: 600;
@@ -177,7 +185,7 @@ export default function HeroSection() {
           display: flex;
           align-items: center;
           gap: 12px;
-          margin-bottom: 26px;
+          margin-bottom: 22px;
           flex-wrap: wrap;
         }
         .hz-btn-primary {
@@ -259,16 +267,17 @@ export default function HeroSection() {
           gap: 14px;
           width: fit-content;
         }
+        /* Same marks and sizes as the About hero's track record row: each
+           logo has its own height so they read at one weight, and none is
+           squeezed into a fixed-width box. */
         .hz-logo-row {
           display: flex;
           align-items: center;
-          gap: 24px;
-          flex-wrap: nowrap;
+          gap: 18px 30px;
+          flex-wrap: wrap;
         }
         .hz-logo-row img {
-          height: 32px;
           width: auto;
-          max-width: 90px;
           object-fit: contain;
           display: block;
         }
@@ -276,38 +285,29 @@ export default function HeroSection() {
         /* RIGHT */
         .hz-right-col {
           position: relative;
-          display: flex;
-          flex-direction: column;
-          gap: 14px;
-          height: 100%;
         }
 
+        /* Identical to the About hero photo: no filter, no dark backing
+           (that showed through the rounded corners as a thin black edge). */
         .hz-photo-card {
-          position: relative;
           border-radius: 20px;
           overflow: hidden;
-          background: #0E0E0D;
-          height: 100%;
-          min-height: 560px;
-          box-shadow: 0 28px 72px -16px rgba(14,14,13,0.38);
-          transition: transform 0.4s ease;
+          aspect-ratio: 4 / 5;
+          box-shadow: 0 28px 72px -16px rgba(14,14,13,0.32);
         }
-        .hz-photo-card:hover { transform: translateY(-4px); }
         .hz-photo-card img {
-          position: absolute;
-          inset: 0;
           width: 100%;
           height: 100%;
           object-fit: cover;
           object-position: top center;
-          filter: contrast(1.04) saturate(0.9);
+          display: block;
         }
 
         .hz-trust-row {
           display: flex;
-          align-items: center;
-          flex-wrap: nowrap;
-          gap: 24px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 14px;
         }
 
         @media (max-width: 960px) {
@@ -316,7 +316,7 @@ export default function HeroSection() {
           .hz-headline { font-size: clamp(2.15rem, 1.2rem + 3.4vw, 2.75rem); }
           /* min-height must be killed here: with aspect-ratio it transfers
              a 560px min-width and blows the grid track past the viewport */
-          .hz-photo-card { aspect-ratio: 4 / 5; min-height: 0; height: auto; }
+          .hz-photo-card { max-width: 420px; }
         }
 
         @media (max-width: 640px) {
@@ -328,17 +328,8 @@ export default function HeroSection() {
           .hz-role-list li { font-size: 16px; padding: 11px 0; }
           .hz-cta-row { margin-bottom: 24px; }
           .hz-btn-primary, .hz-btn-secondary { flex: 1 1 auto; }
-          .hz-trust-row {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px 24px;
-          }
           .hz-ops-num { font-size: 32px; }
           .hz-ops-label { font-size: 14px; max-width: 190px; }
-          .hz-trust-row { flex-wrap: wrap; }
-          .hz-logo-row { gap: 16px; flex-wrap: wrap; }
-          .hz-logo-row img { height: 24px; max-width: 70px; }
         }
       `}</style>
 
@@ -370,7 +361,7 @@ export default function HeroSection() {
                 </p>
 
                 <ul className="hz-role-list">
-                  <li><span className="hz-role-arrow">→</span>Fractional COO or Chief of Staff, 1–2 days a week</li>
+                  <li><span className="hz-role-arrow">→</span>Fractional COO or Chief of Staff, 10–30 hours a week</li>
                   <li><span className="hz-role-arrow">→</span>Most founders start with a two-week Ops &amp; AI Diagnostic</li>
                 </ul>
 
@@ -390,12 +381,10 @@ export default function HeroSection() {
 
                 <div className="hz-social-strip">
                   <div className="hz-logo-row">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/logos/careem.png" alt="Careem" />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/logos/bolt.png" alt="Bolt" />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/logos/wise.svg" alt="Wise" />
+                    {HERO_LOGOS.map((l) => (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img key={l.alt} src={l.src} alt={l.alt} style={{ height: l.h }} />
+                    ))}
                   </div>
                 </div>
                 </div>

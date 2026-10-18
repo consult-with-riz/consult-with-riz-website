@@ -136,7 +136,7 @@ function CooMockup() {
               marginTop: "0.15rem",
             }}
           >
-            Fractional COO · 1–2 days a week
+            Fractional COO · 10–30 hours a week
           </p>
         </div>
       </div>
@@ -481,8 +481,9 @@ export default function Services() {
           .svc-tight { padding: 48px 0; }
         }
         .svc-advisory-note { margin-top: 0.75rem !important; font-size: 0.9rem; }
-        .svc-advisory-note a { color: var(--coral); font-weight: 600; text-decoration: none; }
-        .svc-advisory-note a:hover { text-decoration: underline; }
+        .svc-advisory-note a, .svc-inline-link { color: var(--coral); font-weight: 600; text-decoration: none; }
+        .svc-inline-link { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+        .svc-advisory-note a:hover, .svc-inline-link:hover { text-decoration: underline; }
         .svc-step {
           display: block;
           font-family: var(--font-geist-mono), monospace;
@@ -701,7 +702,7 @@ export default function Services() {
                   </div>
                   <div className="svc-shape">
                     <span className="svc-shape-name">Ongoing</span>
-                    <span className="svc-shape-body">1–2 days a week inside your leadership team.</span>
+                    <span className="svc-shape-body">10–30 hours a week inside your leadership team.</span>
                   </div>
                 </div>
                 <p className="svc-price-line">
@@ -746,7 +747,7 @@ export default function Services() {
                 </p>
                 <p className="svc-advisory-note">
                   Just want advice on one problem, without an engagement?{" "}
-                  <a href="/booking">Book a paid 1:1 hour</a>.
+                  <CalBookingButton className="svc-inline-link">Book a paid 1:1 hour</CalBookingButton> ($140).
                 </p>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 }}>

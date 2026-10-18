@@ -48,7 +48,7 @@ const PATH: PathStep[] = [
     num: "03",
     verb: "Embed",
     title: "Fractional COO / Chief of Staff",
-    body: "I fix the one thing in a six-week sprint, or stay and run operations 1–2 days a week. The Diagnostic tells us which.",
+    body: "I fix the one thing in a six-week sprint, or stay and run operations 10–30 hours a week. The Diagnostic tells us which.",
     price: "Scoped",
     priceNote: "sprint or retainer",
     cta: { label: "See details", href: "/services#fractional-coo" },
@@ -186,7 +186,7 @@ export default function Home() {
         <div className="max-w-site">
           <div className="block-head is-center">
             <h2 className="block-title">
-              How it <span className="text-ramp">works.</span>
+              How we can <span className="text-ramp">work together.</span>
             </h2>
           </div>
 

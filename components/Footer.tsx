@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import AnimateIn from "@/components/AnimateIn";
 import CalBookingButton from "@/components/CalModal";
@@ -68,8 +67,8 @@ const navColumns: { label: string; links: FooterLink[] }[] = [
     links: [
       { label: "Home", href: "/" },
       { label: "Case studies", href: "/case-studies" },
-      { label: "About", href: "/about" },
       { label: "Services", href: "/services" },
+      { label: "CV", href: "/cv" },
     ],
   },
   {
@@ -84,7 +83,6 @@ const navColumns: { label: string; links: FooterLink[] }[] = [
     label: "Contact",
     links: [
       { label: "riz@consultwithriz.com", href: "mailto:riz@consultwithriz.com" },
-      { label: "Paid 1:1 hour", href: "/booking" },
       { label: "Tallinn, Estonia", href: null },
     ],
   },
@@ -106,8 +104,7 @@ function FooterNavLink({ href, external, children }: { href: string; external?: 
 }
 
 export default function Footer({ showCta }: { showCta?: boolean } = {}) {
-  const pathname = usePathname();
-  const shouldShowCta = showCta ?? pathname !== "/booking";
+  const shouldShowCta = showCta ?? true;
   const watermarkRef = useParallax<HTMLDivElement>(0.15);
 
   return (
