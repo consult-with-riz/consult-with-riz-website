@@ -37,9 +37,9 @@ const PATH: PathStep[] = [
   {
     num: "02",
     verb: "Diagnose",
-    title: "Ops Diagnostic",
-    body: "Two weeks inside the business. Where it waits, breaks and leaks money, and a 90-day plan to fix it.",
-    price: "$3,500",
+    title: "Ops & AI Diagnostic",
+    body: "Two weeks inside the business. Where it waits, breaks and leaks money, what to automate first, and a 90-day plan to fix it.",
+    price: "$1,500",
     priceNote: "fixed · credited if we continue",
     featured: true,
     cta: { label: "See details", href: "/services#ops-diagnostic" },

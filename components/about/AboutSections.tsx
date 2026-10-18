@@ -20,6 +20,8 @@ type PathRow = {
   owned: string;
   taught: string;
   logo?: string;
+  /** is-tile: square mark shown as a rounded tile; is-wide: taller wide logo. */
+  logoClass?: string;
   monogram?: string;
   live?: boolean;
 };
@@ -28,7 +30,8 @@ const PATH: PathRow[] = [
   {
     when: "2015–17",
     where: "Perbal Clothing",
-    monogram: "PC",
+    logo: "/logos/perbal.jpg",
+    logoClass: "is-tile",
     owned: "My own clothing brand in Pakistan. Sourcing, cash, stock, people.",
     taught: "A good product with bad operations is an expensive hobby.",
   },
@@ -71,13 +74,13 @@ const PATH: PathRow[] = [
     when: "2025–26",
     where: "Shaping Wealth",
     logo: "/logos/shapingwealth.png",
+    logoClass: "is-wide",
     owned: "Chief of Staff, operations, product and project lead on Lydia.",
     taught: "In a small team, the job is whatever is stuck.",
   },
   {
     when: "Now",
     where: "Fractional COO /\nChief of Staff",
-    logo: "/favicon/v1-coral-circle-serif-icon-black-R.png",
     owned: "Operations for founder-led companies, with the repeat work automated.",
     taught: "I run the operations so the founder can run the company.",
     live: true,
@@ -135,9 +138,15 @@ export function AboutPath() {
                   {r.when}
                 </span>
                 <span className="ab-logo" role="cell">
-                  {r.logo ? (
+                  {r.live ? (
+                    /* the navbar wordmark: this row is "me, now" */
+                    <span className="ab-self">
+                      <span className="ab-self-dot" aria-hidden="true" />
+                      Riz
+                    </span>
+                  ) : r.logo ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={r.logo} alt="" className={r.live ? "is-mark" : undefined} />
+                    <img src={r.logo} alt="" className={r.logoClass} />
                   ) : (
                     <span className="ab-monogram" aria-hidden="true">{r.monogram}</span>
                   )}
@@ -280,7 +289,10 @@ export function AboutStyles() {
       }
       .ab-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 4px rgba(255,92,53,0.18); flex-shrink: 0; }
       .ab-logo img { display: block; max-width: 92px; max-height: 26px; width: auto; height: auto; object-fit: contain; }
-      .ab-logo img.is-mark { max-height: 34px; }
+      .ab-self { display: inline-flex; align-items: center; gap: 7px; font-size: 24px; font-weight: 600; color: var(--ink); letter-spacing: -0.02em; }
+      .ab-self-dot { width: 7px; height: 7px; border-radius: 50%; background: #ff5c35; }
+      .ab-logo img.is-tile { width: 34px; height: 34px; max-height: none; border-radius: 8px; object-fit: cover; }
+      .ab-logo img.is-wide { max-height: 36px; }
       .ab-monogram {
         display: inline-flex; align-items: center; justify-content: center;
         width: 34px; height: 34px; border-radius: 8px;

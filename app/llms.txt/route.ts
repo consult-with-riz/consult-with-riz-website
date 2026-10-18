@@ -4,12 +4,12 @@ import { SITE_URL } from "@/lib/seo";
 export function GET() {
   const body = `# Rizwan Mahmood — Fractional COO & Chief of Staff
 
-> Fractional COO and Chief of Staff for founder-led startups (pre-seed to Series B, 5–50 people). Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. Every process he installs gets automated before he hands it over; he designs the automations himself on n8n and Claude. Based in Tallinn, Estonia.
+> Fractional COO and Chief of Staff for Seed to Series B startups (10–60 people) where operations is the product: marketplaces, logistics, fintech, B2B services. Also works with founder-led agencies and service businesses. Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. Every process he installs gets automated before he hands it over; he designs the automations himself on n8n and Claude. Based in Tallinn, Estonia.
 
 ## How to work with Riz
 
 1. Talk — a 60-minute 1:1 session, $140. ${SITE_URL}/services#session
-2. Diagnose — the Ops Diagnostic: two weeks inside the business, ending in a prioritised 90-day plan and an automation shortlist. $3,500 fixed, credited against the first month if the engagement continues. Most clients start here. ${SITE_URL}/services#ops-diagnostic
+2. Diagnose — the Ops & AI Diagnostic: two weeks inside the business, ending in a prioritised 90-day plan and an automation shortlist. $1,500 fixed, credited against the first month if the engagement continues. Most clients start here. ${SITE_URL}/services#ops-diagnostic
 3. Embed — Fractional COO / Chief of Staff, either a six-week sprint on one problem or an ongoing retainer of 1–2 days a week. Scoped to stage; the Diagnostic decides which. ${SITE_URL}/services#fractional-coo
 
 ## Bench

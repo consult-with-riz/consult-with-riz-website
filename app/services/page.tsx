@@ -371,7 +371,7 @@ function DiagnosticMockup() {
       color="var(--coral)"
       ink="#fff"
       eyebrow="Fixed scope · Fixed fee"
-      title="Ops Diagnostic"
+      title="Ops & AI Diagnostic"
       sub="Two weeks · remote or on-site"
       rows={[
         { icon: "⏱", label: "Week 1", value: "Map how the work actually flows today" },
@@ -387,6 +387,10 @@ const FAQ: { q: string; a: string }[] = [
   {
     q: "Why start with the Diagnostic?",
     a: "Because most founders can name the symptom, not the problem. Two weeks inside the business tells us whether you need a six-week fix, an ongoing COO or Chief of Staff, or neither. If it's neither, you still leave with the 90-day plan.",
+  },
+  {
+    q: "Who do you work with?",
+    a: "Mostly Seed to Series B startups, roughly 10 to 60 people, where operations is the product: marketplaces, logistics, fintech, B2B services with real delivery. Founder-led agencies and service businesses too, usually starting with the Diagnostic.",
   },
   {
     q: "COO or Chief of Staff. What's the difference?",
@@ -569,15 +573,16 @@ export default function Services() {
               </AnimateIn>
               <AnimateIn delay={150}>
                 <p className="svc-body" style={{ ...bodyStyle, marginTop: "1.25rem" }}>
-                  Three steps. You only choose the first. Most founders start with
-                  the Diagnostic, and it tells us what the job actually is.
+                  For Seed to Series B startups, 10–60 people, where operations is the
+                  product. Three steps. You only choose the first. Most founders start
+                  with the Diagnostic, and it tells us what the job actually is.
                 </p>
               </AnimateIn>
               <AnimateIn delay={240}>
                 <div className="svc-tabs">
                   {[
-                    { label: "Ops Diagnostic", id: "ops-diagnostic" },
-                    { label: "Fractional COO / CoS", id: "fractional-coo" },
+                    { label: "Ops & AI Diagnostic", id: "ops-diagnostic" },
+                    { label: "Fractional COO / Chief of Staff", id: "fractional-coo" },
                     { label: "1:1 session", id: "session" },
                   ].map((pill) => (
                     <a
@@ -615,7 +620,7 @@ export default function Services() {
             <div className="svc-row-text">
               <AnimateIn>
                 <span className="svc-step" style={{ color: "var(--coral)" }}>01 · Start here</span>
-                <p className="svc-subline" style={sublineStyle("var(--coral)")}>Ops Diagnostic.</p>
+                <p className="svc-subline" style={sublineStyle("var(--coral)")}>Ops &amp; AI Diagnostic.</p>
               </AnimateIn>
               <AnimateIn delay={100}>
                 <p className="svc-body" style={bodyStyle}>
@@ -633,7 +638,7 @@ export default function Services() {
               </ul>
               <AnimateIn delay={200}>
                 <p className="svc-price-line">
-                  <strong>$3,500</strong> fixed · credited against month one if we continue
+                  <strong>$1,500</strong> fixed · credited against month one if we continue
                 </p>
               </AnimateIn>
               <AnimateIn delay={260}>

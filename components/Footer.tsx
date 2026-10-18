@@ -75,8 +75,8 @@ const navColumns: { label: string; links: FooterLink[] }[] = [
   {
     label: "Work with me",
     links: [
-      { label: "Ops Diagnostic", href: "/services#ops-diagnostic" },
-      { label: "Fractional COO / CoS", href: "/services#fractional-coo" },
+      { label: "Ops & AI Diagnostic", href: "/services#ops-diagnostic" },
+      { label: "Fractional COO / Chief of Staff", href: "/services#fractional-coo" },
       { label: "1:1 session", href: "/services#session" },
     ],
   },

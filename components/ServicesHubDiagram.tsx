@@ -11,9 +11,9 @@ const NR = 74;           // node circle radius
 // Node positions in the initial SVG viewport
 // Three nodes at 120° steps: top, bottom-right, bottom-left. Path order.
 const NODES = [
-  { id: "ops-diagnostic", cx: CX,                                             cy: CY - OR,                                             fill: "#ff5c35", num: "01", label: "OPS DIAGNOSTIC" },
-  { id: "fractional-coo", cx: Math.round(CX + OR * Math.cos(Math.PI / 6)),     cy: Math.round(CY + OR * Math.sin(Math.PI / 6)),     fill: "#22332C", num: "02", label: "FRACTIONAL COO" },
-  { id: "session",        cx: Math.round(CX + OR * Math.cos(5 * Math.PI / 6)), cy: Math.round(CY + OR * Math.sin(5 * Math.PI / 6)), fill: "#5A6660", num: "03", label: "1:1 SESSION" },
+  { id: "ops-diagnostic", cx: CX,                                             cy: CY - OR,                                             fill: "#ff5c35", num: "01", label: ["OPS & AI", "DIAGNOSTIC"] },
+  { id: "fractional-coo", cx: Math.round(CX + OR * Math.cos(Math.PI / 6)),     cy: Math.round(CY + OR * Math.sin(Math.PI / 6)),     fill: "#22332C", num: "02", label: ["FRACTIONAL COO /", "CHIEF OF STAFF"] },
+  { id: "session",        cx: Math.round(CX + OR * Math.cos(5 * Math.PI / 6)), cy: Math.round(CY + OR * Math.sin(5 * Math.PI / 6)), fill: "#5A6660", num: "03", label: ["1:1 SESSION"] },
 ] as const;
 
 /* ── component ───────────────────────────────────────────────────── */
@@ -101,7 +101,7 @@ export default function ServicesHubDiagram() {
 
                   {/* number - display face, centered in circle */}
                   <text
-                    x={n.cx} y={n.cy - 6}
+                    x={n.cx} y={n.cy - (n.label.length > 1 ? 14 : 6)}
                     textAnchor="middle" dominantBaseline="auto"
                     fontSize="32" fontWeight="500" fill="#fff"
                     style={{ pointerEvents: "none", fontFamily: "var(--font-display), sans-serif", letterSpacing: "-0.012em" } as React.CSSProperties}
@@ -109,22 +109,26 @@ export default function ServicesHubDiagram() {
                     {n.num}
                   </text>
 
-                  {/* label - mono, below number, stays inside circle */}
+                  {/* label - mono, below number, one or two lines, stays inside circle */}
                   <text
-                    x={n.cx} y={n.cy + 24}
+                    x={n.cx} y={n.cy + (n.label.length > 1 ? 14 : 24)}
                     textAnchor="middle" dominantBaseline="auto"
                     fontFamily="var(--font-dm-mono), monospace"
-                    fontSize={isHovered ? "13" : "12.5"}
+                    fontSize={n.label.length > 1 ? "11" : "12.5"}
                     fill="#fff"
                     fontWeight="600"
                     letterSpacing="0.05em"
                     style={{ pointerEvents: "none", transition: "fill 0.2s ease" } as React.CSSProperties}
                   >
-                    {n.label}
+                    {n.label.map((line, li) => (
+                      <tspan key={line} x={n.cx} dy={li === 0 ? 0 : 15}>
+                        {line}
+                      </tspan>
+                    ))}
                   </text>
 
                   {/* native browser tooltip */}
-                  <title>{n.label}</title>
+                  <title>{n.label.join(" ")}</title>
                 </g>
               </g>
             </g>

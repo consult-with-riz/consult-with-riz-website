@@ -363,14 +363,14 @@ export default function HeroSection() {
                 <div className="hz-rule" />
 
                 <p className="hz-value-prop">
-                  Fractional COO and Chief of Staff for founder-led startups.{" "}
+                  Fractional COO and Chief of Staff for Seed to Series B startups where operations is the product.{" "}
                   <b>Ten years inside Careem, Bolt and Wise.</b> Every process I fix
                   gets automated before I hand it back.
                 </p>
 
                 <ul className="hz-role-list">
                   <li><span className="hz-role-arrow">→</span>Fractional COO or Chief of Staff, 1–2 days a week</li>
-                  <li><span className="hz-role-arrow">→</span>Most founders start with a two-week Ops Diagnostic</li>
+                  <li><span className="hz-role-arrow">→</span>Most founders start with a two-week Ops &amp; AI Diagnostic</li>
                 </ul>
 
                 <div className="hz-cta-row">
