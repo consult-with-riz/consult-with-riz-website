@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -14,42 +14,7 @@ export default function Navbar() {
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const [darkHero, setDarkHero] = useState(false);
-  const [navOffset, setNavOffset] = useState<number | null>(null);
-  const logoRef = useRef<HTMLAnchorElement>(null);
-  const navRef = useRef<HTMLElement>(null);
-  const rowRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-
-  // Align the nav group's left edge with the hero photo's left edge (when present),
-  // while keeping the logo untouched and the nav right-aligned otherwise. Only take
-  // the offset when the links actually fit in that narrower space: the labels no
-  // longer wrap, so forcing it would push "Case studies" out of the row.
-  useEffect(() => {
-    const recompute = () => {
-      const logoEl = logoRef.current;
-      const navEl = navRef.current;
-      const rowEl = rowRef.current;
-      if (!logoEl || !navEl || !rowEl) return;
-      const photoEl = document.querySelector(".hz-photo-card");
-      if (!photoEl) {
-        setNavOffset(null); // fallback: right-align within the navbar
-        return;
-      }
-      const photoLeft = photoEl.getBoundingClientRect().left;
-      const logoRight = logoEl.getBoundingClientRect().right;
-      const rowRight = rowEl.getBoundingClientRect().right;
-      const diff = photoLeft - logoRight;
-      const fits = rowRight - photoLeft >= navEl.scrollWidth;
-      setNavOffset(diff > 40 && fits ? diff : null);
-    };
-
-    const raf = requestAnimationFrame(recompute);
-    window.addEventListener("resize", recompute);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", recompute);
-    };
-  }, [pathname, scrolled]);
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -130,11 +95,10 @@ export default function Navbar() {
       }}
     >
       <div
-        ref={rowRef}
         className="max-w-site flex items-center justify-between md:justify-start"
         style={{ height: scrolled ? 60 : 68, transition: "height 0.25s ease" }}
       >
-        <Link ref={logoRef} href="/" className="flex items-center gap-2" style={{ textDecoration: "none" }}>
+        <Link href="/" className="flex items-center gap-2" style={{ textDecoration: "none" }}>
           <span
             className="animate-pulse-dot"
             style={{
@@ -161,10 +125,9 @@ export default function Navbar() {
         </Link>
 
         <nav
-          ref={navRef}
           className="hidden md:flex items-center gap-6 lg:gap-8"
           style={{
-            marginLeft: navOffset != null ? navOffset : "auto",
+            marginLeft: "auto",
             flexWrap: "nowrap",
             flexShrink: 0,
           }}
