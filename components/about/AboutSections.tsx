@@ -125,7 +125,6 @@ export function AboutPath() {
         <div className="ab-board" role="table" aria-label="Career path">
           <div className="ab-head" role="row">
             <span role="columnheader">When</span>
-            <span role="columnheader" aria-label="Logo" />
             <span role="columnheader">Where</span>
             <span role="columnheader">What I owned</span>
             <span role="columnheader">What it taught me</span>
@@ -139,19 +138,18 @@ export function AboutPath() {
                 </span>
                 <span className="ab-logo" role="cell">
                   {r.live ? (
-                    /* the navbar wordmark: this row is "me, now" */
-                    <span className="ab-self">
-                      <span className="ab-self-dot" aria-hidden="true" />
-                      Riz
-                    </span>
+                    /* no company logo for "now": the offer itself, linked */
+                    <a href="/services#fractional-coo" className="ab-now-pill">
+                      <span className="ab-now-pill-dot" aria-hidden="true" />
+                      <span>{r.where}</span>
+                    </a>
                   ) : r.logo ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={r.logo} alt="" className={r.logoClass} />
+                    <img src={r.logo} alt={r.where} className={r.logoClass} />
                   ) : (
                     <span className="ab-monogram" aria-hidden="true">{r.monogram}</span>
                   )}
                 </span>
-                <span className="ab-where" role="cell">{r.where}</span>
                 <span className="ab-owned" role="cell">{r.owned}</span>
                 <span className="ab-taught" role="cell">{r.taught}</span>
               </div>
@@ -267,7 +265,7 @@ export function AboutStyles() {
       .ab-board { --board-ink: #1C1B19; }
       .ab-head, .ab-row {
         display: grid;
-        grid-template-columns: 88px 116px 172px minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns: 88px 200px minmax(0, 1fr) minmax(0, 1fr);
         align-items: stretch;
       }
       .ab-head {
@@ -289,8 +287,16 @@ export function AboutStyles() {
       }
       .ab-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 4px rgba(255,92,53,0.18); flex-shrink: 0; }
       .ab-logo img { display: block; max-width: 92px; max-height: 26px; width: auto; height: auto; object-fit: contain; }
-      .ab-self { display: inline-flex; align-items: center; gap: 7px; font-size: 24px; font-weight: 600; color: var(--ink); letter-spacing: -0.02em; }
-      .ab-self-dot { width: 7px; height: 7px; border-radius: 50%; background: #ff5c35; }
+      .ab-now-pill {
+        display: inline-flex; align-items: center; gap: 8px;
+        white-space: pre-line; line-height: 1.25; font-size: 13px; font-weight: 600;
+        color: #fff; background: var(--coral); border-radius: 10px; padding: 7px 12px;
+        text-decoration: none; transition: background 0.2s ease, transform 0.2s ease;
+      }
+      .ab-now-pill:hover { background: #e8431b; transform: translateY(-1px); }
+      .ab-now-pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+      .ab-now-pill-dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; flex-shrink: 0; }
+      .ab-now-pill:hover
       .ab-logo img.is-tile { width: 34px; height: 34px; max-height: none; border-radius: 8px; object-fit: cover; }
       .ab-logo img.is-wide { max-height: 36px; }
       .ab-monogram {
@@ -299,10 +305,8 @@ export function AboutStyles() {
         background: var(--board-ink); color: var(--cream);
         font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
       }
-      .ab-where { white-space: pre-line; line-height: 1.3; font-size: 15.5px; font-weight: 600; color: var(--board-ink); }
       .ab-owned { font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--board-ink); }
       .ab-taught { font-size: 15px; line-height: 1.5; color: var(--coral); font-weight: 500; }
-      .ab-row.is-live .ab-where { color: var(--coral); }
 
       .ab-principles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
       .ab-principle { height: 100%; padding: 26px 24px; display: flex; flex-direction: column; gap: 10px; }
@@ -359,7 +363,6 @@ export function AboutStyles() {
         .ab-head { display: none; }
         .ab-row { grid-template-columns: 1fr; gap: 6px; padding: 18px 0; }
         .ab-row > span, .ab-row > span + span { border-left: 0; padding: 0; }
-        .ab-where { white-space: normal; }
         .ab-logo { margin: 2px 0; }
         .ab-principles, .ab-tcards { grid-template-columns: 1fr; }
       }

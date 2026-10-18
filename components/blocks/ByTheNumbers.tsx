@@ -79,12 +79,23 @@ const ROWS: Row[] = [
   {
     when: "Now",
     company: "Fractional COO /\nChief of Staff",
-    moved: "Operations run as COO or Chief of Staff, repeat work automated, for",
+    moved: "Your Fractional COO or Chief of Staff. Keeping Ops running. Served",
     reading: "7+",
     unit: "clients",
     live: true,
   },
 ];
+
+/* The "Now" row has no company logo, so its Where cell is the offer
+   itself: a coral badge that links to the Fractional COO / CoS section. */
+function NowBadge() {
+  return (
+    <a href="/services#fractional-coo" className="pb-now-pill">
+      <span className="pb-now-pill-dot" aria-hidden="true" />
+      <span>{"Fractional COO\u00A0/\nChief of Staff"}</span>
+    </a>
+  );
+}
 
 export default function ByTheNumbers() {
   return (
@@ -99,7 +110,7 @@ export default function ByTheNumbers() {
 
         .pb-head, .pb-row {
           display: grid;
-          grid-template-columns: 88px 116px 172px minmax(0, 1fr) 170px;
+          grid-template-columns: 88px 200px minmax(0, 1fr) 170px;
           align-items: stretch;
         }
         .pb-head {
@@ -123,11 +134,20 @@ export default function ByTheNumbers() {
         }
         .pb-logo img { display: block; max-width: 92px; max-height: 26px; width: auto; height: auto; object-fit: contain; }
         .pb-logo img.is-wide { max-height: 36px; }
-        .pb-self { display: inline-flex; align-items: center; gap: 7px; font-size: 24px; font-weight: 600; color: var(--ink); letter-spacing: -0.02em; }
-        .pb-self-dot { width: 7px; height: 7px; border-radius: 50%; background: #ff5c35; }
-        .pb-where { white-space: pre-line; line-height: 1.3; font-size: 15.5px; font-weight: 600; color: var(--board-ink); }
-        .pb-row.is-live .pb-where { color: var(--coral); }
-        .pb-moved { font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--board-ink); }
+        .pb-now-pill {
+          display: inline-flex; align-items: center; gap: 8px;
+          white-space: pre-line; line-height: 1.25; font-size: 13px; font-weight: 600;
+          color: #fff; background: var(--coral); border-radius: 10px; padding: 7px 12px;
+          text-decoration: none; transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .pb-now-pill:hover { background: #e8431b; transform: translateY(-1px); }
+        .pb-now-pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+        .pb-now-pill-dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; flex-shrink: 0; }
+        .pb-now-pill:hover
+        .pb-moved { gap: 14px; font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--board-ink); }
+        /* the line carries on into its number */
+        .pb-arrow { margin-left: auto; flex-shrink: 0; color: var(--coral); font-size: 18px; font-weight: 600; line-height: 1; transition: transform 0.25s ease; }
+        .pb-row:hover .pb-arrow { transform: translateX(4px); }
         .pb-row > .pb-read {
           flex-direction: column; align-items: flex-end; justify-content: center; text-align: right;
         }
@@ -144,7 +164,7 @@ export default function ByTheNumbers() {
         /* ── Timeline: hollow nodes on a fading line, the "Now" node live ── */
         .pb-row { position: relative; }
         .pb-gutter .pb-head, .pb-gutter .pb-row {
-          grid-template-columns: 44px 80px 116px 172px minmax(0, 1fr) 170px;
+          grid-template-columns: 44px 80px 200px minmax(0, 1fr) 170px;
         }
         .pb-gutter .pb-head > span:nth-child(2), .pb-gutter .pb-row > .pb-when { border-left: 0; padding-left: 0; }
         .pb-line .pb-row { --x: 21px; }
@@ -171,8 +191,8 @@ export default function ByTheNumbers() {
         }
 
         @media (max-width: 1100px) {
-          .pb-head, .pb-row { grid-template-columns: 76px 108px 150px minmax(0, 1fr) 140px; }
-          .pb-gutter .pb-head, .pb-gutter .pb-row { grid-template-columns: 40px 72px 108px 150px minmax(0, 1fr) 140px; }
+          .pb-head, .pb-row { grid-template-columns: 76px 180px minmax(0, 1fr) 140px; }
+          .pb-gutter .pb-head, .pb-gutter .pb-row { grid-template-columns: 40px 72px 180px minmax(0, 1fr) 140px; }
           .pb-gutter .pb-row { --x: 19px; }
           .pb-head > span, .pb-row > span { padding: 0 12px; }
           .pb-num { font-size: 27px; }
@@ -185,9 +205,12 @@ export default function ByTheNumbers() {
           .pb-row > span, .pb-row > span + span { border-left: 0; padding: 0; }
           .pb-when { grid-column: 1; grid-row: 1; }
           .pb-logo { grid-column: 2; grid-row: 1; justify-content: flex-end; }
-          .pb-where { grid-column: 1 / -1; grid-row: 2; white-space: normal; }
-          .pb-moved { grid-column: 1 / -1; grid-row: 3; }
-          .pb-row > .pb-read { grid-column: 1 / -1; grid-row: 4; align-items: flex-start; text-align: left; }
+          .pb-logo { text-align: right; }
+          .pb-moved { grid-column: 1 / -1; grid-row: 2; }
+          /* on a phone the number sits below, so the arrow points down */
+          .pb-arrow { transform: rotate(90deg); margin-left: 0; }
+          .pb-row:hover .pb-arrow { transform: rotate(90deg) translateX(3px); }
+          .pb-row > .pb-read { grid-column: 1 / -1; grid-row: 3; align-items: flex-start; text-align: left; }
           .pb-num { font-size: 30px; }
           .pb-gutter .pb-row { grid-template-columns: 1fr auto; }
           .pb-line .pb-row { padding-left: 40px; --x: 13px; }
@@ -210,7 +233,6 @@ export default function ByTheNumbers() {
           <div className="pb-head" role="row">
             <span aria-hidden="true" />
             <span role="columnheader">When</span>
-            <span role="columnheader" aria-label="Logo" />
             <span role="columnheader">Where</span>
             <span role="columnheader">What moved</span>
             <span role="columnheader" className="pb-r">Reading</span>
@@ -234,17 +256,16 @@ export default function ByTheNumbers() {
                 </span>
                 <span className="pb-logo" role="cell">
                   {r.live ? (
-                    <span className="pb-self">
-                      <span className="pb-self-dot" aria-hidden="true" />
-                      Riz
-                    </span>
+                    <NowBadge />
                   ) : (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={r.logo} alt="" className={r.logoClass} />
+                    <img src={r.logo} alt={r.company} className={r.logoClass} />
                   )}
                 </span>
-                <span className="pb-where" role="cell">{r.company}</span>
-                <span className="pb-moved" role="cell">{r.moved}</span>
+                <span className="pb-moved" role="cell">
+                  <span>{r.moved}</span>
+                  <span className="pb-arrow" aria-hidden="true">→</span>
+                </span>
                 <span className="pb-read" role="cell">
                   <span className="pb-num">{r.reading}</span>
                   {r.unit && <span className="pb-unit">{r.unit}</span>}
