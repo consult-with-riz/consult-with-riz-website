@@ -4,8 +4,8 @@ import { useEffect, useId } from "react";
 import { getCalApi } from "@calcom/embed-react";
 import { playPopSound } from "@/lib/sounds";
 
-const CAL_LINK = "https://cal.com/consult-with-riz/consultingcall";
-const CAL_NAMESPACE = "consultingcall";
+const CAL_LINK = "https://cal.com/consult-with-riz/coo-chief-of-staff-fit-call";
+const CAL_NAMESPACE = "coo-fit-call";
 
 export default function CalBookingButton({
   children,
