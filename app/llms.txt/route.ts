@@ -12,8 +12,6 @@ export function GET() {
 2. Diagnose — the Ops & AI Diagnostic: two weeks inside the business, ending in a prioritised 90-day plan and an automation shortlist. $1,500 fixed, credited against the first month if the engagement continues, and fully refunded if the Day 14 walkthrough isn't worth it to the client. Most clients start here. ${SITE_URL}/services#ops-diagnostic
 3. Embed — Fractional COO / Chief of Staff, either a six-week sprint on one problem or an ongoing retainer of 10–30 hours a week. Scoped to stage; the Diagnostic decides which. ${SITE_URL}/services#fractional-coo
 
-A paid 1:1 hour ($140) is available for advice outside an engagement, booked from the Services page.
-
 ## Bench
 
 For work beyond operations, Riz brings in trusted specialists in AI implementation, branding, marketing, content and social, and websites, while remaining the single point of contact.

@@ -4,16 +4,36 @@ import { useState } from "react";
 import AnimateIn from "@/components/AnimateIn";
 import CalBookingButton from "@/components/CalModal";
 import { useParallax } from "@/hooks/useParallax";
+import { burstConfetti } from "@/lib/confetti";
+import { playCelebrateSound } from "@/lib/sounds";
 
-function EmailMeButton({ email, className }: { email: string; className?: string }) {
+function EmailMeButton({
+  email,
+  className,
+  label = "Email me",
+  copiedLabel = "Copied!",
+}: {
+  email: string;
+  className?: string;
+  label?: string;
+  copiedLabel?: string;
+}) {
   const [copied, setCopied] = useState(false);
 
   const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    // read the click point before the await; keyboard clicks have no
+    // coordinates, so burst from the button's centre instead
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX || rect.left + rect.width / 2;
+    const y = e.clientY || rect.top + rect.height / 2;
+    // play before the await: Safari only lets audio start inside the click itself
+    playCelebrateSound();
     try {
       await navigator.clipboard.writeText(email);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      burstConfetti(x, y);
+      setTimeout(() => setCopied(false), 4000);
     } catch {
       // Clipboard API unavailable — fall back to mailto.
       window.location.href = `mailto:${email}`;
@@ -22,7 +42,7 @@ function EmailMeButton({ email, className }: { email: string; className?: string
 
   return (
     <a href={`mailto:${email}`} className={className} onClick={handleClick}>
-      {copied ? "Copied!" : "Email me"}
+      {copied ? copiedLabel : label}
     </a>
   );
 }
@@ -449,7 +469,16 @@ export default function Footer({ showCta }: { showCta?: boolean } = {}) {
               <div>
                 <p className="ftr-col-heading">{col.label}</p>
                 {col.links.map((l) =>
-                  l.href ? (
+                  l.href?.startsWith("mailto:") ? (
+                    // the address copies with the same confetti and chime as "Email me"
+                    <EmailMeButton
+                      key={l.label}
+                      email={l.href.slice("mailto:".length)}
+                      className="ftr-link"
+                      label={l.label}
+                      copiedLabel="Copied. Send me that email."
+                    />
+                  ) : l.href ? (
                     <FooterNavLink key={l.label} href={l.href} external={"external" in l ? l.external : undefined}>
                       {l.label}
                     </FooterNavLink>

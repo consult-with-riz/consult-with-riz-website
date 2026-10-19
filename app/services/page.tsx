@@ -480,10 +480,6 @@ export default function Services() {
           .svc-section,
           .svc-tight { padding: 48px 0; }
         }
-        .svc-advisory-note { margin-top: 0.75rem !important; font-size: 0.9rem; }
-        .svc-advisory-note a, .svc-inline-link { color: var(--coral); font-weight: 600; text-decoration: none; }
-        .svc-inline-link { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
-        .svc-advisory-note a:hover, .svc-inline-link:hover { text-decoration: underline; }
         .svc-step {
           display: block;
           font-family: var(--font-geist-mono), monospace;
@@ -744,10 +740,6 @@ export default function Services() {
                 <p>
                   Thirty minutes. Your questions, and a straight answer on whether the
                   Diagnostic makes sense for you. No pitch.
-                </p>
-                <p className="svc-advisory-note">
-                  Just want advice on one problem, without an engagement?{" "}
-                  <CalBookingButton className="svc-inline-link">Book a paid 1:1 hour</CalBookingButton> ($140).
                 </p>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 }}>

@@ -132,3 +132,18 @@ export function playServiceTone(index: number) {
   lastToneAt = now;
   playTones(SERVICE_TONES[index % SERVICE_TONES.length]);
 }
+
+/**
+ * Played with the "Email me" confetti. A soft, quick major arpeggio that
+ * rises like the burst, with a faint high sparkle as the pieces scatter.
+ * Kept quieter than the CTA pop: it celebrates, it doesn't announce.
+ */
+export function playCelebrateSound() {
+  playTones([
+    { from: 784, gain: 0.05, decay: 0.18 },               // G5
+    { from: 988, gain: 0.05, decay: 0.2, delay: 0.06 },   // B5
+    { from: 1175, gain: 0.05, decay: 0.24, delay: 0.12 }, // D6
+    { from: 1568, gain: 0.035, decay: 0.42, delay: 0.18 }, // G6, the ring-out
+    { from: 2349, gain: 0.012, decay: 0.3, delay: 0.24 },  // sparkle
+  ]);
+}
