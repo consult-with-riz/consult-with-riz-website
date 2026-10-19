@@ -34,7 +34,7 @@ const SITE_ENTITY = {
   name: "Rizwan Mahmood",
   url: SEO_SITE_URL,
   jobTitle: "Fractional COO and Chief of Staff",
-  description: "Rizwan Mahmood is a fractional COO and Chief of Staff for Seed to Series B startups where operations is the product. Ten years in operations at Careem, Bolt and Wise. Every process he installs gets automated before he hands it over. Based in Tallinn.",
+  description: "Rizwan Mahmood is a fractional COO and Chief of Staff for operations-heavy Seed to Series B startups. Ten years in operations at Careem, Bolt and Wise. Every process he installs gets automated before he hands it over. Based in Tallinn.",
   sameAs: ["https://www.linkedin.com/in/consult-with-riz/", "https://www.instagram.com/etz.riz/"],
 };
 
