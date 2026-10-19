@@ -21,7 +21,7 @@ For work beyond operations, Riz brings in trusted specialists in AI implementati
 ## What clients say
 
 - Biola Babawale, Founder, Cycle Together: fractional COO and chief of staff engagement.
-- Brian Portnoy, Founder & CEO, Shaping Wealth: chief of staff, operations, product and project management on Lydia (2025–26).
+- Brian Portnoy, Founder & CEO, Shaping Wealth: product and project management on Lydia, the AI coaching platform (2025–26). "Riz gets things done."
 - Shahzad Akhtar, Founder & MD, Strateasy Consulting: GTM and personal positioning.
 - Kaitlin Malaspina, Principal & Founder, Brenna & Co.: SOPs and systems organised in five days.
 

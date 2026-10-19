@@ -69,21 +69,14 @@ export const testimonials: Testimonial[] = [
     company: "Shaping Wealth",
     roleLine: "Founder & CEO, Shaping Wealth",
     industry: "Behavioral Finance & AI",
-    meta: ["United States", "Fractional", "Chief of Staff"],
-    hats: [
-      "Chief of Staff",
-      "Operations Manager",
-      "Product Manager",
-      "Project Manager",
-      "Gets It Done",
-    ],
-    // Drafted for Brian from the engagement record (Lydia routing,
-    // platform brief, agent specs, team comms). Riz has his approval.
+    meta: ["United States", "Fractional", "Product & Project Management"],
+    hats: ["Product Manager", "Project Manager", "Gets It Done"],
+    // Approved by Brian, verbatim (Oct 2026). Pull quote is lifted from it.
     quote:
-      "Riz was the person on our team who made things happen. Chief of staff one week, product manager the next, project and operations lead in between. Whatever Lydia needed, he picked it up and finished it.",
+      "Riz gets things done. If you're a founder with more priorities than people, he's the person you want next to you.",
     fullQuote: [
-      "Riz worked with me at Shaping Wealth while we built Lydia, our AI coaching platform for financial advisors. His title said product manager. In practice he was my chief of staff, our operations manager, our product manager and our project manager, often in the same week.",
-      "He took decisions that were stuck in conversation and turned them into something the team could act on: a clear recommendation on how Lydia should be structured, a plain-English brief on why our existing platform couldn't carry it, and the specs and templates our engineers built from. He kept the team informed, kept the work moving, and never needed chasing.",
+      "Riz worked with me at Shaping Wealth on a variety of projects and products, including and especially Lydia, our AI coaching platform for financial advisors. As project manager and product manager, he was integral to our success.",
+      "He sometimes took decisions that were stuck in conversation and turned them into something the team could act on. For example, a clear recommendation on how Lydia should be structured, a plain-English brief on why our existing platform couldn't carry it, and the specs and templates our engineers built from. He kept the team informed, kept the work moving, and never needed chasing.",
       "The simplest way I can put it: Riz gets things done. If you're a founder with more priorities than people, he's the person you want next to you.",
     ],
     initials: "BP",
