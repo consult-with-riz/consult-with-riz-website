@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import AnimateIn from "@/components/AnimateIn";
 import CalBookingButton from "@/components/CalModal";
 import HireComparison from "@/components/HireComparison";
+import PromiseHero from "@/components/PromiseHero";
+import ServicesFAQ from "@/components/ServicesFAQ";
 import { testimonials, TestimonialDialog, type Testimonial } from "@/components/Testimonials";
 
 /**
@@ -132,37 +134,6 @@ const SHAPES: Record<Shape, { label: string; line: string; timeline: string; det
   },
 };
 
-const FAQ: { q: string; a: string }[] = [
-  {
-    q: "Why start with the Diagnostic?",
-    a: "Because most founders can name the symptom, not the problem. Two weeks inside the business tells us whether you need a six-week fix, an ongoing COO or Chief of Staff, or neither. If it's neither, you still leave with the 90-day plan.",
-  },
-  {
-    q: "What if the Diagnostic isn't worth it?",
-    a: "Then you don't pay for it. If the Day 14 walkthrough isn't worth $1,500 to you, say so and I refund you in full. If we carry on working together, the $1,500 is credited against your first month.",
-  },
-  {
-    q: "Who do you work with?",
-    a: "Mostly operations-heavy Seed to Series B startups, roughly 10 to 90 people: lots of people, handoffs and moving parts. Marketplaces, logistics, fintech, B2B services with real delivery. Founder-led agencies and service businesses too, usually starting with the Diagnostic.",
-  },
-  {
-    q: "COO or Chief of Staff. What's the difference?",
-    a: "A COO owns the operation: cadence, metrics, cost, process. A Chief of Staff works for the founder: priorities, follow-through, board updates. Most early-stage companies need a mix. The Diagnostic tells us which, so you don't have to decide up front.",
-  },
-  {
-    q: "Where does the AI part come in?",
-    a: "After the process is clear, never before. Once a report, a handoff or a follow-up runs the same way three times, it gets automated on n8n and the Claude API. You keep the systems when I leave.",
-  },
-  {
-    q: "What if we need more than operations?",
-    a: "I have a bench of specialists I trust for AI implementation, branding, marketing, content and websites. I bring them in when the work needs them. You still deal with one person: me.",
-  },
-  {
-    q: "What's your background?",
-    a: "Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. At Bolt I took courier costs from 21% to 14% of GMV across 20 countries. At Wise, month-end close went from 8 days to 3. ACCA-qualified. Fractional COO and Chief of Staff since 2025.",
-  },
-];
-
 /* ─── small pieces ───────────────────────────────── */
 
 function Check() {
@@ -277,7 +248,6 @@ function useTimelineProgress(count: number) {
 /* ─── page ────────────────────────────────────────── */
 
 export default function Services() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [shape, setShape] = useState<Shape>("ongoing");
   const [openTestimonial, setOpenTestimonial] = useState<string | null>(null);
   const { listRef, reached } = useTimelineProgress(STOPS.length);
@@ -286,48 +256,6 @@ export default function Services() {
   return (
     <>
       <style>{`
-        /* ── 1 · hero ── */
-        .sa-hero { background: var(--cream); padding: 128px 0 64px; }
-        .sa-hero-h1 {
-          margin: 1.25rem 0 0;
-          max-width: 22ch;
-          font-size: clamp(2.3rem, 1.4rem + 2.6vw, 3.6rem);
-          font-weight: 500; line-height: 1.06; letter-spacing: -0.02em; color: var(--ink);
-        }
-        .sa-hero-h1 em { font-style: normal; color: var(--coral); }
-        .sa-nowrap { white-space: nowrap; }
-        .sa-hero-sub { margin: 1.25rem 0 0; max-width: 52ch; font-size: 1.125rem; line-height: 1.65; color: var(--body); }
-        .sa-hero-ctas { display: flex; align-items: center; gap: 14px 24px; flex-wrap: wrap; margin-top: 2rem; }
-        .sa-text-link {
-          color: var(--ink); font-weight: 600; text-decoration: none;
-          border-bottom: 1.5px solid var(--coral); padding-bottom: 2px;
-          transition: color 0.2s ease;
-        }
-        .sa-text-link:hover { color: var(--coral); }
-
-        /* the 90 days at a glance: four segments sized by how long each lasts */
-        .sa-glance { margin-top: 3.25rem; }
-        .sa-glance-bar { display: grid; grid-template-columns: 0.6fr 2fr 4fr 0.9fr; gap: 6px; }
-        .sa-glance-seg {
-          display: flex; flex-direction: column; gap: 8px; min-width: 0;
-          text-decoration: none; color: var(--ink);
-        }
-        .sa-glance-seg > i {
-          display: block; height: 8px; border-radius: 999px; background: var(--line);
-          transition: background 0.25s ease, transform 0.25s ease;
-          transform-origin: left;
-        }
-        .sa-glance-seg:nth-child(1) > i { background: #FFB199; }
-        .sa-glance-seg:nth-child(2) > i { background: var(--coral); }
-        .sa-glance-seg:nth-child(3) > i { background: linear-gradient(90deg, #FCEBB0, #F5C518); }
-        .sa-glance-seg:nth-child(4) > i { background: linear-gradient(90deg, #BDEBC8, #16C45B); }
-        .sa-glance-seg:hover > i { transform: scaleY(1.5); }
-        .sa-glance-day {
-          font-family: var(--font-geist-mono), monospace; font-size: 11.5px; font-weight: 600;
-          letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); white-space: nowrap;
-        }
-        .sa-glance-name { font-size: 14px; font-weight: 600; line-height: 1.3; }
-
         /* ── 2 · the menu ── */
         .sb-menu { background: #fff; padding: 96px 0; border-top: 1px solid var(--line); }
         .sb-menu-head { text-align: center; margin-bottom: 56px; }
@@ -556,21 +484,6 @@ export default function Services() {
         }
         .sa-bench strong { color: var(--ink); font-weight: 600; }
 
-        /* ── 6 · FAQ ── */
-        .sa-faq-section { background: var(--cream); padding: 88px 0; border-top: 1px solid var(--line); }
-        .svc-faq { max-width: 760px; margin: var(--heading-gap) auto 0; display: flex; flex-direction: column; gap: 12px; }
-        .svc-faq-item { background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; transition: border-color 0.18s ease, box-shadow 0.18s ease; }
-        .svc-faq-item:hover { border-color: rgba(255,92,53,0.4); }
-        .svc-faq-item.is-open { border-color: var(--coral); box-shadow: 0 8px 22px rgba(255,92,53,0.1); }
-        .svc-faq-q { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 24px; background: none; border: none; cursor: pointer; text-align: left; font: inherit; font-size: 1.05rem; font-weight: 600; color: var(--ink); }
-        .svc-faq-q:focus-visible { outline: 2px solid var(--coral); outline-offset: -2px; }
-        .svc-faq-sign { color: var(--coral); font-size: 1.4rem; line-height: 1; flex-shrink: 0; transition: transform 0.2s ease; }
-        .svc-faq-item.is-open .svc-faq-sign { transform: rotate(45deg); }
-        .svc-faq-a-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.25s ease; }
-        .svc-faq-item.is-open .svc-faq-a-wrap { grid-template-rows: 1fr; }
-        .svc-faq-a { overflow: hidden; min-height: 0; margin: 0; padding: 0 24px; color: var(--body); line-height: 1.65; }
-        .svc-faq-item.is-open .svc-faq-a { padding-bottom: 20px; }
-
         @media (max-width: 1023px) {
           .sb-cards { display: flex; flex-direction: column; max-width: 520px; margin: 0 auto; gap: 28px; }
           .sb-card-wrap { display: flex; }
@@ -585,8 +498,6 @@ export default function Services() {
           .sa-guarantee { grid-template-columns: minmax(0, 1fr); }
         }
         @media (max-width: 767px) {
-          .sa-hero { padding: 104px 0 44px; }
-          .sa-glance-bar { grid-template-columns: 1fr 1fr; row-gap: 18px; }
           .sb-menu { padding: 64px 0; }
           .sb-menu-head { margin-bottom: 40px; }
           .sb-card { padding: 28px 22px 24px; }
@@ -602,56 +513,16 @@ export default function Services() {
           .sa-shapes { grid-template-columns: 1fr; }
           .sa-guarantee { padding: 32px 24px; border-radius: 20px; }
           .sa-guarantee-wrap { padding-bottom: 56px; }
-          .sa-faq-section { padding: 56px 0; }
-          .svc-faq-q { padding: 18px 18px; font-size: 1rem; }
-          .svc-faq-a { padding: 0 18px; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .sb-card, .sb-toggle-pill, .sa-quote, .sa-node, .sa-day, .sa-glance-seg > i, .svc-faq-a-wrap, .svc-faq-sign { transition: none !important; }
+          .sb-card, .sb-toggle-pill, .sa-quote, .sa-node, .sa-day { transition: none !important; }
           .sb-card.is-featured::before, .sb-glow, .sb-swap { animation: none !important; }
           .sb-card:hover, .sa-quote:hover { transform: none; }
         }
       `}</style>
 
       {/* 1 · HERO */}
-      <section className="sa-hero">
-        <div className="max-w-site">
-          <AnimateIn>
-            <span className="pill-eyebrow">Fractional COO / Chief of Staff</span>
-          </AnimateIn>
-          <AnimateIn delay={80}>
-            <h1 className="sa-hero-h1">
-              You will be out of <span className="sa-nowrap">day-to-day</span> operations in <em className="sa-nowrap">90 days</em>, without hiring a <span className="sa-nowrap">full-time COO.</span>
-            </h1>
-          </AnimateIn>
-          <AnimateIn delay={160}>
-            <p className="sa-hero-sub">
-              For Seed to Series B founders running operations-heavy companies, 10–90 people.
-              Four stops. You only commit to the first, and it&apos;s free.
-            </p>
-          </AnimateIn>
-          <AnimateIn delay={240}>
-            <div className="sa-hero-ctas">
-              <CalBookingButton className="btn-coral">Book a free 30-min fit call →</CalBookingButton>
-              <a href="#guarantee" className="sa-text-link">See the Diagnostic guarantee ↓</a>
-            </div>
-          </AnimateIn>
-
-          <AnimateIn delay={320}>
-            <nav className="sa-glance" aria-label="The 90 days at a glance">
-              <div className="sa-glance-bar">
-                {STOPS.map((s) => (
-                  <a key={s.id} href={`#${s.id}`} className="sa-glance-seg">
-                    <i aria-hidden="true" />
-                    <span className="sa-glance-day">{s.day}</span>
-                    <span className="sa-glance-name">{s.title.replace(/\.$/, "")}</span>
-                  </a>
-                ))}
-              </div>
-            </nav>
-          </AnimateIn>
-        </div>
-      </section>
+      <PromiseHero />
 
       {/* 2 · THE MENU */}
       <section className="sb-menu" id="menu">
@@ -872,36 +743,7 @@ export default function Services() {
       <HireComparison />
 
       {/* 6 · FAQ */}
-      <section className="sa-faq-section">
-        <div className="max-w-site">
-          <div className="block-head is-center">
-            <span className="pill-eyebrow">Questions</span>
-            <h2 className="block-title">Questions before you book.</h2>
-          </div>
-          <div className="svc-faq">
-            {FAQ.map((item, i) => {
-              const isOpen = openFaq === i;
-              return (
-                <div key={item.q} className={`svc-faq-item${isOpen ? " is-open" : ""}`}>
-                  <button
-                    type="button"
-                    className="svc-faq-q"
-                    onClick={() => setOpenFaq(isOpen ? null : i)}
-                    aria-expanded={isOpen}
-                    aria-controls={`svc-faq-${i}`}
-                  >
-                    <span>{item.q}</span>
-                    <span className="svc-faq-sign" aria-hidden="true">+</span>
-                  </button>
-                  <div id={`svc-faq-${i}`} className="svc-faq-a-wrap" role="region">
-                    <p className="svc-faq-a">{item.a}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <ServicesFAQ />
 
       <TestimonialDialog
         t={testimonials.find((x) => x.id === openTestimonial) ?? null}

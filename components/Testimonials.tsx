@@ -285,6 +285,22 @@ export default function TestimonialsSection({
   const next = () => go(current + 1);
   const prev = () => go(current - 1);
 
+  // A shareable link per client: /#brian-portnoy scrolls here with that
+  // client's slide showing. Plain #testimonials still lands on the first.
+  const sectionRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const openFromHash = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      const i = testimonials.findIndex((t) => t.id === id);
+      if (i === -1) return;
+      setCurrent(i);
+      requestAnimationFrame(() => sectionRef.current?.scrollIntoView({ block: "start" }));
+    };
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
+  }, []);
+
   // Horizontal swipe on touch screens; ignores mostly-vertical drags so the page still scrolls.
   const touch = useRef<{ x: number; y: number } | null>(null);
   const onTouchStart = (e: React.TouchEvent) => {
@@ -302,6 +318,7 @@ export default function TestimonialsSection({
 
   return (
     <section
+      ref={sectionRef}
       id="testimonials"
       className="testimonials-section"
       style={{ background, borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}

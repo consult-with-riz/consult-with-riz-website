@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import AnimateIn from "@/components/AnimateIn";
 import CalBookingButton from "@/components/CalModal";
@@ -123,8 +124,13 @@ function FooterNavLink({ href, external, children }: { href: string; external?: 
   );
 }
 
+// Pages that close on their own booking card, so the footer's
+// "Need an operator next to you?" band would be a second ask in a row.
+const PAGES_WITH_OWN_CTA = ["/home-v2"];
+
 export default function Footer({ showCta }: { showCta?: boolean } = {}) {
-  const shouldShowCta = showCta ?? true;
+  const pathname = usePathname();
+  const shouldShowCta = showCta ?? !PAGES_WITH_OWN_CTA.includes(pathname);
   const watermarkRef = useParallax<HTMLDivElement>(0.15);
 
   return (

@@ -59,7 +59,9 @@ export default function HireComparison() {
       <style>{`
         .hc { background: #fff; padding: 96px 0; border-top: 1px solid var(--line); overflow: hidden; }
         .hc-head { text-align: center; }
-        .hc-lede { margin: 1rem auto 0; max-width: 54ch; font-size: 1.08rem; line-height: 1.6; color: var(--body); }
+        .hc-lede { margin: 1rem auto 0; font-size: 1.08rem; line-height: 1.6; color: var(--body); }
+        /* one line wherever it fits; phones wrap */
+        @media (min-width: 900px) { .hc-lede { white-space: nowrap; } }
 
         /* ── 1 · the race to start ── */
         .hc-race {
@@ -223,10 +225,9 @@ export default function HireComparison() {
 
       <div className="max-w-site">
         <div className="block-head is-center hc-head">
-          <span className="pill-eyebrow">The hire you&apos;re not making</span>
           <h2 className="block-title">Fractional, or a full-time COO?</h2>
           <p className="hc-lede">
-            One of them is inside your business within days. The other is still in interviews.
+            I am inside your business within the same week. Others take months, if not quarters, to hire.
           </p>
         </div>
 
