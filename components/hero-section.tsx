@@ -13,7 +13,15 @@ const HERO_LOGOS = [
   { src: "/logos/wise.svg", alt: "Wise", h: 24 },
 ];
 
-export default function HeroSection() {
+export default function HeroSection({
+  rightSlot,
+  hideTrust = false,
+}: {
+  /** replaces the photo on the right */
+  rightSlot?: React.ReactNode;
+  /** drop the 10+ years and logo row from the left, when the right side carries them */
+  hideTrust?: boolean;
+} = {}) {
   const dotGridRef = useParallax<HTMLDivElement>(0.1);
   const fadeRef = useScrollFadeOut<HTMLDivElement>(420);
 
@@ -370,6 +378,7 @@ export default function HeroSection() {
                   <Link href="/case-studies" className="hz-btn-secondary">See the track record</Link>
                 </div>
 
+                {!hideTrust && (
                 <div className="hz-trust-row">
                 <div className="hz-ops-heading">
                   <span className="hz-ops-num">10+</span>
@@ -388,14 +397,17 @@ export default function HeroSection() {
                   </div>
                 </div>
                 </div>
+                )}
               </div>
 
               {/* RIGHT */}
               <div className="hz-right-col">
-                <div className="hz-photo-card">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={PHOTO_URL} alt="Rizwan Mahmood" />
-                </div>
+                {rightSlot ?? (
+                  <div className="hz-photo-card">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={PHOTO_URL} alt="Rizwan Mahmood" />
+                  </div>
+                )}
               </div>
             </div>
           </div>

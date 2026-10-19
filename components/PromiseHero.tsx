@@ -15,7 +15,17 @@ const GLANCE = [
   { id: "handover", day: "Day 90", name: "You're out of day-to-day ops" },
 ];
 
-export default function PromiseHero({ linkBase = "" }: { linkBase?: string }) {
+export default function PromiseHero({
+  linkBase = "",
+  photo = false,
+  aside,
+}: {
+  linkBase?: string;
+  /** Riz's portrait on the right of the promise */
+  photo?: boolean;
+  /** or any other element there, e.g. a client quote card */
+  aside?: React.ReactNode;
+}) {
   return (
     <>
       <style>{`
@@ -61,6 +71,17 @@ export default function PromiseHero({ linkBase = "" }: { linkBase?: string }) {
         }
         .sa-glance-name { font-size: 14px; font-weight: 600; line-height: 1.3; }
 
+        /* with a photo: text left, the portrait right, the glance bar under both */
+        .sa-hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 56px; align-items: center; }
+        .sa-hero-photo {
+          border-radius: 20px; overflow: hidden; aspect-ratio: 4 / 5; max-height: 520px; margin-left: auto;
+          box-shadow: 0 28px 72px -16px rgba(14,14,13,0.32);
+        }
+        .sa-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+        @media (max-width: 960px) {
+          .sa-hero-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+          .sa-hero-photo { max-width: 420px; max-height: none; margin-left: 0; }
+        }
         @media (max-width: 767px) {
           .sa-hero { padding: 104px 0 44px; }
           .sa-glance-bar { grid-template-columns: 1fr 1fr; row-gap: 18px; }
@@ -73,26 +94,63 @@ export default function PromiseHero({ linkBase = "" }: { linkBase?: string }) {
       {/* 1 · HERO */}
       <section className="sa-hero">
         <div className="max-w-site">
-          <AnimateIn>
-            <span className="pill-eyebrow">Fractional COO / Chief of Staff</span>
-          </AnimateIn>
-          <AnimateIn delay={80}>
-            <h1 className="sa-hero-h1">
-              You will be out of <span className="sa-nowrap">day-to-day</span> operations in <em className="sa-nowrap">90 days</em>, without hiring a <span className="sa-nowrap">full-time COO.</span>
-            </h1>
-          </AnimateIn>
-          <AnimateIn delay={160}>
-            <p className="sa-hero-sub">
-              For Seed to Series B founders running operations-heavy companies, 10–90 people.
-              Four stops. You only commit to the first, and it&apos;s free.
-            </p>
-          </AnimateIn>
-          <AnimateIn delay={240}>
-            <div className="sa-hero-ctas">
-              <CalBookingButton className="btn-coral">Book a free 30-min fit call →</CalBookingButton>
-              <a href={`${linkBase}#guarantee`} className="sa-text-link">See the Diagnostic guarantee ↓</a>
+          {photo || aside ? (
+            <div className="sa-hero-grid">
+              <div>
+              <AnimateIn>
+                <span className="pill-eyebrow">Fractional COO / Chief of Staff</span>
+              </AnimateIn>
+              <AnimateIn delay={80}>
+                <h1 className="sa-hero-h1">
+                  You will be out of <span className="sa-nowrap">day-to-day</span> operations in <em className="sa-nowrap">90 days</em>, without hiring a <span className="sa-nowrap">full-time COO.</span>
+                </h1>
+              </AnimateIn>
+              <AnimateIn delay={160}>
+                <p className="sa-hero-sub">
+                  For Seed to Series B founders running operations-heavy companies, 10–90 people.
+                  Four stops. You only commit to the first, and it&apos;s free.
+                </p>
+              </AnimateIn>
+              <AnimateIn delay={240}>
+                <div className="sa-hero-ctas">
+                  <CalBookingButton className="btn-coral">Book a free 30-min fit call →</CalBookingButton>
+                  <a href={`${linkBase}#guarantee`} className="sa-text-link">See the Diagnostic guarantee ↓</a>
+                </div>
+              </AnimateIn>
+              </div>
+              <AnimateIn delay={200}>
+                {aside ?? (
+                  <div className="sa-hero-photo">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/riz-photo-new.jpg" alt="Rizwan Mahmood" />
+                  </div>
+                )}
+              </AnimateIn>
             </div>
-          </AnimateIn>
+          ) : (
+            <>
+            <AnimateIn>
+              <span className="pill-eyebrow">Fractional COO / Chief of Staff</span>
+            </AnimateIn>
+            <AnimateIn delay={80}>
+              <h1 className="sa-hero-h1">
+                You will be out of <span className="sa-nowrap">day-to-day</span> operations in <em className="sa-nowrap">90 days</em>, without hiring a <span className="sa-nowrap">full-time COO.</span>
+              </h1>
+            </AnimateIn>
+            <AnimateIn delay={160}>
+              <p className="sa-hero-sub">
+                For Seed to Series B founders running operations-heavy companies, 10–90 people.
+                Four stops. You only commit to the first, and it&apos;s free.
+              </p>
+            </AnimateIn>
+            <AnimateIn delay={240}>
+              <div className="sa-hero-ctas">
+                <CalBookingButton className="btn-coral">Book a free 30-min fit call →</CalBookingButton>
+                <a href={`${linkBase}#guarantee`} className="sa-text-link">See the Diagnostic guarantee ↓</a>
+              </div>
+            </AnimateIn>
+            </>
+          )}
 
           <AnimateIn delay={320}>
             <nav className="sa-glance" aria-label="The 90 days at a glance">
