@@ -1,5 +1,6 @@
+// Unlinked review page: reachable by URL only, kept out of search.
 export const metadata = {
-  title: "Homepage preview V3 · Rizwan Mahmood",
+  title: "Home V3 · Rizwan Mahmood",
   robots: { index: false, follow: false },
 };
 

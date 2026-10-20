@@ -16,12 +16,16 @@ const HERO_LOGOS = [
 export default function HeroSection({
   rightSlot,
   hideTrust = false,
+  headingAs = "h1",
 }: {
   /** replaces the photo on the right */
   rightSlot?: React.ReactNode;
   /** drop the 10+ years and logo row from the left, when the right side carries them */
   hideTrust?: boolean;
+  /** h2 when this section isn't the top of the page; looks the same */
+  headingAs?: "h1" | "h2";
 } = {}) {
+  const Heading = headingAs;
   const dotGridRef = useParallax<HTMLDivElement>(0.1);
   const fadeRef = useScrollFadeOut<HTMLDivElement>(420);
 
@@ -109,6 +113,8 @@ export default function HeroSection({
           gap: 56px;
           align-items: center;
         }
+        /* a panel on the right needs more room than a portrait did */
+        @media (min-width: 961px) { .hz-grid.hz-grid--panel { grid-template-columns: 1fr 1fr; } }
 
         /* LEFT */
         .hz-intro {
@@ -348,16 +354,16 @@ export default function HeroSection({
               <div className="hz-dotgrid" ref={dotGridRef} data-parallax />
             </div>
 
-            <div className="hz-grid" ref={fadeRef}>
+            <div className={`hz-grid${hideTrust ? " hz-grid--panel" : ""}`} ref={fadeRef}>
               {/* LEFT */}
               <div>
                 <p className="hz-intro">Hi, I&apos;m <span className="hz-intro-name">Riz</span>.</p>
 
-                <h1 className="hz-headline">
+                <Heading className="hz-headline">
                   I run the operations <br />
                   so you can run <br />
                   <span className="hz-accent">the company.</span>
-                </h1>
+                </Heading>
 
                 <div className="hz-rule" />
 

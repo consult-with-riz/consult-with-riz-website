@@ -4,9 +4,6 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const navLinks = [
-  // Temporary: merged homepage versions, shared for review before one replaces "/".
-  { label: "Home V2", href: "/home-v2" },
-  { label: "Home V3", href: "/home-v3" },
   { label: "Services", href: "/services" },
   { label: "Case studies", href: "/case-studies" },
   { label: "My CV", href: "/cv", cta: true },

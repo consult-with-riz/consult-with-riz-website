@@ -126,7 +126,7 @@ function FooterNavLink({ href, external, children }: { href: string; external?: 
 
 // Pages that close on their own booking card, so the footer's
 // "Need an operator next to you?" band would be a second ask in a row.
-const PAGES_WITH_OWN_CTA = ["/home-v2", "/home-v3"];
+const PAGES_WITH_OWN_CTA = ["/", "/home-v3"];
 
 export default function Footer({ showCta }: { showCta?: boolean } = {}) {
   const pathname = usePathname();

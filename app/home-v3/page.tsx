@@ -8,12 +8,10 @@ import HireComparison from "@/components/HireComparison";
 import TestimonialsSection from "@/components/Testimonials";
 import ServicesFAQ from "@/components/ServicesFAQ";
 import ActionCTA from "@/components/ActionCTA";
-import TrackRecordPanel from "@/components/TrackRecordPanel";
 
 /**
- * Home V3 (shared for review): Riz's photo beside the promise; "Hi, I'm Riz"
- * fills its right side with the track record panel.
- * The homepage and /services merged. Opens on the 90-day
+ * Home V3 (unlinked, for review): the first merged version — the old
+ * homepage and /services merged. Opens on the 90-day
  * promise, then today's homepage, then fractional vs full-time, the
  * testimonials, the FAQ and a closing nudge to book the fit call.
  */
@@ -61,8 +59,8 @@ export default function HomeV3() {
           .hv2 .ac-wrap { padding-bottom: 44px; }
         }
       `}</style>
-      <PromiseHero linkBase="/services" photo />
-      <HeroSection hideTrust rightSlot={<TrackRecordPanel />} />
+      <PromiseHero linkBase="/services" />
+      <HeroSection />
       <WhatIDo />
       <ByTheNumbers />
       <WorkTogether expandable />
