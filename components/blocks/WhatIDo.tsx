@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { playServiceTone } from "@/lib/sounds";
-import { WID_VARIANT_CSS } from "@/components/blocks/whatidoVariants";
+import { WID_VARIANT_CSS, WID_SHORT, WID_ROLE } from "@/components/blocks/whatidoVariants";
 
 /**
  * The service grid.
@@ -289,7 +289,11 @@ export default function WhatIDo({ variant }: { variant?: number } = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const { spokes, box } = useSpokes(gridRef, hubRef, SERVICES.length);
 
-  // in view: starts the highlighter (5) and the spotlight (2)
+  const autoplay = variant === 2 || variant === 6;   // spotlight that moves on its own
+  const focus = autoplay || variant === 9;            // one card focused at a time
+  const n = SERVICES.length;
+
+  // in view: starts the highlighter (5), the spotlights (2, 6) and the pulses (8)
   const [inView, setInView] = useState(false);
   useEffect(() => {
     if (!variant) return;
@@ -300,21 +304,54 @@ export default function WhatIDo({ variant }: { variant?: number } = {}) {
     return () => io.disconnect();
   }, [variant]);
 
-  // spotlight (2): one card at a time, every 2.6s while on screen; hover takes over
-  const [active, setActive] = useState(0);
+  // spotlight (2, 6): one card at a time while on screen; hover takes over.
+  // Click to trace (9): nothing until the visitor picks a card.
+  const [active, setActive] = useState<number | null>(autoplay ? 0 : null);
   const [hovering, setHovering] = useState(false);
+  const step = variant === 6 ? 2800 : 2600;
   useEffect(() => {
-    if (variant !== 2 || !inView || hovering) return;
+    if (!autoplay || !inView || hovering) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const t = setInterval(() => setActive((a) => (a + 1) % SERVICES.length), 2600);
+    const t = setInterval(() => setActive((a) => ((a ?? -1) + 1) % n), step);
     return () => clearInterval(t);
-  }, [variant, inView, hovering]);
+  }, [autoplay, inView, hovering, n, step]);
+
+  // assembles as you scroll (10): how many cards the scroll has reached
+  const [lit, setLit] = useState(0);
+  useEffect(() => {
+    if (variant !== 10) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setLit(n); return; }
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const el = sectionRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      // starts as the section's top passes 75% of the screen, done when its
+      // bottom reaches 85%
+      const start = innerHeight * 0.75, end = innerHeight * 0.85;
+      const p = Math.min(Math.max((start - r.top) / (r.height - (end - start) || 1), 0), 1);
+      const next = Math.min(n, Math.floor(p * (n + 0.5)));
+      setLit((prev) => (prev === next ? prev : next));
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll);
+    return () => { removeEventListener("scroll", onScroll); removeEventListener("resize", onScroll); if (frame) cancelAnimationFrame(frame); };
+  }, [variant, n]);
+
+  const isActive = (i: number) => focus && active === i;
+  const sectionClass = [
+    "section-pad whatido",
+    variant ? `wid-v${variant}` : "",
+    inView ? "is-in" : "",
+    focus && active !== null ? "has-active" : "",
+    variant === 6 && hovering ? "is-paused" : "",
+  ].filter(Boolean).join(" ");
 
   return (
-    <section
-      ref={sectionRef}
-      className={`section-pad whatido${variant ? ` wid-v${variant}` : ""}${inView ? " is-in" : ""}`}
-    >
+    <section ref={sectionRef} className={sectionClass}>
       {variant ? <style>{WID_VARIANT_CSS[variant] ?? ""}</style> : null}
       <div className="max-w-site">
         <div className="block-head is-center">
@@ -322,9 +359,19 @@ export default function WhatIDo({ variant }: { variant?: number } = {}) {
             The operating system{" "}
             <span className="text-ramp">a growing company runs on.</span>
           </h2>
+          {variant === 7 && (
+            <div className="wid-legend" aria-hidden="true">
+              <span className="tone-coo"><i />COO: runs the operation</span>
+              <span className="tone-cos"><i />Chief of Staff: runs the founder&apos;s week</span>
+              <span className="tone-auto"><i />Automation: keeps it running</span>
+            </div>
+          )}
+          {variant === 9 && (
+            <p className="wid-hint"><b>Hover or tap</b> any part of the system to trace it back to me.</p>
+          )}
         </div>
 
-        <div className="wid-grid" ref={gridRef}>
+        <div className="wid-grid" ref={gridRef} onPointerLeave={() => variant === 9 && setActive(null)}>
           <svg
             className="wid-spokes"
             viewBox={`0 0 ${box.w || 1} ${box.h || 1}`}
@@ -332,45 +379,94 @@ export default function WhatIDo({ variant }: { variant?: number } = {}) {
             height={box.h || undefined}
             aria-hidden="true"
           >
-            {spokes.map((sp) => (
-              <g key={sp.key} className={`spoke-i${sp.key}${variant === 2 && Number(sp.key) === active ? " is-active" : ""}`}>
-                <path className="spoke-line" d={sp.d} />
-                <polygon className="spoke-head" points={sp.arrow} />
-                <circle className="spoke-port" cx={sp.from.x} cy={sp.from.y} r="5" />
-                <circle className="spoke-port" cx={sp.to.x} cy={sp.to.y} r="5" />
-              </g>
-            ))}
+            {spokes.map((sp) => {
+              const i = Number(sp.key);
+              const cls = [
+                `spoke-i${i}`,
+                isActive(i) ? "is-active" : "",
+                variant === 10 && i < lit ? "is-lit" : "",
+                variant === 7 ? `tone-${WID_ROLE[i].tone}` : "",
+              ].filter(Boolean).join(" ");
+              return (
+                <g key={sp.key} className={cls}>
+                  <path className="spoke-line" d={sp.d} pathLength={variant === 10 ? 1 : undefined} />
+                  <polygon className="spoke-head" points={sp.arrow} />
+                  <circle className="spoke-port" cx={sp.from.x} cy={sp.from.y} r="5" />
+                  <circle className="spoke-port" cx={sp.to.x} cy={sp.to.y} r="5" />
+                  {variant === 8 && inView && (
+                    <circle className="spoke-pulse" r="5">
+                      <animateMotion
+                        path={sp.d}
+                        dur="4.8s"
+                        begin={`${i * 0.35}s`}
+                        repeatCount="indefinite"
+                        keyPoints="0;1;1"
+                        keyTimes="0;0.19;1"
+                        calcMode="linear"
+                      />
+                      {/* gone once it lands, until the next round */}
+                      <animate
+                        attributeName="opacity"
+                        values="0;1;1;0;0"
+                        keyTimes="0;0.02;0.19;0.23;1"
+                        dur="4.8s"
+                        begin={`${i * 0.35}s`}
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                  )}
+                </g>
+              );
+            })}
           </svg>
 
           {/* Back to a plain div: with the sound gone it does nothing, so
               presenting it as a button would promise an interaction that is
               not there. */}
           <div className="wid-hub" ref={hubRef} aria-hidden="true">
-            <span>Riz</span>
+            <span>{variant === 9 && active !== null ? WID_SHORT[active] : "Riz"}</span>
           </div>
 
-          {SERVICES.map((s, i) => (
-            <article
-              key={s.title}
-              className={`soft-card wid-card wid-${s.slot} wid-n${i}${variant === 2 && i === active ? " is-active" : ""}`}
-              data-spoke=""
-              style={{ ["--stagger" as string]: `${i * 0.3}s`, ["--mark-delay" as string]: `${0.15 + i * 0.22}s` }}
-              onPointerEnter={(e) => {
-                // Pointer only: a touch "hover" fires on tap, and firing a
-                // tone at someone who just scrolled past is not a detail.
-                if (e.pointerType === "mouse") {
-                  playServiceTone(i);
-                  if (variant === 2) { setHovering(true); setActive(i); }
-                }
-              }}
-              onPointerLeave={() => variant === 2 && setHovering(false)}
-            >
-              <span className="wid-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-              <Icon>{s.icon}</Icon>
-              <h3 className="wid-title"><span className="wid-mark">{s.title}</span></h3>
-              <p className="wid-body">{s.body}</p>
-            </article>
-          ))}
+          {SERVICES.map((s, i) => {
+            const cls = [
+              `soft-card wid-card wid-${s.slot} wid-n${i}`,
+              isActive(i) ? "is-active" : "",
+              variant === 10 && i < lit ? "is-lit" : "",
+              variant === 7 ? `tone-${WID_ROLE[i].tone}` : "",
+            ].filter(Boolean).join(" ");
+            return (
+              <article
+                key={s.title}
+                className={cls}
+                data-spoke=""
+                tabIndex={variant === 9 ? 0 : undefined}
+                aria-pressed={variant === 9 ? active === i : undefined}
+                style={{
+                  ["--stagger" as string]: `${i * 0.3}s`,
+                  ["--mark-delay" as string]: `${0.15 + i * 0.22}s`,
+                  ["--pulse-delay" as string]: `${i * 0.35}s`,
+                }}
+                onPointerEnter={(e) => {
+                  // Pointer only: a touch "hover" fires on tap, and firing a
+                  // tone at someone who just scrolled past is not a detail.
+                  if (e.pointerType === "mouse") {
+                    playServiceTone(i);
+                    if (focus) { setHovering(true); setActive(i); }
+                  }
+                }}
+                onPointerLeave={() => focus && setHovering(false)}
+                onClick={() => variant === 9 && setActive((a) => (a === i ? null : i))}
+                onFocus={() => variant === 9 && setActive(i)}
+              >
+                <span className="wid-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                {variant === 7 && <span className="wid-role">{WID_ROLE[i].label}</span>}
+                {variant === 6 && <span className="wid-progress" aria-hidden="true" key={`p${active}`} />}
+                <Icon>{s.icon}</Icon>
+                <h3 className="wid-title"><span className="wid-mark">{s.title}</span></h3>
+                <p className="wid-body">{s.body}</p>
+              </article>
+            );
+          })}
 
         </div>
       </div>

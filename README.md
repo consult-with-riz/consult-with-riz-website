@@ -19,6 +19,11 @@ Built with Next.js (App Router), React, TypeScript and Tailwind. Deployed on Ver
 | Next 1 (operating system as bold cards) | [consultwithriz.com/next-1](https://www.consultwithriz.com/next-1) | Hidden |
 | Next 2 (operating system as spotlight) | [consultwithriz.com/next-2](https://www.consultwithriz.com/next-2) | Hidden |
 | Next 3 (operating system as colour-coded) | [consultwithriz.com/next-3](https://www.consultwithriz.com/next-3) | Hidden |
+| Next 6 (operating system as lighter spotlight) | [consultwithriz.com/next-6](https://www.consultwithriz.com/next-6) | Hidden |
+| Next 7 (operating system as colour with meaning: COO, Chief of Staff, Automation) | [consultwithriz.com/next-7](https://www.consultwithriz.com/next-7) | Hidden |
+| Next 8 (operating system as powering up) | [consultwithriz.com/next-8](https://www.consultwithriz.com/next-8) | Hidden |
+| Next 9 (operating system as click to trace) | [consultwithriz.com/next-9](https://www.consultwithriz.com/next-9) | Hidden |
+| Next 10 (operating system as assembles as you scroll) | [consultwithriz.com/next-10](https://www.consultwithriz.com/next-10) | Hidden |
 
 Hidden pages open by URL but are not linked anywhere on the site and are kept out of search (`noindex`, not in the sitemap).
 
@@ -31,7 +36,8 @@ app/                  one folder per page
   cv/                 CV page
   services/           services (hidden)
   home-v2/ … home-v4/ earlier homepages (hidden)
-  next-1/ … next-3/   homepage with design options for the operating system (hidden)
+  next-1/ … next-10/  homepage with design options for the operating system (hidden;
+                      4 and 5 were not published)
   llms.txt/           plain-text summary for AI tools
   sitemap.ts, robots.ts
 components/           page sections, shared across pages
