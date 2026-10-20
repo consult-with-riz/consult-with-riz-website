@@ -48,7 +48,7 @@ const STOPS: Stop[] = [
     body: "Your questions, and a straight answer on whether the Diagnostic makes sense for you. No pitch.",
     items: [
       { text: "Where the operation is costing you time right now" },
-      { text: "Whether you need a COO, a Chief of Staff, or neither" },
+      { text: "Whether you need a fractional COO yet, or not" },
       { text: "A clear yes or no on the next step" },
     ],
     proof: { figure: "3 min → 20s", text: "Emergency dispatch time at Careem" },
@@ -80,10 +80,10 @@ const STOPS: Stop[] = [
   {
     id: "fractional-coo",
     day: "Days 15–90",
-    title: "Fractional COO or Chief of Staff.",
+    title: "Fractional COO.",
     price: "Scoped",
     priceNote: "to your stage · the Diagnostic decides the shape",
-    body: "I join the team and own the operation. COO when the operation is the problem, Chief of Staff when your week is. Usually a bit of both.",
+    body: "I join the team and own the operation, including the Chief of Staff work on the founder's side: priorities, follow-through, board updates.",
     items: [
       { text: "Operating cadence and the metrics people trust" },
       { text: "Cost, process and the handoffs that keep breaking" },
@@ -598,12 +598,12 @@ export default function Services() {
               </div>
             </AnimateIn>
 
-            {/* 03 · fractional COO / CoS */}
+            {/* 03 · fractional COO */}
             <AnimateIn className="sb-card-wrap" delay={240}>
               <div className="sb-card">
                 <span className="sb-step">03 · Embed</span>
-                <h3>Fractional COO / Chief of Staff</h3>
-                <p className="sb-card-sub">I join the team and own the operation. COO when the operation is the problem, Chief of Staff when your week is.</p>
+                <h3>Fractional COO</h3>
+                <p className="sb-card-sub">I join the team and own the operation, including the Chief of Staff work on the founder's side.</p>
                 <div className="sb-price">
                   <strong>Scoped</strong>
                   <span>to your stage</span>

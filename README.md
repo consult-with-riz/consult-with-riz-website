@@ -1,6 +1,6 @@
 # consultwithriz.com
 
-Rizwan Mahmood's site as a Fractional COO / Chief of Staff for Seed to Series B founders running operations-heavy companies. It explains the offer (a free fit call, a $1,500 Ops & AI Diagnostic, then fractional COO or Chief of Staff work), shows the track record and client testimonials, and lets visitors book a call.
+Rizwan Mahmood's site as a Fractional COO for Seed to Series B founders running operations-heavy companies. It explains the offer (a free fit call, a $1,500 Ops & AI Diagnostic, then fractional COO or Chief of Staff work), shows the track record and client testimonials, and lets visitors book a call.
 
 Built with Next.js (App Router), React, TypeScript and Tailwind. Deployed on Vercel: every push to `main` goes live.
 

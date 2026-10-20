@@ -248,7 +248,7 @@ const LOGOS: Record<string, string> = {
 function splitTag(tag: string) {
   const [co, ...rest] = tag.split("·").map((t) => t.trim());
   const title = (w: string) => w.charAt(0) + w.slice(1).toLowerCase();
-  const company = co.startsWith("FRACTIONAL") ? "Fractional COO / Chief of Staff" : title(co);
+  const company = co.startsWith("FRACTIONAL") ? "Fractional COO" : title(co);
   return { company, area: rest.join(" · ").toLowerCase() };
 }
 

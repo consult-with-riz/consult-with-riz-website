@@ -375,7 +375,7 @@ export default function HeroSection({
                 </p>
 
                 <ul className="hz-role-list">
-                  <li><span className="hz-role-arrow">→</span>Fractional COO or Chief of Staff, 10–30 hours a week</li>
+                  <li><span className="hz-role-arrow">→</span>Fractional COO, 10–30 hours a week</li>
                   <li><span className="hz-role-arrow">→</span>Most founders start with a two-week Ops &amp; AI Diagnostic</li>
                 </ul>
 

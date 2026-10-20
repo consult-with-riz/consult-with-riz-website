@@ -3,14 +3,14 @@
  * printed from that page (scripts/cv-pdf.mjs), so the two never drift.
  *
  * Source: Rizwan_Mahmood_Sep_2026_CV.pdf. Roles, dates and figures are
- * carried over unchanged; the framing is Fractional COO / Chief of Staff
+ * carried over unchanged; the framing is Fractional COO
  * to match the site. The hidden keyword block and the investor line from
  * the original are deliberately left out.
  */
 
 export const CV_CONTACT = {
   name: "Rizwan Mahmood",
-  role: "Fractional COO / Chief of Staff",
+  role: "Fractional COO",
   email: "riz@consultwithriz.com",
   phone: "+372 5389 0745",
   phoneHref: "tel:+37253890745",
@@ -20,7 +20,7 @@ export const CV_CONTACT = {
 };
 
 export const CV_SUMMARY =
-  "Fractional COO and Chief of Staff for Seed to Series B founders. 10+ years delivering operational, product and AI transformation inside high-growth technology businesses (Wise, Bolt, Motive, Careem). I diagnose broken processes, design the target operating model, install the cadence and ship the tooling, including AI agents, automations and reporting, that delivers measurable cost, speed, risk and compliance gains across 70+ markets.";
+  "Fractional COO for Seed to Series B founders. 10+ years delivering operational, product and AI transformation inside high-growth technology businesses (Wise, Bolt, Motive, Careem). I diagnose broken processes, design the target operating model, install the cadence and ship the tooling, including AI agents, automations and reporting, that delivers measurable cost, speed, risk and compliance gains across 70+ markets.";
 
 export const CV_SKILLS: { label: string; value: string }[] = [
   { label: "Operations Leadership", value: "Operating model design, process mapping, workflow audits, KPI & reporting design, change management" },
@@ -76,16 +76,16 @@ export type CvJob = {
 
 export const CV_EXPERIENCE: CvJob[] = [
   {
-    company: "Fractional COO / Chief of Staff",
+    company: "Fractional COO",
     self: true,
     descriptor: "Independent",
     dates: "Jun ’25 – Present",
     roles: [
       {
-        title: "Fractional COO / Chief of Staff, Ops & AI Transformation",
+        title: "Fractional COO, Ops & AI Transformation",
         scope: "Client engagements",
         bullets: [
-          "Embedded with founders and leadership teams as fractional COO and Chief of Staff: operating cadence, metrics, process design and follow-through.",
+          "Embedded with founders and leadership teams as fractional COO, including the Chief of Staff work on the founder's side: operating cadence, metrics, process design and follow-through.",
           "Engagements run end to end, from process discovery and workflow audit through solution design, build, deployment and handover to the client's own team.",
           "Shipped production automations on n8n and the Anthropic Claude API, replacing manual back-office processes across sales, finance and client operations; 20+ workflows live across 7+ clients.",
           "Client delivery across sectors: automated reporting, document generation and client-intake workflows for edtech, accelerator and financial services clients, removing ~40 hours of manual work per week per engagement.",

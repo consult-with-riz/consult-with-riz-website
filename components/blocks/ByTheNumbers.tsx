@@ -78,8 +78,8 @@ const ROWS: Row[] = [
   },
   {
     when: "Now",
-    company: "Fractional COO /\nChief of Staff",
-    moved: "Your Fractional COO or Chief of Staff. Keeping Ops running. Served",
+    company: "Fractional COO",
+    moved: "Your Fractional COO. Keeping Ops running. Served",
     reading: "7+",
     unit: "clients",
     live: true,
@@ -92,7 +92,7 @@ function NowBadge() {
   return (
     <a href="#how-people-work-with-me" className="pb-now-pill">
       <span className="pb-now-pill-dot" aria-hidden="true" />
-      <span>{"Fractional COO\u00A0/\nChief of Staff"}</span>
+      <span>Fractional COO</span>
     </a>
   );
 }

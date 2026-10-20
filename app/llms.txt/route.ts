@@ -2,15 +2,15 @@ import { SITE_URL } from "@/lib/seo";
 
 /** Plain-text summary of the site for AI answer engines. */
 export function GET() {
-  const body = `# Rizwan Mahmood — Fractional COO & Chief of Staff
+  const body = `# Rizwan Mahmood — Fractional COO
 
-> Fractional COO and Chief of Staff for operations-heavy Seed to Series B startups (10–90 people): marketplaces, logistics, fintech, B2B services. Also works with founder-led agencies and service businesses. Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. Every process he installs gets automated before he hands it over; he designs the automations himself on n8n and Claude. Based in Tallinn, Estonia.
+> Fractional COO for operations-heavy Seed to Series B startups (10–90 people): marketplaces, logistics, fintech, B2B services. Also works with founder-led agencies and service businesses. Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. Every process he installs gets automated before he hands it over; he designs the automations himself on n8n and Claude. Based in Tallinn, Estonia.
 
 ## How to work with Riz
 
 1. Talk — a free 30-minute fit call. [How to work with Riz](${SITE_URL}/#how-people-work-with-me)
 2. Diagnose — the Ops & AI Diagnostic: two weeks inside the business, ending in a prioritised 90-day plan and an automation shortlist. $1,500 fixed, credited against the first month if the engagement continues, and fully refunded if the Day 14 walkthrough isn't worth it to the client. Most clients start here. [How to work with Riz](${SITE_URL}/#how-people-work-with-me)
-3. Embed — Fractional COO / Chief of Staff, either a six-week sprint on one problem or an ongoing retainer of 10–30 hours a week. Scoped to stage; the Diagnostic decides which. [How to work with Riz](${SITE_URL}/#how-people-work-with-me)
+3. Embed — Fractional COO, either a six-week sprint on one problem or an ongoing retainer of 10–30 hours a week. Scoped to stage; the Diagnostic decides which. [How to work with Riz](${SITE_URL}/#how-people-work-with-me)
 
 ## Bench
 
@@ -28,7 +28,7 @@ For work beyond operations, Riz brings in trusted specialists in AI implementati
 - Bolt: courier costs cut from 21% to 14% of GMV, $3.9M saved in 6 months across 20 countries.
 - Wise: month-end close cut from 8 to 3 days; ~92% straight-through reconciliation.
 - Careem: dispatch time cut from 3 minutes to 20 seconds.
-- Fractional COO / Chief of Staff (2025–): 20+ client automation workflows live, ~40 hours a week of manual work removed per engagement.
+- Fractional COO (2025–): 20+ client automation workflows live, ~40 hours a week of manual work removed per engagement.
 
 ## Pages
 

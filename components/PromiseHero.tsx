@@ -11,7 +11,7 @@ import CalBookingButton from "@/components/CalModal";
 const GLANCE = [
   { id: "fit-call", day: "Day 0", name: "Free fit call" },
   { id: "ops-diagnostic", day: "Days 1–14", name: "Ops & AI Diagnostic" },
-  { id: "fractional-coo", day: "Days 15–90", name: "Fractional COO or Chief of Staff" },
+  { id: "fractional-coo", day: "Days 15–90", name: "Fractional COO" },
   { id: "handover", day: "Day 90", name: "You're out of day-to-day ops" },
 ];
 
@@ -101,7 +101,7 @@ export default function PromiseHero({
             <div className="sa-hero-grid">
               <div>
               <AnimateIn>
-                <span className="pill-eyebrow">Fractional COO / Chief of Staff</span>
+                <span className="pill-eyebrow">Fractional COO</span>
               </AnimateIn>
               <AnimateIn delay={80}>
                 <h1 className="sa-hero-h1">
@@ -133,7 +133,7 @@ export default function PromiseHero({
           ) : (
             <>
             <AnimateIn>
-              <span className="pill-eyebrow">Fractional COO / Chief of Staff</span>
+              <span className="pill-eyebrow">Fractional COO</span>
             </AnimateIn>
             <AnimateIn delay={80}>
               <h1 className="sa-hero-h1">

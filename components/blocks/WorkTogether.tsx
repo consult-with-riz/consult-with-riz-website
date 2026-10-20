@@ -58,7 +58,7 @@ const PATH: PathStep[] = [
   {
     num: "03",
     verb: "Embed",
-    title: "Fractional COO / Chief of Staff",
+    title: "Fractional COO",
     body: "I fix the one thing in a six-week sprint, or stay and run operations 10–30 hours a week. The Diagnostic tells us which.",
     price: "Scoped",
     priceNote: "sprint or retainer",

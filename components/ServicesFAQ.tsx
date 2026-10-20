@@ -6,7 +6,7 @@ import { useState } from "react";
 const FAQ: { q: string; a: string }[] = [
   {
     q: "Why start with the Diagnostic?",
-    a: "Because most founders can name the symptom, not the problem. Two weeks inside the business tells us whether you need a six-week fix, an ongoing COO or Chief of Staff, or neither. If it's neither, you still leave with the 90-day plan.",
+    a: "Because most founders can name the symptom, not the problem. Two weeks inside the business tells us whether you need a six-week fix, an ongoing fractional COO, or neither. If it's neither, you still leave with the 90-day plan.",
   },
   {
     q: "What if the Diagnostic isn't worth it?",
@@ -17,8 +17,8 @@ const FAQ: { q: string; a: string }[] = [
     a: "Mostly operations-heavy Seed to Series B startups, roughly 10 to 90 people: lots of people, handoffs and moving parts. Marketplaces, logistics, fintech, B2B services with real delivery. Founder-led agencies and service businesses too, usually starting with the Diagnostic.",
   },
   {
-    q: "COO or Chief of Staff. What's the difference?",
-    a: "A COO owns the operation: cadence, metrics, cost, process. A Chief of Staff works for the founder: priorities, follow-through, board updates. Most early-stage companies need a mix. The Diagnostic tells us which, so you don't have to decide up front.",
+    q: "Do you also do Chief of Staff work?",
+    a: "Yes, as part of the role. A COO owns the operation: cadence, metrics, cost, process. At your stage the founder usually needs the Chief of Staff side too: priorities, follow-through, board updates. I cover both, so you don't have to choose.",
   },
   {
     q: "Where does the AI part come in?",
@@ -30,7 +30,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "What's your background?",
-    a: "Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. At Bolt I took courier costs from 21% to 14% of GMV across 20 countries. At Wise, month-end close went from 8 days to 3. ACCA-qualified. Fractional COO and Chief of Staff since 2025.",
+    a: "Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. At Bolt I took courier costs from 21% to 14% of GMV across 20 countries. At Wise, month-end close went from 8 days to 3. ACCA-qualified. Fractional COO since 2025.",
   },
 ];
 

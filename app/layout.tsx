@@ -33,16 +33,16 @@ const SITE_ENTITY = {
   "@type": "Person",
   name: "Rizwan Mahmood",
   url: SEO_SITE_URL,
-  jobTitle: "Fractional COO and Chief of Staff",
-  description: "Rizwan Mahmood is a fractional COO and Chief of Staff for operations-heavy Seed to Series B startups. Ten years in operations at Careem, Bolt and Wise. Every process he installs gets automated before he hands it over. Based in Tallinn.",
+  jobTitle: "Fractional COO",
+  description: "Rizwan Mahmood is a fractional COO for operations-heavy Seed to Series B startups. Ten years in operations at Careem, Bolt and Wise. Every process he installs gets automated before he hands it over. Based in Tallinn.",
   sameAs: ["https://www.linkedin.com/in/consult-with-riz/", "https://www.instagram.com/etz.riz/"],
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(SEO_SITE_URL),
-  title: "Rizwan Mahmood · Fractional COO & Chief of Staff",
+  title: "Rizwan Mahmood · Fractional COO",
   description:
-    "Fractional COO and Chief of Staff for Seed to Series B startups. I run the operations so you can run the company, and I automate what shouldn't need a person.",
+    "Fractional COO for Seed to Series B startups. I run the operations so you can run the company, and I automate what shouldn't need a person.",
   icons: {
     icon: "/favicon/v1-coral-circle-serif-icon-black-R.png",
   },

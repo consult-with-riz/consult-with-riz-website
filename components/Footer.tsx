@@ -95,7 +95,7 @@ const navColumns: { label: string; links: FooterLink[] }[] = [
     label: "Work with me",
     links: [
       { label: "Ops & AI Diagnostic", href: "/#how-people-work-with-me" },
-      { label: "Fractional COO / Chief of Staff", href: "/#how-people-work-with-me" },
+      { label: "Fractional COO", href: "/#how-people-work-with-me" },
       { label: "Free fit call", href: "/#how-people-work-with-me" },
     ],
   },
@@ -449,7 +449,7 @@ export default function Footer({ showCta }: { showCta?: boolean } = {}) {
           <AnimateIn delay={0}>
             <div>
               <p className="ftr-brand-name">Rizwan Mahmood.</p>
-              <p className="ftr-tagline">Fractional COO. Chief of Staff. Tallinn.</p>
+              <p className="ftr-tagline">Fractional COO. Tallinn.</p>
               <div className="ftr-social-row">
                 {socialLinks.map((s) => (
                   <a
