@@ -111,7 +111,7 @@ export default function HireComparison() {
             repeating-linear-gradient(-45deg, rgba(34,51,44,0.14) 0 8px, rgba(34,51,44,0.05) 8px 16px);
           -webkit-mask-image: linear-gradient(90deg, #000 45%, rgba(0,0,0,0.35) 75%, transparent 100%);
                   mask-image: linear-gradient(90deg, #000 45%, rgba(0,0,0,0.35) 75%, transparent 100%);
-          transition: clip-path 5s cubic-bezier(.25,.1,.25,1) 0.4s;
+          transition: clip-path 9s cubic-bezier(.25,.1,.25,1) 0.4s;
           background-size: 200% 100%;
         }
         .hc-race.is-in .hc-bar.search { animation: hc-crawl 1.6s linear infinite; }

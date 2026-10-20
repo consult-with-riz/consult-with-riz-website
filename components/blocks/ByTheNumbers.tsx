@@ -224,8 +224,7 @@ export default function ByTheNumbers() {
             By the <span>numbers.</span>
           </h2>
           <p className="pb-lede">
-            Ten years running operations inside companies that were scaling fast. Same
-            job I&apos;d do in yours, at a smaller size.
+            10+ years running ops inside companies that were scaling fast.
           </p>
         </div>
 
