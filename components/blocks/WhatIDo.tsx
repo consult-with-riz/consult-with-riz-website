@@ -99,6 +99,59 @@ const SERVICES: { title: string; body: string; icon: React.ReactNode; slot: Slot
 
 
 /**
+ * The same six slots, rewritten for the Fractional COO positioning:
+ * cadence and metrics merged into one weekly rhythm, a new item for
+ * ownership and the team, and the founder's desk named as its outcome.
+ * Preview at /next-11.
+ */
+const icon = (title: string) => SERVICES.find((x) => x.title === title)!.icon;
+const SERVICES_COO: typeof SERVICES = [
+  {
+    title: "A weekly rhythm",
+    body: "One weekly review, a handful of numbers everyone reads the same way, and meetings that end in decisions.",
+    slot: "tl",
+    icon: icon("Operating cadence"),
+  },
+  {
+    title: "Process and handoffs",
+    body: "Where work waits between people: onboarding, approvals, month-end. Mapped, fixed and owned.",
+    slot: "tr",
+    icon: icon("Process and handoffs"),
+  },
+  {
+    title: "Owners, not heroes",
+    body: "Who owns what, written down. The first ops hires scoped and onboarded, so work stops routing through whoever cares most.",
+    slot: "ml",
+    icon: (
+      <>
+        <circle cx="8.5" cy="8" r="2.8" />
+        <path d="M3.5 19c0-3 2.2-5.2 5-5.2s5 2.2 5 5.2" />
+        <circle cx="16.5" cy="9.5" r="2.3" opacity="0.45" />
+        <path d="M14.8 14.6c.5-.2 1.1-.3 1.7-.3 2.4 0 4 1.9 4 4.7" opacity="0.45" />
+      </>
+    ),
+  },
+  {
+    title: "Off your desk",
+    body: "The Chief of Staff side of the job: priorities, follow-through, board updates, the projects nobody owns. You stop being the bottleneck.",
+    slot: "mr",
+    icon: icon("The founder's desk"),
+  },
+  {
+    title: "Cost and unit economics",
+    body: "Where the money leaks. At Bolt, courier cost went from 21% to 14% of GMV.",
+    slot: "bl",
+    icon: icon("Cost and unit economics"),
+  },
+  {
+    title: "The automation layer",
+    body: "Only where it earns its place: work that repeats, where a machine saves real time or mistakes. Built on n8n and Claude. You keep the system, not a dependency on me.",
+    slot: "br",
+    icon: icon("The automation layer"),
+  },
+];
+
+/**
  * The spokes are measured, not hand-drawn coordinates.
  *
  * Card positions move with the viewport and with however long the copy runs,
@@ -283,15 +336,16 @@ function Icon({ children }: { children: React.ReactNode }) {
  * `variant` (1-5) picks one of the treatments in whatidoVariants.ts; without
  * it the section looks as it always has.
  */
-export default function WhatIDo({ variant }: { variant?: number } = {}) {
+export default function WhatIDo({ variant, items }: { variant?: number; items?: "coo" } = {}) {
+  const LIST = items === "coo" ? SERVICES_COO : SERVICES;
   const gridRef = useRef<HTMLDivElement>(null);
   const hubRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const { spokes, box } = useSpokes(gridRef, hubRef, SERVICES.length);
+  const { spokes, box } = useSpokes(gridRef, hubRef, LIST.length);
 
   const autoplay = variant === 2 || variant === 6;   // spotlight that moves on its own
   const focus = autoplay || variant === 9;            // one card focused at a time
-  const n = SERVICES.length;
+  const n = LIST.length;
 
   // in view: starts the highlighter (5), the spotlights (2, 6) and the pulses (8)
   const [inView, setInView] = useState(false);
@@ -352,6 +406,13 @@ export default function WhatIDo({ variant }: { variant?: number } = {}) {
 
   return (
     <section ref={sectionRef} className={sectionClass}>
+      {/* cards in the same row stretch to one height, so their edges line up */}
+      <style>{`
+        .wid-grid > .wid-card { align-self: stretch; }
+        /* with level rows, a connector can't slip past a shorter neighbour,
+           so the rows get the room to route underneath instead */
+        @media (min-width: 1280px) { .wid-grid { row-gap: 2.75rem; } }
+      `}</style>
       {variant ? <style>{WID_VARIANT_CSS[variant] ?? ""}</style> : null}
       <div className="max-w-site">
         <div className="block-head is-center">
@@ -427,7 +488,7 @@ export default function WhatIDo({ variant }: { variant?: number } = {}) {
             <span>{variant === 9 && active !== null ? WID_SHORT[active] : "Riz"}</span>
           </div>
 
-          {SERVICES.map((s, i) => {
+          {LIST.map((s, i) => {
             const cls = [
               `soft-card wid-card wid-${s.slot} wid-n${i}`,
               isActive(i) ? "is-active" : "",

@@ -14,9 +14,10 @@ import ActionCTA from "@/components/ActionCTA";
  * from the top, the FAQ opens from its heading, and the closing card takes
  * its own white band so the cream footer still alternates.
  *
- * `osVariant` picks the operating-system treatment (1-5) while we choose.
+ * `osVariant` picks the operating-system treatment while we choose;
+ * `osItems="coo"` swaps in the six items rewritten for Fractional COO.
  */
-export default function HomeNext({ osVariant }: { osVariant?: number }) {
+export default function HomeNext({ osVariant, osItems }: { osVariant?: number; osItems?: "coo" }) {
   return (
     <div className="hn">
       <style>{`
@@ -52,7 +53,7 @@ export default function HomeNext({ osVariant }: { osVariant?: number }) {
         }
       `}</style>
       <PromiseHero anchor="#how-people-work-with-me" photo />
-      <WhatIDo variant={osVariant} />
+      <WhatIDo variant={osVariant} items={osItems} />
       <ByTheNumbers />
       <WorkTogether expandable />
       <HireComparison />
