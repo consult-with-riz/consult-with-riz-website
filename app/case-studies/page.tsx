@@ -208,7 +208,7 @@ const caseRowsBase: CaseRow[] = [
   {
     id: "cs-07",
     num: "07",
-    tag: "FRACTIONAL COO / CHIEF OF STAFF · AUTOMATION",
+    tag: "FRACTIONAL COO · AUTOMATION",
     title: "The layer underneath: AI that runs the process",
     result: "20+ workflows live · ~40 hrs/week removed",
     area: "Automation",
