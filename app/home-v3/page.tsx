@@ -11,7 +11,7 @@ import ActionCTA from "@/components/ActionCTA";
 
 /**
  * Home V3 (unlinked, for review): the first merged version — the old
- * homepage and /services merged. Opens on the 90-day
+ * homepage and the services page merged. Opens on the 90-day
  * promise, then today's homepage, then fractional vs full-time, the
  * testimonials, the FAQ and a closing nudge to book the fit call.
  */
@@ -59,7 +59,7 @@ export default function HomeV3() {
           .hv2 .ac-wrap { padding-bottom: 44px; }
         }
       `}</style>
-      <PromiseHero linkBase="/services" />
+      <PromiseHero anchor="#how-people-work-with-me" />
       <HeroSection />
       <WhatIDo />
       <ByTheNumbers />

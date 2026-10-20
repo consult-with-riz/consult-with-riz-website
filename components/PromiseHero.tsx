@@ -4,8 +4,8 @@ import CalBookingButton from "@/components/CalModal";
 
 /**
  * The promise: "You will be out of day-to-day operations in 90 days…",
- * with the 90 days at a glance underneath. Opens /services; `linkBase`
- * points the glance links at /services when it's used on another page.
+ * with the 90 days at a glance underneath. On /services the glance links
+ * jump to each stop; elsewhere `anchor` sends them all to one section.
  */
 
 const GLANCE = [
@@ -17,10 +17,13 @@ const GLANCE = [
 
 export default function PromiseHero({
   linkBase = "",
+  anchor,
   photo = false,
   aside,
 }: {
   linkBase?: string;
+  /** send every glance link and the guarantee link here instead */
+  anchor?: string;
   /** Riz's portrait on the right of the promise */
   photo?: boolean;
   /** or any other element there, e.g. a client quote card */
@@ -114,7 +117,7 @@ export default function PromiseHero({
               <AnimateIn delay={240}>
                 <div className="sa-hero-ctas">
                   <CalBookingButton className="btn-coral">Book a free 30-min fit call →</CalBookingButton>
-                  <a href={`${linkBase}#guarantee`} className="sa-text-link">See the Diagnostic guarantee ↓</a>
+                  <a href={anchor ?? `${linkBase}#guarantee`} className="sa-text-link">See the Diagnostic guarantee ↓</a>
                 </div>
               </AnimateIn>
               </div>
@@ -146,7 +149,7 @@ export default function PromiseHero({
             <AnimateIn delay={240}>
               <div className="sa-hero-ctas">
                 <CalBookingButton className="btn-coral">Book a free 30-min fit call →</CalBookingButton>
-                <a href={`${linkBase}#guarantee`} className="sa-text-link">See the Diagnostic guarantee ↓</a>
+                <a href={anchor ?? `${linkBase}#guarantee`} className="sa-text-link">See the Diagnostic guarantee ↓</a>
               </div>
             </AnimateIn>
             </>
@@ -156,7 +159,7 @@ export default function PromiseHero({
             <nav className="sa-glance" aria-label="The 90 days at a glance">
               <div className="sa-glance-bar">
                 {GLANCE.map((s) => (
-                  <a key={s.id} href={`${linkBase}#${s.id}`} className="sa-glance-seg">
+                  <a key={s.id} href={anchor ?? `${linkBase}#${s.id}`} className="sa-glance-seg">
                     <i aria-hidden="true" />
                     <span className="sa-glance-day">{s.day}</span>
                     <span className="sa-glance-name">{s.name}</span>

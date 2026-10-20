@@ -8,9 +8,9 @@ export function GET() {
 
 ## How to work with Riz
 
-1. Talk — a free 30-minute fit call. ${SITE_URL}/services#fit-call
-2. Diagnose — the Ops & AI Diagnostic: two weeks inside the business, ending in a prioritised 90-day plan and an automation shortlist. $1,500 fixed, credited against the first month if the engagement continues, and fully refunded if the Day 14 walkthrough isn't worth it to the client. Most clients start here. ${SITE_URL}/services#ops-diagnostic
-3. Embed — Fractional COO / Chief of Staff, either a six-week sprint on one problem or an ongoing retainer of 10–30 hours a week. Scoped to stage; the Diagnostic decides which. ${SITE_URL}/services#fractional-coo
+1. Talk — a free 30-minute fit call. ${SITE_URL}/#how-people-work-with-me
+2. Diagnose — the Ops & AI Diagnostic: two weeks inside the business, ending in a prioritised 90-day plan and an automation shortlist. $1,500 fixed, credited against the first month if the engagement continues, and fully refunded if the Day 14 walkthrough isn't worth it to the client. Most clients start here. ${SITE_URL}/#how-people-work-with-me
+3. Embed — Fractional COO / Chief of Staff, either a six-week sprint on one problem or an ongoing retainer of 10–30 hours a week. Scoped to stage; the Diagnostic decides which. ${SITE_URL}/#how-people-work-with-me
 
 ## Bench
 
@@ -32,7 +32,7 @@ For work beyond operations, Riz brings in trusted specialists in AI implementati
 
 ## Pages
 
-- ${SITE_URL}/services
+- ${SITE_URL}/
 - ${SITE_URL}/case-studies
 - ${SITE_URL}/cv (CV, with PDF download)
 

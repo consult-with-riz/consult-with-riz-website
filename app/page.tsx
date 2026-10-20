@@ -61,7 +61,7 @@ export default function Home() {
           .hv2 .ac-wrap { padding-bottom: 44px; }
         }
       `}</style>
-      <PromiseHero linkBase="/services" photo />
+      <PromiseHero anchor="#how-people-work-with-me" photo />
       <HeroSection hideTrust headingAs="h2" rightSlot={<TrackRecordPanel />} />
       <WhatIDo />
       <ByTheNumbers />

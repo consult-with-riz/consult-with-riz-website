@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-/* The FAQ from /services, also used on the homepage preview. */
+/* The FAQ, used on the homepage and the services page. */
 
 const FAQ: { q: string; a: string }[] = [
   {

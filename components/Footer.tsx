@@ -88,16 +88,15 @@ const navColumns: { label: string; links: FooterLink[] }[] = [
     links: [
       { label: "Home", href: "/" },
       { label: "Case studies", href: "/case-studies" },
-      { label: "Services", href: "/services" },
       { label: "CV", href: "/cv" },
     ],
   },
   {
     label: "Work with me",
     links: [
-      { label: "Ops & AI Diagnostic", href: "/services#ops-diagnostic" },
-      { label: "Fractional COO / Chief of Staff", href: "/services#fractional-coo" },
-      { label: "Free fit call", href: "/services#fit-call" },
+      { label: "Ops & AI Diagnostic", href: "/#how-people-work-with-me" },
+      { label: "Fractional COO / Chief of Staff", href: "/#how-people-work-with-me" },
+      { label: "Free fit call", href: "/#how-people-work-with-me" },
     ],
   },
   {

@@ -19,7 +19,7 @@ type PathStep = {
   priceNote: string;
   featured?: boolean;
   cta: { label: string; href?: string };
-  /** what /services lists for this step, shown when the cards are opened */
+  /** the detail for this step, shown when the cards are opened */
   more: { items: string[]; note?: { label: string; text: string }[] };
 };
 
@@ -44,7 +44,7 @@ const PATH: PathStep[] = [
     price: "$1,500",
     priceNote: "credited if we continue · refunded if it isn't worth it",
     featured: true,
-    cta: { label: "See details", href: "/services#ops-diagnostic" },
+    cta: { label: "Start with a diagnostic" },
     more: {
       items: [
         "Interviews with the founder and team leads",
@@ -62,7 +62,7 @@ const PATH: PathStep[] = [
     body: "I fix the one thing in a six-week sprint, or stay and run operations 10–30 hours a week. The Diagnostic tells us which.",
     price: "Scoped",
     priceNote: "sprint or retainer",
-    cta: { label: "See details", href: "/services#fractional-coo" },
+    cta: { label: "Book an intro call" },
     more: {
       items: [
         "Operating cadence and the metrics people trust",

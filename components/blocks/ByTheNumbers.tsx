@@ -87,10 +87,10 @@ const ROWS: Row[] = [
 ];
 
 /* The "Now" row has no company logo, so its Where cell is the offer
-   itself: a coral badge that links to the Fractional COO / CoS section. */
+   itself: a coral badge that links to the three ways to work together. */
 function NowBadge() {
   return (
-    <a href="/services#fractional-coo" className="pb-now-pill">
+    <a href="#how-people-work-with-me" className="pb-now-pill">
       <span className="pb-now-pill-dot" aria-hidden="true" />
       <span>{"Fractional COO\u00A0/\nChief of Staff"}</span>
     </a>

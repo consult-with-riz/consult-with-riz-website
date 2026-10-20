@@ -4,7 +4,7 @@ import CalBookingButton from "@/components/CalModal";
 
 /**
  * The closing nudge: the same dark card as the Diagnostic guarantee on
- * /services, pointed at the free fit call instead of the guarantee.
+ * services page, pointed at the free fit call instead of the guarantee.
  */
 export default function ActionCTA() {
   return (
