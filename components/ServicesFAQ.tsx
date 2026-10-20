@@ -22,7 +22,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Where does the AI part come in?",
-    a: "After the process is clear, never before. Once a report, a handoff or a follow-up runs the same way three times, it gets automated on n8n and the Claude API. You keep the systems when I leave.",
+    a: "After the process is clear, never before. Once a report, a handoff or a follow-up runs the same way three times, I look at automating it, and only do it if it earns its place: real time saved or mistakes cut. If a clear owner and a checklist do the job, that's what you get. Anything I build on n8n and the Claude API stays with you.",
   },
   {
     q: "What if we need more than operations?",

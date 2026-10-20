@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/seo";
 export function GET() {
   const body = `# Rizwan Mahmood — Fractional COO
 
-> Fractional COO for operations-heavy Seed to Series B startups (10–90 people): marketplaces, logistics, fintech, B2B services. Also works with founder-led agencies and service businesses. Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. Every process he installs gets automated before he hands it over; he designs the automations himself on n8n and Claude. Based in Tallinn, Estonia.
+> Fractional COO for operations-heavy Seed to Series B startups (10–90 people): marketplaces, logistics, fintech, B2B services. Also works with founder-led agencies and service businesses. Ten years in operations at S&P Global, Careem, Motive, Bolt and Wise. He automates only where it earns its place: the process gets fixed first, and automated only if that saves real time or cuts errors. He designs the automations himself on n8n and Claude. Based in Tallinn, Estonia.
 
 ## How to work with Riz
 

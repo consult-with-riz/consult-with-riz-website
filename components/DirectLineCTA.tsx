@@ -15,7 +15,7 @@ type DirectLineCTAProps = {
 };
 
 const AI_PROMPT =
-  "I'm about to talk with Rizwan Mahmood, a fractional COO who ran operations at Careem, Bolt and Wise and automates the processes he installs, using n8n and Claude. Help me think through what to ask him and whether my startup needs a fractional COO yet.";
+  "I'm about to talk with Rizwan Mahmood, a fractional COO who ran operations at Careem, Bolt and Wise and automates only where it earns its place, using n8n and Claude. Help me think through what to ask him and whether my startup needs a fractional COO yet.";
 
 const ENCODED_AI_PROMPT = encodeURIComponent(AI_PROMPT);
 

@@ -371,7 +371,7 @@ export default function HeroSection({
                   I help Seed to Series B founders get out of day-to-day operations in
                   90 days, without hiring a full-time COO.{" "}
                   <b>Ten years inside Careem, Bolt and Wise.</b> Every process I fix
-                  gets automated before I hand it back.
+                  is written down, and automated where it earns its place.
                 </p>
 
                 <ul className="hz-role-list">

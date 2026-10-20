@@ -68,7 +68,7 @@ const PATH: PathStep[] = [
         "Operating cadence and the metrics people trust",
         "Cost, process and the handoffs that keep breaking",
         "Priorities, board updates and follow-through",
-        "The repeat work automated before I hand it over",
+        "Repeat work automated where it earns its place",
       ],
       note: [
         { label: "Sprint.", text: "One problem, six weeks, fixed and handed over." },

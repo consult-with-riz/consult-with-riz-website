@@ -88,7 +88,7 @@ const STOPS: Stop[] = [
       { text: "Operating cadence and the metrics people trust" },
       { text: "Cost, process and the handoffs that keep breaking" },
       { text: "Priorities, board updates and follow-through" },
-      { text: "The repeat work automated before I hand it over" },
+      { text: "Repeat work automated where it earns its place" },
     ],
     proof: { figure: "$3.9M", text: "Saved at Bolt, courier costs cut from 21% to 14% of GMV" },
     quote: {
@@ -103,11 +103,11 @@ const STOPS: Stop[] = [
     title: "You're out of day-to-day ops.",
     price: "Yours",
     priceNote: "everything stays when I step back",
-    body: "The operation runs without you in every thread. You keep the cadence, the metrics and the automations, and a team that knows why each one exists.",
+    body: "The operation runs without you in every thread. You keep the cadence, the metrics, any automations that earned their place, and a team that knows why each one exists.",
     items: [
       { text: "The weekly cadence, run by your team" },
       { text: "Dashboards and metrics people actually check" },
-      { text: "Automations on n8n and the Claude API, in your accounts" },
+      { text: "Automations, where they earned it, in your accounts" },
     ],
     proof: { figure: "~92%", text: "Straight-through reconciliation matching shipped at Wise" },
     quote: {
@@ -614,7 +614,7 @@ export default function Services() {
                     "Operating cadence and the metrics people trust",
                     "Cost, process and the handoffs that keep breaking",
                     "Priorities, board updates and follow-through",
-                    "The repeat work automated before I hand it over",
+                    "Repeat work automated where it earns its place",
                   ].map((t) => (
                     <li key={t}><Check />{t}</li>
                   ))}

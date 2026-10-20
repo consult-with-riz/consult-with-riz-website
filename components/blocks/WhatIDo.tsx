@@ -84,7 +84,7 @@ const SERVICES: { title: string; body: string; icon: React.ReactNode; slot: Slot
   },
   {
     title: "The automation layer",
-    body: "Anything repeatable gets automated before I leave. I design it on n8n and Claude. You keep the system, not a dependency on me.",
+    body: "Only where it earns its place: work that repeats, where a machine saves real time or mistakes. Built on n8n and Claude. You keep the system, not a dependency on me.",
     slot: "br",
     icon: (
       <>
