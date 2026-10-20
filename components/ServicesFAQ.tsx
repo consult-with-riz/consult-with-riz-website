@@ -34,8 +34,13 @@ const FAQ: { q: string; a: string }[] = [
   },
 ];
 
-export default function ServicesFAQ() {
+/**
+ * `collapsible`: the section starts as just its heading, a button with a
+ * plus; opening it shows the questions, and each question opens its answer.
+ */
+export default function ServicesFAQ({ collapsible = false }: { collapsible?: boolean } = {}) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [listOpen, setListOpen] = useState(!collapsible);
   return (
     <>
       <style>{`
@@ -54,44 +59,87 @@ export default function ServicesFAQ() {
         .svc-faq-a { overflow: hidden; min-height: 0; margin: 0; padding: 0 24px; color: var(--body); line-height: 1.65; }
         .svc-faq-item.is-open .svc-faq-a { padding-bottom: 20px; }
 
+        /* collapsible: the heading is the toggle */
+        .svc-faq-toggle {
+          display: flex; align-items: center; justify-content: center; gap: 18px; width: 100%;
+          padding: 0; border: 0; background: none; cursor: pointer; font: inherit; color: inherit;
+        }
+        .svc-faq-toggle .block-title { margin: 0; }
+        .svc-faq-toggle:focus-visible { outline: 2px solid var(--coral); outline-offset: 8px; border-radius: 10px; }
+        .svc-faq-toggle-sign {
+          flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%;
+          display: inline-flex; align-items: center; justify-content: center;
+          background: var(--coral); color: #fff;
+          transition: transform 0.35s var(--ease), background 0.2s ease;
+        }
+        .svc-faq-toggle:hover .svc-faq-toggle-sign { background: #e8431b; }
+        .svc-faq-toggle[aria-expanded="true"] .svc-faq-toggle-sign { transform: rotate(45deg); }
+        .svc-faq-list-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s var(--ease); }
+        .svc-faq-list-wrap.is-open { grid-template-rows: 1fr; }
+        .svc-faq-list-wrap > div { min-height: 0; overflow: hidden; }
+        .svc-faq-list-wrap .svc-faq { padding: 4px 4px 14px; margin-top: 32px; }
+
         @media (max-width: 767px) {
           .sa-faq-section { padding: 56px 0; }
+          .svc-faq-toggle { gap: 12px; }
+          .svc-faq-toggle-sign { width: 40px; height: 40px; }
           .svc-faq-q { padding: 18px 18px; font-size: 1rem; }
           .svc-faq-a { padding: 0 18px; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .svc-faq-a-wrap, .svc-faq-sign { transition: none !important; }
+          .svc-faq-a-wrap, .svc-faq-sign, .svc-faq-list-wrap, .svc-faq-toggle-sign { transition: none !important; }
         }
       `}</style>
 
       {/* 6 · FAQ */}
       <section className="sa-faq-section">
         <div className="max-w-site">
-          <div className="block-head is-center">
-            <span className="pill-eyebrow">Questions</span>
-            <h2 className="block-title">Questions before you book.</h2>
-          </div>
-          <div className="svc-faq">
-            {FAQ.map((item, i) => {
-              const isOpen = openFaq === i;
-              return (
-                <div key={item.q} className={`svc-faq-item${isOpen ? " is-open" : ""}`}>
-                  <button
-                    type="button"
-                    className="svc-faq-q"
-                    onClick={() => setOpenFaq(isOpen ? null : i)}
-                    aria-expanded={isOpen}
-                    aria-controls={`svc-faq-${i}`}
-                  >
-                    <span>{item.q}</span>
-                    <span className="svc-faq-sign" aria-hidden="true">+</span>
-                  </button>
-                  <div id={`svc-faq-${i}`} className="svc-faq-a-wrap" role="region">
-                    <p className="svc-faq-a">{item.a}</p>
-                  </div>
-                </div>
-              );
-            })}
+          {collapsible ? (
+            <button
+              type="button"
+              className="svc-faq-toggle"
+              aria-expanded={listOpen}
+              aria-controls="svc-faq-list"
+              onClick={() => setListOpen((o) => !o)}
+            >
+              <h2 className="block-title">Questions before you book.</h2>
+              <span className="svc-faq-toggle-sign" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M9 3v12M3 9h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+                </svg>
+              </span>
+            </button>
+          ) : (
+            <div className="block-head is-center">
+              <span className="pill-eyebrow">Questions</span>
+              <h2 className="block-title">Questions before you book.</h2>
+            </div>
+          )}
+          <div id="svc-faq-list" className={collapsible ? `svc-faq-list-wrap${listOpen ? " is-open" : ""}` : undefined} inert={collapsible && !listOpen ? true : undefined}>
+            <div>
+              <div className="svc-faq">
+                {FAQ.map((item, i) => {
+                  const isOpen = openFaq === i;
+                  return (
+                    <div key={item.q} className={`svc-faq-item${isOpen ? " is-open" : ""}`}>
+                      <button
+                        type="button"
+                        className="svc-faq-q"
+                        onClick={() => setOpenFaq(isOpen ? null : i)}
+                        aria-expanded={isOpen}
+                        aria-controls={`svc-faq-${i}`}
+                      >
+                        <span>{item.q}</span>
+                        <span className="svc-faq-sign" aria-hidden="true">+</span>
+                      </button>
+                      <div id={`svc-faq-${i}`} className="svc-faq-a-wrap" role="region">
+                        <p className="svc-faq-a">{item.a}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </section>

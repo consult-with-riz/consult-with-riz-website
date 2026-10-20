@@ -4,8 +4,8 @@
 // answer engines (ChatGPT, Perplexity, Google AI Overviews) can tell what the
 // site is, what each post is, and lift its FAQ answers.
 
-// TODO: swap for the new domain once it is registered.
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+// NEXT_PUBLIC_SITE_URL overrides it, e.g. for a preview deployment.
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.consultwithriz.com";
 
 /** Absolute URL for a site path, or the input untouched if already absolute. */
 export function absoluteUrl(path: string): string {

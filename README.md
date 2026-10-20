@@ -11,10 +11,14 @@ Built with Next.js (App Router), React, TypeScript and Tailwind. Deployed on Ver
 | Home | [consultwithriz.com](https://www.consultwithriz.com) | Not hidden |
 | Case studies | [consultwithriz.com/case-studies](https://www.consultwithriz.com/case-studies) | Not hidden |
 | CV (with PDF download) | [consultwithriz.com/cv](https://www.consultwithriz.com/cv) | Not hidden |
-| Services | [consultwithriz.com/services](https://www.consultwithriz.com/services) | Hidden |
-| Home V2 (previous homepage) | [consultwithriz.com/home-v2](https://www.consultwithriz.com/home-v2) | Hidden |
-| Home V3 (first merged homepage) | [consultwithriz.com/home-v3](https://www.consultwithriz.com/home-v3) | Hidden |
 | AI summary of the site | [consultwithriz.com/llms.txt](https://www.consultwithriz.com/llms.txt) | Not hidden |
+| Services | [consultwithriz.com/services](https://www.consultwithriz.com/services) | Hidden |
+| Home V2 (original homepage) | [consultwithriz.com/home-v2](https://www.consultwithriz.com/home-v2) | Hidden |
+| Home V3 (first merged homepage) | [consultwithriz.com/home-v3](https://www.consultwithriz.com/home-v3) | Hidden |
+| Home V4 (merged homepage with "Hi, I'm Riz") | [consultwithriz.com/home-v4](https://www.consultwithriz.com/home-v4) | Hidden |
+| Next 1 (operating system as bold cards) | [consultwithriz.com/next-1](https://www.consultwithriz.com/next-1) | Hidden |
+| Next 2 (operating system as spotlight) | [consultwithriz.com/next-2](https://www.consultwithriz.com/next-2) | Hidden |
+| Next 3 (operating system as colour-coded) | [consultwithriz.com/next-3](https://www.consultwithriz.com/next-3) | Hidden |
 
 Hidden pages open by URL but are not linked anywhere on the site and are kept out of search (`noindex`, not in the sitemap).
 
@@ -26,11 +30,14 @@ app/                  one folder per page
   case-studies/       case studies
   cv/                 CV page
   services/           services (hidden)
-  home-v2/, home-v3/  earlier homepages (hidden)
+  home-v2/ … home-v4/ earlier homepages (hidden)
+  next-1/ … next-3/   homepage with design options for the operating system (hidden)
   llms.txt/           plain-text summary for AI tools
   sitemap.ts, robots.ts
 components/           page sections, shared across pages
-  blocks/             homepage blocks (what I do, the numbers, ways to work together)
+  HomeNext.tsx        the homepage, section by section
+  blocks/             homepage blocks (the operating system, the numbers, ways to work together);
+                      whatidoVariants.ts holds the operating-system design options
   cv/                 CV layout and the CV data (cvData.ts)
 lib/                  SEO helpers, UI sounds, confetti
 public/               photos, logos, testimonial photos, the CV PDF

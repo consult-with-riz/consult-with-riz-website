@@ -1,0 +1,9 @@
+// Unlinked review page: reachable by URL only, kept out of search.
+export const metadata = {
+  title: "Home V4 · Rizwan Mahmood",
+  robots: { index: false, follow: false },
+};
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return children;
+}

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { playServiceTone } from "@/lib/sounds";
+import { WID_VARIANT_CSS } from "@/components/blocks/whatidoVariants";
 
 /**
  * The service grid.
@@ -278,13 +279,43 @@ function Icon({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function WhatIDo() {
+/**
+ * `variant` (1-5) picks one of the treatments in whatidoVariants.ts; without
+ * it the section looks as it always has.
+ */
+export default function WhatIDo({ variant }: { variant?: number } = {}) {
   const gridRef = useRef<HTMLDivElement>(null);
   const hubRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const { spokes, box } = useSpokes(gridRef, hubRef, SERVICES.length);
 
+  // in view: starts the highlighter (5) and the spotlight (2)
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!variant) return;
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [variant]);
+
+  // spotlight (2): one card at a time, every 2.6s while on screen; hover takes over
+  const [active, setActive] = useState(0);
+  const [hovering, setHovering] = useState(false);
+  useEffect(() => {
+    if (variant !== 2 || !inView || hovering) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setInterval(() => setActive((a) => (a + 1) % SERVICES.length), 2600);
+    return () => clearInterval(t);
+  }, [variant, inView, hovering]);
+
   return (
-    <section className="section-pad whatido">
+    <section
+      ref={sectionRef}
+      className={`section-pad whatido${variant ? ` wid-v${variant}` : ""}${inView ? " is-in" : ""}`}
+    >
+      {variant ? <style>{WID_VARIANT_CSS[variant] ?? ""}</style> : null}
       <div className="max-w-site">
         <div className="block-head is-center">
           <h2 className="block-title">
@@ -302,7 +333,7 @@ export default function WhatIDo() {
             aria-hidden="true"
           >
             {spokes.map((sp) => (
-              <g key={sp.key}>
+              <g key={sp.key} className={`spoke-i${sp.key}${variant === 2 && Number(sp.key) === active ? " is-active" : ""}`}>
                 <path className="spoke-line" d={sp.d} />
                 <polygon className="spoke-head" points={sp.arrow} />
                 <circle className="spoke-port" cx={sp.from.x} cy={sp.from.y} r="5" />
@@ -321,17 +352,22 @@ export default function WhatIDo() {
           {SERVICES.map((s, i) => (
             <article
               key={s.title}
-              className={`soft-card wid-card wid-${s.slot}`}
+              className={`soft-card wid-card wid-${s.slot} wid-n${i}${variant === 2 && i === active ? " is-active" : ""}`}
               data-spoke=""
-              style={{ ["--stagger" as string]: `${i * 0.3}s` }}
+              style={{ ["--stagger" as string]: `${i * 0.3}s`, ["--mark-delay" as string]: `${0.15 + i * 0.22}s` }}
               onPointerEnter={(e) => {
                 // Pointer only: a touch "hover" fires on tap, and firing a
                 // tone at someone who just scrolled past is not a detail.
-                if (e.pointerType === "mouse") playServiceTone(i);
+                if (e.pointerType === "mouse") {
+                  playServiceTone(i);
+                  if (variant === 2) { setHovering(true); setActive(i); }
+                }
               }}
+              onPointerLeave={() => variant === 2 && setHovering(false)}
             >
+              <span className="wid-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
               <Icon>{s.icon}</Icon>
-              <h3 className="wid-title">{s.title}</h3>
+              <h3 className="wid-title"><span className="wid-mark">{s.title}</span></h3>
               <p className="wid-body">{s.body}</p>
             </article>
           ))}

@@ -2119,6 +2119,8 @@ html:has(.tdialog[open]) {
   margin: 0 0 0.6rem;
 }
 .wid-body { font-size: 15.5px; line-height: 1.6; color: var(--body); margin: 0; }
+/* card numbers: only the variant treatments show them */
+.wid-num { display: none; }
 
 .wid-cta { background: var(--peach); }
 .wid-cta-btn { margin-top: auto; align-self: flex-start; }
