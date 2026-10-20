@@ -8,7 +8,7 @@ Built with Next.js (App Router), React, TypeScript and Tailwind. Deployed on Ver
 
 | Page | Link | Status |
 |---|---|---|
-| Home | [consultwithriz.com](https://www.consultwithriz.com) | Not hidden |
+| Home (operating system colour-coded) | [consultwithriz.com](https://www.consultwithriz.com) | Not hidden |
 | Case studies | [consultwithriz.com/case-studies](https://www.consultwithriz.com/case-studies) | Not hidden |
 | CV (with PDF download) | [consultwithriz.com/cv](https://www.consultwithriz.com/cv) | Not hidden |
 | AI summary of the site | [consultwithriz.com/llms.txt](https://www.consultwithriz.com/llms.txt) | Not hidden |
@@ -18,7 +18,7 @@ Built with Next.js (App Router), React, TypeScript and Tailwind. Deployed on Ver
 | Home V4 (merged homepage with "Hi, I'm Riz") | [consultwithriz.com/home-v4](https://www.consultwithriz.com/home-v4) | Hidden |
 | Next 1 (operating system as bold cards) | [consultwithriz.com/next-1](https://www.consultwithriz.com/next-1) | Hidden |
 | Next 2 (operating system as spotlight) | [consultwithriz.com/next-2](https://www.consultwithriz.com/next-2) | Hidden |
-| Next 3 (operating system as colour-coded) | [consultwithriz.com/next-3](https://www.consultwithriz.com/next-3) | Hidden |
+| Next 3 (operating system as plain cards, the previous homepage design) | [consultwithriz.com/next-3](https://www.consultwithriz.com/next-3) | Hidden |
 | Next 6 (operating system as lighter spotlight) | [consultwithriz.com/next-6](https://www.consultwithriz.com/next-6) | Hidden |
 | Next 7 (operating system as colour with meaning: COO, Chief of Staff, Automation) | [consultwithriz.com/next-7](https://www.consultwithriz.com/next-7) | Hidden |
 | Next 8 (operating system as powering up) | [consultwithriz.com/next-8](https://www.consultwithriz.com/next-8) | Hidden |
