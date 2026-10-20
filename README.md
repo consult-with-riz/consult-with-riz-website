@@ -45,6 +45,7 @@ Vercel → the project → Deployments → pick the last good deployment → **I
 | By the numbers line, slower full-time bar in the race | 20 Oct 2026 | [`6044763`](https://github.com/consult-with-riz/consult-with-riz-website/commit/6044763f3a0cd902cc5b29c32c256ff491e69926) | `git revert --no-edit 6044763` |
 | Homepage hero without the pill and "four stops" line; hub and cards book a call | 20 Oct 2026 | [`c79f830`](https://github.com/consult-with-riz/consult-with-riz-website/commit/c79f83016074c00a39835ac09759ee05fd52c9d5) | `git revert --no-edit c79f830` |
 | Only the Riz hub books a call (cards plain, no label) | 20 Oct 2026 | [`7a6c176`](https://github.com/consult-with-riz/consult-with-riz-website/commit/7a6c176ddddbba35aaff1c381b74a5de526aba97) | `git revert --no-edit 7a6c176` |
+| Case studies: split view, filters, four client cases | 20 Oct 2026 | [`e0f7bf6`](https://github.com/consult-with-riz/consult-with-riz-website/commit/e0f7bf6ef24a2aca3ca05711dc935d2240d77a2f) | `git revert --no-edit e0f7bf6` |
 
 Then `git push origin main`. Run the commands exactly as written: one `git revert` per commit, newest first.
 
@@ -56,6 +57,7 @@ The positioning and the automation wording touched some of the same sentences (t
 |---|---|
 | [`positioning-coo-and-cos`](https://github.com/consult-with-riz/consult-with-riz-website/tree/positioning-coo-and-cos) | Before the Fractional COO positioning |
 | [`before-automation-wording`](https://github.com/consult-with-riz/consult-with-riz-website/tree/before-automation-wording) | Before the automation wording, Next 11, level rows, numbers line and race speed |
+| [`before-case-studies-redesign`](https://github.com/consult-with-riz/consult-with-riz-website/tree/before-case-studies-redesign) | Case studies as seven stacked cards, before the split view |
 
 To return to a tag, undo everything after it in one go (this keeps history, nothing is deleted):
 
@@ -92,6 +94,7 @@ scripts/cv-pdf.mjs    prints /cv to public/Rizwan-Mahmood-CV.pdf
 Where to change things:
 
 - **Testimonials:** `components/Testimonials.tsx`. Each client also has a direct link, e.g. `/#brian-portnoy`.
+- **Case studies:** `lib/caseStudies.ts` (one entry per case; `testimonialId` links a case to its testimonial). The page is `components/CaseStudiesPage.tsx`, the split view `components/cases/CasesD.tsx`. Filters and the counts at the top update on their own. Link to one case with `/case-studies?case=cs-08`.
 - **Booking link:** `components/CalModal.tsx`. Every "Book a call" button uses it.
 - **CV:** `components/cv/cvData.ts`, then run `npm run cv:pdf` to refresh the PDF.
 - **Navigation and footer:** `components/Navbar.tsx`, `components/Footer.tsx`.
