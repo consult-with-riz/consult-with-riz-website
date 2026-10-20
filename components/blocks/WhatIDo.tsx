@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { playServiceTone } from "@/lib/sounds";
+import CalBookingButton from "@/components/CalModal";
 import { WID_VARIANT_CSS, WID_SHORT, WID_ROLE } from "@/components/blocks/whatidoVariants";
 
 /**
@@ -412,6 +413,25 @@ export default function WhatIDo({ variant, items }: { variant?: number; items?: 
         /* with level rows, a connector can't slip past a shorter neighbour,
            so the rows get the room to route underneath instead */
         @media (min-width: 1280px) { .wid-grid { row-gap: 2.75rem; } }
+        /* the hub is a booking button; the cards open it too */
+        .wid-hub-cta {
+          width: 100%; height: 100%; border-radius: 50%;
+          display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+          color: inherit; text-decoration: none; cursor: pointer;
+          transition: transform 0.25s var(--ease);
+        }
+        .wid-hub-cta:hover { transform: scale(1.06); }
+        .wid-hub-cta:focus-visible { outline: 3px solid var(--coral); outline-offset: 6px; }
+        .wid-hub .wid-hub-name {
+          font-size: clamp(1.4rem, 1.1rem + 0.9vw, 1.85rem); font-weight: 500; letter-spacing: -0.015em; line-height: 1;
+        }
+        .wid-hub .wid-hub-book {
+          font-family: var(--font-geist-mono), monospace; font-size: 10.5px; font-weight: 600;
+          letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85;
+          border-bottom: 1px solid currentColor; padding-bottom: 1px;
+        }
+        .wid-grid > .wid-card { cursor: pointer; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
       `}</style>
       {variant ? <style>{WID_VARIANT_CSS[variant] ?? ""}</style> : null}
       <div className="max-w-site">
@@ -481,11 +501,14 @@ export default function WhatIDo({ variant, items }: { variant?: number; items?: 
             })}
           </svg>
 
-          {/* Back to a plain div: with the sound gone it does nothing, so
-              presenting it as a button would promise an interaction that is
-              not there. */}
-          <div className="wid-hub" ref={hubRef} aria-hidden="true">
-            <span>{variant === 9 && active !== null ? WID_SHORT[active] : "Riz"}</span>
+          {/* The hub books a call: "Riz" is the way into the whole system.
+              The div keeps the ref the connectors measure from. */}
+          <div className="wid-hub" ref={hubRef}>
+            <CalBookingButton className="wid-hub-cta">
+              <span className="wid-hub-name">{variant === 9 && active !== null ? WID_SHORT[active] : "Riz"}</span>
+              <span className="wid-hub-book" aria-hidden="true">Book a call</span>
+              <span className="sr-only">: book a free 30-minute call</span>
+            </CalBookingButton>
           </div>
 
           {LIST.map((s, i) => {
@@ -516,7 +539,10 @@ export default function WhatIDo({ variant, items }: { variant?: number; items?: 
                   }
                 }}
                 onPointerLeave={() => focus && setHovering(false)}
-                onClick={() => variant === 9 && setActive((a) => (a === i ? null : i))}
+                onClick={() => {
+                  if (variant === 9) setActive(i);
+                  else sectionRef.current?.querySelector<HTMLElement>(".wid-hub-cta")?.click();
+                }}
                 onFocus={() => variant === 9 && setActive(i)}
               >
                 <span className="wid-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>

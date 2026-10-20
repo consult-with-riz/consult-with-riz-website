@@ -207,8 +207,8 @@ Object.assign(WID_VARIANT_CSS, {
   9: FOCUS(9) + `
     .wid-v9 .wid-card { cursor: pointer; }
     .wid-v9 .wid-card:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
-    .wid-v9 .wid-hub span { transition: opacity 0.25s ease; text-align: center; padding: 0 10px; }
-    .wid-v9.has-active .wid-hub span { font-size: clamp(1rem, 0.85rem + 0.5vw, 1.25rem); line-height: 1.15; }
+    .wid-v9 .wid-hub .wid-hub-name { transition: opacity 0.25s ease; text-align: center; padding: 0 10px; }
+    .wid-v9.has-active .wid-hub .wid-hub-name { font-size: clamp(1rem, 0.85rem + 0.5vw, 1.25rem); line-height: 1.15; }
     .wid-v9 .wid-hint { margin: 14px auto 0; text-align: center; font-size: 0.95rem; color: var(--muted); }
     .wid-v9 .wid-hint b { color: var(--coral); font-weight: 600; }
   `,

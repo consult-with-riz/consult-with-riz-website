@@ -52,7 +52,7 @@ export default function HomeNext({ osVariant, osItems }: { osVariant?: number; o
           .hn .ac-wrap { padding-top: 44px; padding-bottom: 44px; }
         }
       `}</style>
-      <PromiseHero anchor="#how-people-work-with-me" photo />
+      <PromiseHero anchor="#how-people-work-with-me" photo simple />
       <WhatIDo variant={osVariant} items={osItems} />
       <ByTheNumbers />
       <WorkTogether expandable />

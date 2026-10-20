@@ -20,6 +20,7 @@ export default function PromiseHero({
   anchor,
   photo = false,
   aside,
+  simple = false,
 }: {
   linkBase?: string;
   /** send every glance link and the guarantee link here instead */
@@ -28,6 +29,8 @@ export default function PromiseHero({
   photo?: boolean;
   /** or any other element there, e.g. a client quote card */
   aside?: React.ReactNode;
+  /** homepage: no eyebrow pill, and a one-line "who it's for" under the headline */
+  simple?: boolean;
 }) {
   return (
     <>
@@ -100,9 +103,11 @@ export default function PromiseHero({
           {photo || aside ? (
             <div className="sa-hero-grid">
               <div>
-              <AnimateIn>
-                <span className="pill-eyebrow">Fractional COO</span>
-              </AnimateIn>
+              {!simple && (
+                <AnimateIn>
+                  <span className="pill-eyebrow">Fractional COO</span>
+                </AnimateIn>
+              )}
               <AnimateIn delay={80}>
                 <h1 className="sa-hero-h1">
                   You will be out of <span className="sa-nowrap">day-to-day</span> operations in <em className="sa-nowrap">90 days</em>, without hiring a <span className="sa-nowrap">full-time COO.</span>
@@ -110,8 +115,14 @@ export default function PromiseHero({
               </AnimateIn>
               <AnimateIn delay={160}>
                 <p className="sa-hero-sub">
-                  For Seed to Series B founders running operations-heavy companies, 10–90 people.
-                  Four stops. You only commit to the first, and it&apos;s free.
+                  {simple ? (
+                    <>Fractional COO for Seed to Series B founders running operations-heavy companies (10–90 people).</>
+                  ) : (
+                    <>
+                      For Seed to Series B founders running operations-heavy companies, 10–90 people.
+                      Four stops. You only commit to the first, and it&apos;s free.
+                    </>
+                  )}
                 </p>
               </AnimateIn>
               <AnimateIn delay={240}>
@@ -132,9 +143,11 @@ export default function PromiseHero({
             </div>
           ) : (
             <>
-            <AnimateIn>
-              <span className="pill-eyebrow">Fractional COO</span>
-            </AnimateIn>
+            {!simple && (
+              <AnimateIn>
+                <span className="pill-eyebrow">Fractional COO</span>
+              </AnimateIn>
+            )}
             <AnimateIn delay={80}>
               <h1 className="sa-hero-h1">
                 You will be out of <span className="sa-nowrap">day-to-day</span> operations in <em className="sa-nowrap">90 days</em>, without hiring a <span className="sa-nowrap">full-time COO.</span>
@@ -142,8 +155,14 @@ export default function PromiseHero({
             </AnimateIn>
             <AnimateIn delay={160}>
               <p className="sa-hero-sub">
-                For Seed to Series B founders running operations-heavy companies, 10–90 people.
-                Four stops. You only commit to the first, and it&apos;s free.
+                {simple ? (
+                  <>Fractional COO for Seed to Series B founders running operations-heavy companies (10–90 people).</>
+                ) : (
+                  <>
+                    For Seed to Series B founders running operations-heavy companies, 10–90 people.
+                    Four stops. You only commit to the first, and it&apos;s free.
+                  </>
+                )}
               </p>
             </AnimateIn>
             <AnimateIn delay={240}>
