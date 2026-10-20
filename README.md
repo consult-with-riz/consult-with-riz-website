@@ -44,6 +44,7 @@ Vercel → the project → Deployments → pick the last good deployment → **I
 | Next 11 page, level card rows in the operating system | 20 Oct 2026 | [`2f9e964`](https://github.com/consult-with-riz/consult-with-riz-website/commit/2f9e9647b0cb0905978263ad9853c99874f4c2d8) | `git revert --no-edit 2f9e964` |
 | By the numbers line, slower full-time bar in the race | 20 Oct 2026 | [`6044763`](https://github.com/consult-with-riz/consult-with-riz-website/commit/6044763f3a0cd902cc5b29c32c256ff491e69926) | `git revert --no-edit 6044763` |
 | Homepage hero without the pill and "four stops" line; hub and cards book a call | 20 Oct 2026 | [`c79f830`](https://github.com/consult-with-riz/consult-with-riz-website/commit/c79f83016074c00a39835ac09759ee05fd52c9d5) | `git revert --no-edit c79f830` |
+| Only the Riz hub books a call (cards plain, no label) | 20 Oct 2026 | [`7a6c176`](https://github.com/consult-with-riz/consult-with-riz-website/commit/7a6c176ddddbba35aaff1c381b74a5de526aba97) | `git revert --no-edit 7a6c176` |
 
 Then `git push origin main`. Run the commands exactly as written: one `git revert` per commit, newest first.
 
