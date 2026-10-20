@@ -1,6 +1,5 @@
 "use client";
-import { useState, useEffect, Suspense, CSSProperties } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useEffect, CSSProperties } from "react";
 import AnimateIn from "@/components/AnimateIn";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import TestimonialsSection from "@/components/Testimonials";
@@ -16,16 +15,17 @@ const COMPANY_COUNT = new Set(
 
 function CaseStudiesContent({ cases }: { cases?: React.ReactNode }) {
   const [activeCase, setActiveCase] = useState<string | null>(null);
-  const searchParams = useSearchParams();
-
+  // ?case=cs-0X: read once the page is in the browser. Reading it during
+  // rendering (useSearchParams) made the whole page wait for the browser,
+  // so the server sent an empty page to crawlers, AI tools and previews.
   useEffect(() => {
-    const caseParam = searchParams.get("case");
+    const caseParam = new URLSearchParams(window.location.search).get("case");
     if (!caseParam) return;
     setActiveCase(caseParam);
     requestAnimationFrame(() => {
       document.getElementById(caseParam)?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-  }, [searchParams]);
+  }, []);
 
   // Seven cases read fine as one list; filter tabs were one more decision.
   const visibleRows = caseRows;
@@ -419,9 +419,5 @@ function CaseStudiesContent({ cases }: { cases?: React.ReactNode }) {
  * section (used by the local previews); without it the page is as live.
  */
 export default function CaseStudiesPage({ cases }: { cases?: React.ReactNode } = {}) {
-  return (
-    <Suspense fallback={null}>
-      <CaseStudiesContent cases={cases} />
-    </Suspense>
-  );
+  return <CaseStudiesContent cases={cases} />;
 }

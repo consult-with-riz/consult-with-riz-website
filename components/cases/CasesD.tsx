@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { caseRows, LOGOS, splitTag, areaLabel } from "@/lib/caseStudies";
 import { testimonials } from "@/components/Testimonials";
 
@@ -16,23 +15,23 @@ const AREAS = Array.from(new Set(caseRows.map((r) => r.area)));
  * are added. A case with a client testimonial links to it.
  */
 export default function CasesD() {
-  const searchParams = useSearchParams();
   const [sel, setSel] = useState(0);
   const [filter, setFilter] = useState<string | null>(null);
   const rows = filter ? caseRows.filter((r) => r.area === filter) : caseRows;
   const sectionRef = useRef<HTMLElement>(null);
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // ?case=cs-0X opens that case and brings the section into view
+  // ?case=cs-0X opens that case and brings the section into view. Read once
+  // in the browser, so the server can still render every case.
   useEffect(() => {
-    const id = searchParams.get("case");
+    const id = new URLSearchParams(window.location.search).get("case");
     if (!id) return;
     const i = caseRows.findIndex((r) => r.id === id);
     if (i === -1) return;
     setFilter(null);
     setSel(i);
     requestAnimationFrame(() => sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
-  }, [searchParams]);
+  }, []);
 
   const pick = (i: number, focus = false) => {
     const n = (i + rows.length) % rows.length;
