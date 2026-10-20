@@ -1,8 +1,12 @@
-# Positioning change: Fractional COO
+# Copy changes log
+
+Two positioning changes, each with every line it touched and how to undo it.
+
+# 1 · Positioning: Fractional COO
 
 **Date:** 20 October 2026
 **Change:** the site positions Riz as a **Fractional COO**, not "Fractional COO / Chief of Staff".
-**Commit:** [`0a36a8a`](https://github.com/consult-with-riz/consult-with-riz-website/commit/0a36a8a6344d3bd3730b04b8c65800016f1e4748)
+**Commits:** [`0a36a8a`](https://github.com/consult-with-riz/consult-with-riz-website/commit/0a36a8a6344d3bd3730b04b8c65800016f1e4748), plus [`c69fa66`](https://github.com/consult-with-riz/consult-with-riz-website/commit/c69fa66ebd63cea49857d4cccd646ad1e29421f2) for two lines the first pass missed
 **Before the change:** tag [`positioning-coo-and-cos`](https://github.com/consult-with-riz/consult-with-riz-website/tree/positioning-coo-and-cos)
 
 ## Why
@@ -20,14 +24,18 @@ Chief of Staff work stays, as part of the COO role rather than a second title:
 
 ## How to revert
 
-Everything is in one commit, so one command undoes it:
+The automation wording (section 2) later edited some of the same sentences, so it has to be undone first. One `git revert` per commit, newest first:
 
 ```bash
-git revert 0a36a8a
+git revert --no-edit eede030
+git revert --no-edit c69fa66
+git revert --no-edit 0a36a8a
 git push origin main
 ```
 
-The site redeploys on push. The revert also brings back the old CV PDF, since it is part of the same commit.
+This also removes the automation wording. To keep "only where it earns its place" with the old positioning, re-apply it afterwards.
+
+The site redeploys on push. The revert also brings back the old CV PDF, since it is part of the first commit.
 
 To see the site exactly as it was before the change, browse the tag `positioning-coo-and-cos` on GitHub.
 
@@ -73,4 +81,39 @@ To see the site exactly as it was before the change, browse the tag `positioning
 | Services: code comment | `app/services/page.tsx` | {/* 03 · fractional COO / CoS */} | {/* 03 · fractional COO */} |
 | README intro | `README.md` | Rizwan Mahmood's site as a Fractional COO / Chief of Staff for | Rizwan Mahmood's site as a Fractional COO for |
 | Homepage hero pill (both layouts) | `components/PromiseHero.tsx` | <span className="pill-eyebrow">Fractional COO / Chief of Staff</span> | <span className="pill-eyebrow">Fractional COO</span> |
+| Case studies: engagement tag (added in c69fa66) | `app/case-studies/page.tsx` | tag: "FRACTIONAL COO / CHIEF OF STAFF · AUTOMATION", | tag: "FRACTIONAL COO · AUTOMATION", |
+| llms.txt: Biola's engagement (added in c69fa66) | `app/llms.txt/route.ts` | Cycle Together: fractional COO and chief of staff engagement. | Cycle Together: fractional COO engagement, including the Chief of Staff side. |
 | CV PDF | `public/Rizwan-Mahmood-CV.pdf` | Regenerated from the old CV text | Regenerated from the new CV text |
+
+# 2 · Automation only where it earns its place
+
+**Date:** 20 October 2026
+**Change:** no line implies everything gets automated. Automation happens only where it earns its place: work that repeats, where it saves real time or cuts mistakes. If a clear owner and a checklist do the job, that is what the client gets.
+**Commit:** [`eede030`](https://github.com/consult-with-riz/consult-with-riz-website/commit/eede030531ff46d5bfa008f83695fc628e1dba4f)
+**Before the change:** tag [`before-automation-wording`](https://github.com/consult-with-riz/consult-with-riz-website/tree/before-automation-wording)
+
+The CV and the case studies were left as they are: they describe automations already built, which are facts, not promises. The Diagnostic's "What to automate first, and what to leave alone" already said this. The Next 11 automation card was written with the new wording from the start (commit [`2f9e964`](https://github.com/consult-with-riz/consult-with-riz-website/commit/2f9e9647b0cb0905978263ad9853c99874f4c2d8)).
+
+## How to revert
+
+```bash
+git revert --no-edit eede030
+git push origin main
+```
+
+## Every line changed
+
+| Where | File | Before | After |
+|---|---|---|---|
+| Structured data: description | `app/layout.tsx` | Every process he installs gets automated before he hands it over. | He automates only where it earns its place. |
+| Google description | `app/layout.tsx` | and I automate what shouldn't need a person. | and I automate only where it earns its place. |
+| llms.txt summary | `app/llms.txt/route.ts` | Every process he installs gets automated before he hands it over; he designs the automations himself on n8n and Claude. | He automates only where it earns its place: the process gets fixed first, and automated only if that saves real time or cuts errors. He designs the automations himself on n8n and Claude. |
+| Homepage: automation layer card | `components/blocks/WhatIDo.tsx` | body: "Anything repeatable gets automated before I leave. I design it on n8n and Claude. You keep the system, not a dependency on me.", | body: "Only where it earns its place: work that repeats, where a machine saves real time or mistakes. Built on n8n and Claude. You keep the system, not a dependency on me.", |
+| How we can work together: COO card, opened | `components/blocks/WorkTogether.tsx` | "The repeat work automated before I hand it over", | "Repeat work automated where it earns its place", |
+| FAQ: Where does the AI part come in? | `components/ServicesFAQ.tsx` | Once a report, a handoff or a follow-up runs the same way three times, it gets automated on n8n and the Claude API. You keep the systems when I leave. | Once a report, a handoff or a follow-up runs the same way three times, I look at automating it, and only do it if it earns its place: real time saved or mistakes cut. If a clear owner and a checklist do the job, that's what you get. Anything I build on n8n and the Claude API stays with you. |
+| "Hi, I'm Riz" intro (Home V2, V4) | `components/hero-section.tsx` | Every process I fix                   gets automated before I hand it back. | Every process I fix                   is written down, and automated where it earns its place. |
+| AI chat prompt | `components/DirectLineCTA.tsx` | and automates the processes he installs, using n8n and Claude. | and automates only where it earns its place, using n8n and Claude. |
+| Services: timeline COO stop | `app/services/page.tsx` | { text: "The repeat work automated before I hand it over" }, | { text: "Repeat work automated where it earns its place" }, |
+| Services: COO card | `app/services/page.tsx` | "The repeat work automated before I hand it over", | "Repeat work automated where it earns its place", |
+| Services: Day 90 text | `app/services/page.tsx` | body: "The operation runs without you in every thread. You keep the cadence, the metrics and the automations, and a team that knows why each one exists.", | body: "The operation runs without you in every thread. You keep the cadence, the metrics, any automations that earned their place, and a team that knows why each one exists.", |
+| Services: Day 90 item | `app/services/page.tsx` | { text: "Automations on n8n and the Claude API, in your accounts" }, | { text: "Automations, where they earned it, in your accounts" }, |

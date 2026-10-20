@@ -24,10 +24,45 @@ Built with Next.js (App Router), React, TypeScript and Tailwind. Deployed on Ver
 | Next 8 (operating system as powering up) | [consultwithriz.com/next-8](https://www.consultwithriz.com/next-8) | Hidden |
 | Next 9 (operating system as click to trace) | [consultwithriz.com/next-9](https://www.consultwithriz.com/next-9) | Hidden |
 | Next 10 (operating system as assembles as you scroll) | [consultwithriz.com/next-10](https://www.consultwithriz.com/next-10) | Hidden |
+| Next 11 (operating system rewritten for Fractional COO: rhythm, process, owners, off your desk, cost, automation) | [consultwithriz.com/next-11](https://www.consultwithriz.com/next-11) | Hidden |
 
 Hidden pages open by URL but are not linked anywhere on the site and are kept out of search (`noindex`, not in the sitemap).
 
-Positioning changes are logged in [POSITIONING-CHANGE.md](POSITIONING-CHANGE.md), with how to revert each one.
+## Reverting
+
+Every push to `main` goes live, so going back is also a push. Three ways, from fastest to most precise:
+
+**1. Emergency: roll back the live site in Vercel (no code).**
+Vercel → the project → Deployments → pick the last good deployment → **Instant Rollback**. The site switches back in seconds. The code in GitHub stays as it is, so fix or revert it before the next push.
+
+**2. Undo one change.** Each change below is its own commit, so one command undoes it and the push redeploys:
+
+| Change | Date | Commit(s) | Undo |
+|---|---|---|---|
+| Positioning: Fractional COO (was COO / Chief of Staff) | 20 Oct 2026 | [`0a36a8a`](https://github.com/consult-with-riz/consult-with-riz-website/commit/0a36a8a6344d3bd3730b04b8c65800016f1e4748), [`c69fa66`](https://github.com/consult-with-riz/consult-with-riz-website/commit/c69fa66ebd63cea49857d4cccd646ad1e29421f2) | `git revert --no-edit eede030 && git revert --no-edit c69fa66 && git revert --no-edit 0a36a8a` (also undoes the automation wording, see below) |
+| Automation only where it earns its place | 20 Oct 2026 | [`eede030`](https://github.com/consult-with-riz/consult-with-riz-website/commit/eede030531ff46d5bfa008f83695fc628e1dba4f) | `git revert --no-edit eede030` |
+| Next 11 page, level card rows in the operating system | 20 Oct 2026 | [`2f9e964`](https://github.com/consult-with-riz/consult-with-riz-website/commit/2f9e9647b0cb0905978263ad9853c99874f4c2d8) | `git revert --no-edit 2f9e964` |
+| By the numbers line, slower full-time bar in the race | 20 Oct 2026 | [`6044763`](https://github.com/consult-with-riz/consult-with-riz-website/commit/6044763f3a0cd902cc5b29c32c256ff491e69926) | `git revert --no-edit 6044763` |
+
+Then `git push origin main`. Run the commands exactly as written: one `git revert` per commit, newest first.
+
+The positioning and the automation wording touched some of the same sentences (the Google description, `llms.txt`, the AI-chat prompt), so undoing the positioning means undoing the automation wording first. To keep "only where it earns its place" afterwards, re-apply it to the old wording. The CV PDF is inside the positioning commit, so reverting it brings the old PDF back too. [POSITIONING-CHANGE.md](POSITIONING-CHANGE.md) lists every line those two copy changes touched, before and after.
+
+**3. Go back to a snapshot.** Tags mark the site at key points:
+
+| Tag | The site as it was |
+|---|---|
+| [`positioning-coo-and-cos`](https://github.com/consult-with-riz/consult-with-riz-website/tree/positioning-coo-and-cos) | Before the Fractional COO positioning |
+| [`before-automation-wording`](https://github.com/consult-with-riz/consult-with-riz-website/tree/before-automation-wording) | Before the automation wording, Next 11, level rows, numbers line and race speed |
+
+To return to a tag, undo everything after it in one go (this keeps history, nothing is deleted):
+
+```bash
+git revert --no-edit before-automation-wording..HEAD
+git push origin main
+```
+
+Before any future change you might want to undo, tag first: `git tag -a <name> -m "<what it was>" && git push origin <name>`.
 
 ## Structure
 
@@ -38,7 +73,7 @@ app/                  one folder per page
   cv/                 CV page
   services/           services (hidden)
   home-v2/ … home-v4/ earlier homepages (hidden)
-  next-1/ … next-10/  homepage with design options for the operating system (hidden;
+  next-1/ … next-11/  homepage with design options for the operating system (hidden;
                       4 and 5 were not published)
   llms.txt/           plain-text summary for AI tools
   sitemap.ts, robots.ts
