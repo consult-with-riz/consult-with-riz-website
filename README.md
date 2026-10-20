@@ -27,6 +27,8 @@ Built with Next.js (App Router), React, TypeScript and Tailwind. Deployed on Ver
 
 Hidden pages open by URL but are not linked anywhere on the site and are kept out of search (`noindex`, not in the sitemap).
 
+Positioning changes are logged in [POSITIONING-CHANGE.md](POSITIONING-CHANGE.md), with how to revert each one.
+
 ## Structure
 
 ```
