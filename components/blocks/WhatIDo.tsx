@@ -413,10 +413,10 @@ export default function WhatIDo({ variant, items }: { variant?: number; items?: 
         /* with level rows, a connector can't slip past a shorter neighbour,
            so the rows get the room to route underneath instead */
         @media (min-width: 1280px) { .wid-grid { row-gap: 2.75rem; } }
-        /* the hub is a booking button; the cards open it too */
+        /* the hub opens the booking; it only ever says "Riz" */
         .wid-hub-cta {
           width: 100%; height: 100%; border-radius: 50%;
-          display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+          display: flex; align-items: center; justify-content: center;
           color: inherit; text-decoration: none; cursor: pointer;
           transition: transform 0.25s var(--ease);
         }
@@ -425,12 +425,6 @@ export default function WhatIDo({ variant, items }: { variant?: number; items?: 
         .wid-hub .wid-hub-name {
           font-size: clamp(1.4rem, 1.1rem + 0.9vw, 1.85rem); font-weight: 500; letter-spacing: -0.015em; line-height: 1;
         }
-        .wid-hub .wid-hub-book {
-          font-family: var(--font-geist-mono), monospace; font-size: 10.5px; font-weight: 600;
-          letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85;
-          border-bottom: 1px solid currentColor; padding-bottom: 1px;
-        }
-        .wid-grid > .wid-card { cursor: pointer; }
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
       `}</style>
       {variant ? <style>{WID_VARIANT_CSS[variant] ?? ""}</style> : null}
@@ -501,12 +495,11 @@ export default function WhatIDo({ variant, items }: { variant?: number; items?: 
             })}
           </svg>
 
-          {/* The hub books a call: "Riz" is the way into the whole system.
-              The div keeps the ref the connectors measure from. */}
+          {/* The hub is a quiet way to book: it just says "Riz", and a click
+              opens the booking. The div keeps the ref the connectors measure from. */}
           <div className="wid-hub" ref={hubRef}>
             <CalBookingButton className="wid-hub-cta">
               <span className="wid-hub-name">{variant === 9 && active !== null ? WID_SHORT[active] : "Riz"}</span>
-              <span className="wid-hub-book" aria-hidden="true">Book a call</span>
               <span className="sr-only">: book a free 30-minute call</span>
             </CalBookingButton>
           </div>
@@ -539,10 +532,7 @@ export default function WhatIDo({ variant, items }: { variant?: number; items?: 
                   }
                 }}
                 onPointerLeave={() => focus && setHovering(false)}
-                onClick={() => {
-                  if (variant === 9) setActive(i);
-                  else sectionRef.current?.querySelector<HTMLElement>(".wid-hub-cta")?.click();
-                }}
+                onClick={() => variant === 9 && setActive(i)}
                 onFocus={() => variant === 9 && setActive(i)}
               >
                 <span className="wid-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
