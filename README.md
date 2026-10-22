@@ -11,6 +11,8 @@ Built with Next.js (App Router), React, TypeScript and Tailwind. Deployed on Ver
 | Home (operating system colour-coded) | [consultwithriz.com](https://www.consultwithriz.com) | Not hidden |
 | Case studies | [consultwithriz.com/case-studies](https://www.consultwithriz.com/case-studies) | Not hidden |
 | CV (with PDF download) | [consultwithriz.com/cv](https://www.consultwithriz.com/cv) | Not hidden |
+| Your Ops Roadmap: the Ops Health Check (footer link) | [consultwithriz.com/ops-check](https://www.consultwithriz.com/ops-check) | Not hidden |
+| Ops Roadmap report (personal, opened from a result) | [consultwithriz.com/ops-check/report](https://www.consultwithriz.com/ops-check/report) | Hidden |
 | AI summary of the site | [consultwithriz.com/llms.txt](https://www.consultwithriz.com/llms.txt) | Not hidden |
 | Services | [consultwithriz.com/services](https://www.consultwithriz.com/services) | Hidden |
 | Home V2 (original homepage) | [consultwithriz.com/home-v2](https://www.consultwithriz.com/home-v2) | Hidden |
@@ -47,6 +49,7 @@ Vercel → the project → Deployments → pick the last good deployment → **I
 | Only the Riz hub books a call (cards plain, no label) | 20 Oct 2026 | [`7a6c176`](https://github.com/consult-with-riz/consult-with-riz-website/commit/7a6c176ddddbba35aaff1c381b74a5de526aba97) | `git revert --no-edit 7a6c176` |
 | Case studies: split view, filters, four client cases | 20 Oct 2026 | [`e0f7bf6`](https://github.com/consult-with-riz/consult-with-riz-website/commit/e0f7bf6ef24a2aca3ca05711dc935d2240d77a2f) | `git revert --no-edit e0f7bf6` |
 | Case studies rendered on the server (readable by AI tools and previews) | 20 Oct 2026 | [`f1f0e02`](https://github.com/consult-with-riz/consult-with-riz-website/commit/f1f0e02693a767ab21c69379d3f3973b5db380c0) | `git revert --no-edit f1f0e02` |
+| Ops Health Check and Ops Roadmap, linked in the footer | 22 Oct 2026 | [`3d2cf1f`](https://github.com/consult-with-riz/consult-with-riz-website/commit/3d2cf1f5a390adee94e8cf32f66cdb8af48bd4f0) | `git revert --no-edit 3d2cf1f` |
 
 Then `git push origin main`. Run the commands exactly as written: one `git revert` per commit, newest first.
 
@@ -59,6 +62,7 @@ The positioning and the automation wording touched some of the same sentences (t
 | [`positioning-coo-and-cos`](https://github.com/consult-with-riz/consult-with-riz-website/tree/positioning-coo-and-cos) | Before the Fractional COO positioning |
 | [`before-automation-wording`](https://github.com/consult-with-riz/consult-with-riz-website/tree/before-automation-wording) | Before the automation wording, Next 11, level rows, numbers line and race speed |
 | [`before-case-studies-redesign`](https://github.com/consult-with-riz/consult-with-riz-website/tree/before-case-studies-redesign) | Case studies as seven stacked cards, before the split view |
+| [`before-ops-roadmap`](https://github.com/consult-with-riz/consult-with-riz-website/tree/before-ops-roadmap) | Before the Ops Health Check and Ops Roadmap |
 
 To return to a tag, undo everything after it in one go (this keeps history, nothing is deleted):
 
@@ -96,6 +100,7 @@ Where to change things:
 
 - **Testimonials:** `components/Testimonials.tsx`. Each client also has a direct link, e.g. `/#brian-portnoy`.
 - **Case studies:** `lib/caseStudies.ts` (one entry per case; `testimonialId` links a case to its testimonial). The page is `components/CaseStudiesPage.tsx`, the split view `components/cases/CasesD.tsx`. Filters and the counts at the top update on their own. Link to one case with `/case-studies?case=cs-08`.
+- **Ops Health Check / Ops Roadmap:** every question, score, piece of advice and report chapter is in `lib/opsCheck.ts`. The email step is built but off; set `NEXT_PUBLIC_OPS_EMAIL=on` in Vercel once Kit is connected (`app/api/ops-check/route.ts`).
 - **Booking link:** `components/CalModal.tsx`. Every "Book a call" button uses it.
 - **CV:** `components/cv/cvData.ts`, then run `npm run cv:pdf` to refresh the PDF.
 - **Navigation and footer:** `components/Navbar.tsx`, `components/Footer.tsx`.
