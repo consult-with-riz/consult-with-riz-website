@@ -1,10 +1,12 @@
 /**
- * The Ops Health Check: twelve questions across the six parts of the
- * operating system Riz installs, two per part. Each answer scores 0-3,
- * so a part scores 0-6 and the whole check 0-36 (shown out of 100).
+ * The Ops Health Check: nine questions across the six parts of the
+ * operating system Riz installs. Rhythm, process and the founder's desk
+ * get two questions each; owners, cost and automation get one.
  *
- * Edit the wording here; the page reads everything from this file.
- * Copy is a first draft in Riz's voice, for him to sharpen.
+ * Each answer scores 0-3. Every part is scaled to 0-6 so a one-question
+ * part isn't penalised, and the total is the average across parts, out of 100.
+ *
+ * Edit the wording here; the check and the roadmap read everything from this file.
  */
 
 export type AreaId = "rhythm" | "process" | "owners" | "desk" | "cost" | "automation";
@@ -21,7 +23,7 @@ export const AREAS: { id: AreaId; name: string; short: string }[] = [
 export type Question = {
   area: AreaId;
   q: string;
-  /** worst to best; the score is listed per option so it can be uneven */
+  /** worst to best */
   options: { label: string; score: number }[];
 };
 
@@ -30,40 +32,40 @@ export const QUESTIONS: Question[] = [
     area: "rhythm",
     q: "How does your leadership team review the week?",
     options: [
-      { label: "We don't, really. Things come up when they come up.", score: 0 },
+      { label: "We don't, really.", score: 0 },
       { label: "We meet, but it's mostly updates.", score: 1 },
-      { label: "There's a weekly meeting, and some decisions get made.", score: 2 },
-      { label: "One weekly review, the same numbers every week, and it ends in decisions with owners.", score: 3 },
+      { label: "Weekly, and some decisions get made.", score: 2 },
+      { label: "Weekly, same numbers, ends in decisions with owners.", score: 3 },
     ],
   },
   {
     area: "rhythm",
-    q: "How many numbers does your whole team read the same way, every week?",
+    q: "How many numbers does your team read the same way, every week?",
     options: [
-      { label: "None. The numbers live in five different spreadsheets.", score: 0 },
-      { label: "A few, but someone builds them by hand each week.", score: 1 },
-      { label: "A handful, reported weekly and mostly reliable.", score: 2 },
-      { label: "A handful, the same every week, without anyone building them by hand.", score: 3 },
+      { label: "None. They live in five spreadsheets.", score: 0 },
+      { label: "A few, built by hand each week.", score: 1 },
+      { label: "A handful, mostly reliable.", score: 2 },
+      { label: "A handful, and nobody builds them by hand.", score: 3 },
     ],
   },
   {
     area: "process",
-    q: "When work moves between people (sale to delivery, hire to onboarded), what happens?",
+    q: "When work moves between people, what happens?",
     options: [
-      { label: "It waits. Someone has to chase it.", score: 0 },
-      { label: "It moves, but something falls through most weeks.", score: 1 },
+      { label: "It waits until someone chases it.", score: 0 },
+      { label: "Something falls through most weeks.", score: 1 },
       { label: "Mostly smooth. The big handoffs are written down.", score: 2 },
-      { label: "Mapped, owned, and nobody chases.", score: 3 },
+      { label: "Mapped, owned, nobody chases.", score: 3 },
     ],
   },
   {
     area: "process",
-    q: "Pick the process you run most often: onboarding, approvals or month-end. Is it written down?",
+    q: "Is your most repeated process (onboarding, approvals, month-end) written down?",
     options: [
       { label: "No. It lives in people's heads.", score: 0 },
-      { label: "Partly, but it's out of date.", score: 1 },
-      { label: "Yes, and it's mostly followed.", score: 2 },
-      { label: "Yes, it's followed, and someone owns keeping it current.", score: 3 },
+      { label: "Partly, and it's out of date.", score: 1 },
+      { label: "Yes, and mostly followed.", score: 2 },
+      { label: "Yes, followed, and someone keeps it current.", score: 3 },
     ],
   },
   {
@@ -72,23 +74,13 @@ export const QUESTIONS: Question[] = [
     options: [
       { label: "Silence, or my name.", score: 0 },
       { label: "Different answers from different people.", score: 1 },
-      { label: "Mostly clear, with a few gaps.", score: 2 },
-      { label: "One clear owner each, and it's written down.", score: 3 },
-    ],
-  },
-  {
-    area: "owners",
-    q: "What happened after your last few hires?",
-    options: [
-      { label: "Nothing got faster. Some things got slower.", score: 0 },
-      { label: "They're busy, but decisions still route through me.", score: 1 },
-      { label: "Mostly working, with some hand-holding.", score: 2 },
-      { label: "Scoped, onboarded, and owning their area.", score: 3 },
+      { label: "Mostly clear, a few gaps.", score: 2 },
+      { label: "One owner each, written down.", score: 3 },
     ],
   },
   {
     area: "desk",
-    q: "How much of your week goes on operational firefighting?",
+    q: "How much of your week goes on firefighting?",
     options: [
       { label: "Most of it.", score: 0 },
       { label: "About half.", score: 1 },
@@ -111,101 +103,175 @@ export const QUESTIONS: Question[] = [
     q: "Do you know your unit economics, per order, client or job?",
     options: [
       { label: "Not really.", score: 0 },
-      { label: "Roughly, from a model that's out of date.", score: 1 },
-      { label: "Yes, checked every month or so.", score: 2 },
-      { label: "Yes, every week, and someone owns each cost line.", score: 3 },
-    ],
-  },
-  {
-    area: "cost",
-    q: "Where is money leaking?",
-    options: [
-      { label: "I can feel it, but I can't say where.", score: 0 },
-      { label: "I have suspicions, but no numbers.", score: 1 },
-      { label: "I know the top one or two.", score: 2 },
-      { label: "We track it, and it's coming down.", score: 3 },
+      { label: "Roughly, from an old model.", score: 1 },
+      { label: "Yes, checked monthly.", score: 2 },
+      { label: "Yes, weekly, and each cost line has an owner.", score: 3 },
     ],
   },
   {
     area: "automation",
-    q: "How much repeat work is still done by hand: reports, follow-ups, data entry?",
+    q: "How much repeat work is still done by hand?",
     options: [
       { label: "A lot. It eats whole days.", score: 0 },
-      { label: "A fair amount, a few hours a week each.", score: 1 },
-      { label: "Some. We've automated the obvious ones.", score: 2 },
-      { label: "Very little. The repeat work runs on its own.", score: 3 },
-    ],
-  },
-  {
-    area: "automation",
-    q: "When you've tried automating something, what happened?",
-    options: [
-      { label: "We bought tools nobody really uses.", score: 0 },
-      { label: "We haven't tried yet.", score: 1 },
-      { label: "A few automations, but only one person understands them.", score: 2 },
-      { label: "They work, they're written down, and the team owns them.", score: 3 },
+      { label: "A few hours a week, each.", score: 1 },
+      { label: "Some. The obvious ones are automated.", score: 2 },
+      { label: "Very little. It runs on its own.", score: 3 },
     ],
   },
 ];
 
-/** What to do next, per part, by how it scored (0-2 low, 3-4 middle, 5-6 strong). */
+/** The first step, per part, by how it scored. */
 export const ADVICE: Record<AreaId, { low: string; mid: string; high: string }> = {
   rhythm: {
-    low: "Start with one weekly review. Same day, same handful of numbers, and it ends in decisions with a name next to each. Everything else gets easier once the week has a shape.",
-    mid: "The meeting exists. Make it decide. Cut the updates, keep five numbers, and end every review with owners and dates.",
-    high: "Your week has a rhythm. Protect it: the numbers should arrive without anyone building them by hand.",
+    low: "Start one weekly review. Same day, five numbers, and every decision gets a name.",
+    mid: "Make the meeting decide. Cut the updates, keep five numbers, end with owners and dates.",
+    high: "Protect it. The numbers should arrive without anyone building them.",
   },
   process: {
-    low: "Find the handoff where work waits longest and write it down: who passes what to whom, and when. Most delay lives between steps, not inside them.",
-    mid: "The big handoffs work. Now map the one that still breaks most weeks, give it an owner, and stop chasing.",
-    high: "Your processes hold. Keep them current: every written process needs someone who owns updating it.",
+    low: "Find the handoff where work waits longest. Write down who passes what, to whom, by when.",
+    mid: "Map the one handoff that still breaks most weeks. Give it an owner.",
+    high: "Keep it current. Every written process needs someone who updates it.",
   },
   owners: {
-    low: "Write down every key outcome and put one name next to each. If the name is yours too often, that's the problem to fix first.",
-    mid: "Close the gaps. Wherever two people think they own something, nobody does. Pick one.",
-    high: "Ownership is clear. The next step is making sure new hires inherit it on day one.",
+    low: "List your key outcomes and put one name on each. Wherever it's yours, fix that first.",
+    mid: "Close the gaps. If two people own it, nobody does. Pick one.",
+    high: "Make sure every new hire inherits a clear area on day one.",
   },
   desk: {
-    low: "You're still the ops team. Pick the three things that only reach you because nobody else owns them, and hand them over this month.",
-    mid: "You've got some time back. Now get the board update off your desk: the team prepares it, you add the story.",
-    high: "You're out of the weeds. Keep it that way with a weekly rhythm that doesn't need you to run it.",
+    low: "Pick three things that only reach you because nobody owns them. Hand them over this month.",
+    mid: "Get the board update off your desk. The team prepares it, you add the story.",
+    high: "Keep it that way: a weekly rhythm that runs without you.",
   },
   cost: {
-    low: "You can't cut what you can't see. Build one cost view per order, client or job, and look at it every week. Reporting first, cuts second.",
-    mid: "You know the big leaks. Give each cost line an owner and a weekly number, and the leaks start closing on their own.",
-    high: "You know your numbers. Keep them weekly and owned, and use them to decide where to grow.",
+    low: "Build one cost view per order, client or job. Look at it every week. Reporting first, cuts second.",
+    mid: "Give each cost line an owner and a weekly number.",
+    high: "Use the numbers to decide where to grow, not just where to cut.",
   },
   automation: {
-    low: "Fix the process before you automate it. Then pick the one task that runs the same way every week and costs the most hours. Automate that, only if it earns its place.",
-    mid: "You've started. Now write down what each automation does and who owns it, or it becomes a dependency on one person.",
-    high: "Your repeat work runs itself. Keep the bar high: automate only what saves real time or cuts mistakes.",
+    low: "Fix the process first. Then automate the one weekly task that costs the most hours, if it earns its place.",
+    mid: "Write down what each automation does and who owns it.",
+    high: "Keep the bar high. Automate only what saves real time or mistakes.",
   },
 };
 
-/** Headline for the whole result, out of 100. */
-export function verdict(total: number): { title: string; line: string } {
-  if (total < 40)
-    return {
-      title: "You're still the ops team.",
-      line: "Most of the operation runs through you. That's normal at this stage, and it's fixable in 90 days.",
-    };
-  if (total < 70)
-    return {
-      title: "The basics are there. You're still the glue.",
-      line: "Some parts run on their own. The rest still need you to hold them together.",
-    };
-  return {
-    title: "Solid. Now get it off your desk for good.",
-    line: "The operation mostly runs. The work now is making it run without you in every thread.",
+/* ── Scoring tiers: what each result is told, and how hard it's asked to
+   book. Four levels by total score, plus one safety rule: in the two upper
+   levels, any part at 1/6 or lower is called out, and the call to action
+   points at it. Edit thresholds and copy here; the results page and the
+   roadmap both read from this. {weakest} and {flagged} are filled in with
+   part names. ── */
+
+export type TierId = "leaking" | "holding" | "running" | "strong";
+
+export type Tier = {
+  id: TierId;
+  /** lowest total (out of 100) for this level */
+  min: number;
+  title: string;
+  line: string;
+  cta: {
+    /** "strong": dark card, bold push. "soft": light card, low-key. */
+    tone: "strong" | "soft";
+    heading: string;
+    body: string;
+    button: string;
   };
+};
+
+export const TIERS: Tier[] = [
+  {
+    id: "leaking", min: 0,
+    title: "You're still the ops team.",
+    line: "Most of it runs through you. Normal at this stage, and fixable in 90 days.",
+    cta: {
+      tone: "strong",
+      heading: "Let's get it off your desk.",
+      body: "Thirty minutes, free. We pick the first fix together. If it makes sense, the next step is a two-week Diagnostic: $1,500, refunded in full if it isn't worth it.",
+      button: "Book a free 30-min fit call →",
+    },
+  },
+  {
+    id: "holding", min: 40,
+    title: "The basics are there. You're still the glue.",
+    line: "Some parts run on their own. The rest still lean on you.",
+    cta: {
+      tone: "strong",
+      heading: "Fix \u201c{weakest}\u201d first.",
+      body: "Thirty minutes, free. Bring this roadmap and we'll see if it's a six-week sprint or a bigger job.",
+      button: "Book a free 30-min fit call →",
+    },
+  },
+  {
+    id: "running", min: 65,
+    title: "Solid. A couple of gaps.",
+    line: "Most of the operation runs without you. One or two parts still don't.",
+    cta: {
+      tone: "soft",
+      heading: "You may not need a COO. You might need six weeks.",
+      body: "If \u201c{weakest}\u201d is costing you, a six-week sprint can fix it and hand it over. Happy to talk it through.",
+      button: "Talk it through →",
+    },
+  },
+  {
+    id: "strong", min: 85,
+    title: "This runs well. Honestly, you may not need me.",
+    line: "Keep this roadmap and check again in a quarter.",
+    cta: {
+      tone: "soft",
+      heading: "Want a second pair of eyes anyway?",
+      body: "No pitch. If you'd like someone to pressure-test it, I'm happy to look.",
+      button: "Book a call anyway →",
+    },
+  },
+];
+
+/** A part this low is never waved through, however good the total. */
+export const FLAG_AT_OR_BELOW = 1;
+
+/** The level, its message and its call to action, for one result. */
+export function outcome(total: number, byArea: Record<AreaId, number>) {
+  const tier = [...TIERS].reverse().find((t) => total >= t.min)!;
+  const ordered = [...AREAS].sort((a, b) => byArea[a.id] - byArea[b.id]);
+  const weakest = ordered[0];
+  // safety rule: in the upper levels, a part at 1/6 or below gets named
+  const flagged = (tier.id === "running" || tier.id === "strong") && byArea[weakest.id] <= FLAG_AT_OR_BELOW ? weakest : null;
+  const fill = (t: string) => t.replaceAll("{weakest}", weakest.name.toLowerCase()).replaceAll("{flagged}", flagged?.name.toLowerCase() ?? "");
+  const cta = flagged
+    ? {
+        tone: "strong" as const,
+        heading: `Overall this runs well. But \u201c${flagged.name.toLowerCase()}\u201d scored ${byArea[flagged.id]}/6.`,
+        body: "That one's worth fixing before it spreads. Usually a six-week sprint. Thirty minutes, free, to see if it fits.",
+        button: "Book a free 30-min fit call →",
+      }
+    : { ...tier.cta, heading: fill(tier.cta.heading), body: fill(tier.cta.body) };
+  return { tier: tier.id, title: tier.title, line: tier.line, cta, flagged: flagged?.id ?? null };
+}
+
+/** Headline for the whole result (kept for older callers). */
+export function verdict(total: number): { title: string; line: string } {
+  const tier = [...TIERS].reverse().find((t) => total >= t.min)!;
+  return { title: tier.title, line: tier.line };
 }
 
 export const MAX_PER_AREA = 6;
-export const MAX_TOTAL = QUESTIONS.length * 3;
 
-/* ── The full report: what each part means, what good looks like, and one
-   real case as proof (ids from lib/caseStudies.ts). First draft in Riz's
-   voice, for him to sharpen. ── */
+/** Per-part scores out of 6 and a total out of 100, from the answers. */
+export function scoreAnswers(answers: number[]) {
+  const raw = Object.fromEntries(AREAS.map((a) => [a.id, 0])) as Record<AreaId, number>;
+  const count = Object.fromEntries(AREAS.map((a) => [a.id, 0])) as Record<AreaId, number>;
+  QUESTIONS.forEach((q, i) => {
+    count[q.area] += 1;
+    if (answers[i] >= 0) raw[q.area] += q.options[answers[i]].score;
+  });
+  const byArea = Object.fromEntries(
+    AREAS.map((a) => [a.id, Math.round((raw[a.id] / (count[a.id] * 3)) * MAX_PER_AREA)]),
+  ) as Record<AreaId, number>;
+  const total = Math.round((AREAS.reduce((s, a) => s + byArea[a.id], 0) / (AREAS.length * MAX_PER_AREA)) * 100);
+  return { byArea, total };
+}
+
+/* ── The roadmap: what each part means, what good looks like, and one real
+   case as proof (ids from lib/caseStudies.ts). ── */
 
 export const BANDS = {
   low: { label: "Leaking", color: "#FF5C35" },
@@ -221,63 +287,33 @@ export const REPORT: Record<AreaId, {
   proof: { caseId: string; figure: string; line: string };
 }> = {
   rhythm: {
-    meaning:
-      "The weekly rhythm is how the business decides. One review, a handful of numbers, and decisions with owners. Without it, decisions happen in corridors and DMs, and everything routes back to the founder.",
-    good: [
-      "One weekly review, same day, same agenda",
-      "Five or so numbers everyone reads the same way",
-      "Every review ends in decisions, each with an owner and a date",
-    ],
-    proof: { caseId: "cs-04", figure: "8 → 3 days", line: "Month-end close at Wise. A slow close is a founder flying blind for a week every month." },
+    meaning: "How the business decides. Without a weekly rhythm, decisions happen in DMs and everything routes back to you.",
+    good: ["One weekly review", "Five numbers, read the same way", "Every decision has an owner"],
+    proof: { caseId: "cs-04", figure: "8 → 3 days", line: "Month-end close, every month." },
   },
   process: {
-    meaning:
-      "Process and handoffs are where work moves between people. Most delay doesn't live inside a step. It lives between steps, where nobody owns the wait.",
-    good: [
-      "Your most repeated processes are written down and followed",
-      "Every handoff has a sender, a receiver and a definition of done",
-      "Nobody has to chase work to keep it moving",
-    ],
-    proof: { caseId: "cs-06", figure: "3 min → 20s", line: "Dispatch at Careem. Took the waiting out of the handoffs, and the speed followed." },
+    meaning: "Where work moves between people. Most delay lives between steps, where nobody owns the wait.",
+    good: ["Repeat processes written down", "Every handoff has an owner", "Nobody chases work"],
+    proof: { caseId: "cs-06", figure: "3 min → 20s", line: "Dispatch time, by fixing the handoffs." },
   },
   owners: {
-    meaning:
-      "Owners, not heroes, means every key outcome has one name next to it, written down. When nobody owns something, the person who cares most ends up doing it. Usually that's you.",
-    good: [
-      "One owner for every key outcome, written down",
-      "New hires are scoped and onboarded into a clear area",
-      "Decisions get made at the level where the work happens",
-    ],
-    proof: { caseId: "cs-08", figure: "8 roles", line: "Cycle Together. Covered the missing roles, then built it so the team runs it without me." },
+    meaning: "One name on every key outcome. When nobody owns it, whoever cares most does it. Usually you.",
+    good: ["One owner per outcome", "Hires start with a clear area", "Decisions made where the work is"],
+    proof: { caseId: "cs-08", figure: "8 roles", line: "Roles covered, then handed to the team." },
   },
   desk: {
-    meaning:
-      "Off your desk is the Chief of Staff side of the job: priorities, follow-through, board updates, the projects nobody owns. If these all land on you, you're the bottleneck, however good the team is.",
-    good: [
-      "Firefighting takes a day a week, not most of it",
-      "The board update is prepared by the team. You add the story",
-      "The projects nobody owned have an owner and a date",
-    ],
-    proof: { caseId: "cs-09", figure: "0 → 1", line: "Lydia at Shaping Wealth. Turned decisions stuck in conversation into a plan the team could build." },
+    meaning: "Priorities, follow-through, board updates, the projects nobody owns. If they all land on you, you're the bottleneck.",
+    good: ["Firefighting: a day a week, max", "The team prepares the board update", "Orphan projects have owners"],
+    proof: { caseId: "cs-09", figure: "0 → 1", line: "Lydia, from stuck decisions to a working build." },
   },
   cost: {
-    meaning:
-      "Cost and unit economics is knowing what each order, client or job really costs you, and watching it every week. You can't cut what you can't see.",
-    good: [
-      "One cost view per order, client or job",
-      "Checked every week, in the same shape",
-      "Every cost line has an owner who watches it",
-    ],
-    proof: { caseId: "cs-01", figure: "$3.9M", line: "Courier cost at Bolt, from 21% to 14% of GMV in 6 months. Reporting first. Cuts second." },
+    meaning: "Knowing what each order, client or job really costs, every week. You can't cut what you can't see.",
+    good: ["One cost view per unit", "Checked weekly", "Every cost line owned"],
+    proof: { caseId: "cs-01", figure: "$3.9M", line: "Courier cost saved in 6 months." },
   },
   automation: {
-    meaning:
-      "The automation layer is the repeat work running without a person: reports, follow-ups, data entry. Only where it earns its place. Fix the process first, then automate what saves real time or mistakes.",
-    good: [
-      "Repeat work runs on its own, and it's written down",
-      "Every automation has an owner on your team",
-      "Nothing is automated just because it could be",
-    ],
-    proof: { caseId: "cs-07", figure: "~40h", line: "Manual work removed per week, per client engagement, on n8n and Claude." },
+    meaning: "Repeat work running without a person. Only where it earns its place, and only after the process is fixed.",
+    good: ["Repeat work runs itself", "Every automation has an owner", "Nothing automated for its own sake"],
+    proof: { caseId: "cs-07", figure: "~40h", line: "Manual work removed per week, per client." },
   },
 };

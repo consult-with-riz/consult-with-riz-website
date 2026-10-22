@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import CalBookingButton from "@/components/CalModal";
 import { caseRows, splitTag } from "@/lib/caseStudies";
 import {
-  AREAS, QUESTIONS, ADVICE, REPORT, BANDS, bandOf, MAX_PER_AREA, MAX_TOTAL, verdict, type AreaId,
+  AREAS, QUESTIONS, ADVICE, REPORT, BANDS, bandOf, MAX_PER_AREA, outcome, scoreAnswers, type AreaId,
 } from "@/lib/opsCheck";
 
 /**
@@ -63,11 +63,9 @@ export default function OpsReport() {
 
   const data = useMemo(() => {
     if (!answers) return null;
-    const byArea = Object.fromEntries(AREAS.map((a) => [a.id, 0])) as Record<AreaId, number>;
-    QUESTIONS.forEach((q, i) => { byArea[q.area] += q.options[answers[i]].score; });
-    const raw = Object.values(byArea).reduce((s, n) => s + n, 0);
+    const { byArea, total } = scoreAnswers(answers);
     const order = [...AREAS].sort((a, b) => byArea[a.id] - byArea[b.id]);
-    return { byArea, total: Math.round((raw / MAX_TOTAL) * 100), order };
+    return { byArea, total, order };
   }, [answers]);
 
   // the side index follows the chapter in view
@@ -86,13 +84,13 @@ export default function OpsReport() {
     return (
       <section style={{ background: "var(--cream)", minHeight: "70vh", padding: "160px 24px 80px", textAlign: "center" }}>
         <h1 style={{ fontSize: "2rem", fontWeight: 500, color: "var(--ink)" }}>This roadmap link is incomplete.</h1>
-        <p style={{ marginTop: 12, color: "var(--body)" }}>Take the check to get your roadmap. It takes about three minutes.</p>
+        <p style={{ marginTop: 12, color: "var(--body)" }}>Take the check to get your roadmap. It takes about two minutes.</p>
         <a href="/ops-check" className="btn-coral" style={{ marginTop: 24, display: "inline-flex" }}>Take the Ops Health Check →</a>
       </section>
     );
   }
 
-  const v = verdict(data.total);
+  const v = outcome(data.total, data.byArea);
   const [w1, w2, w3] = data.order;
   const ringR = 54, ringC = 2 * Math.PI * ringR;
   const date = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
@@ -177,11 +175,10 @@ export default function OpsReport() {
         .or-step { margin-top: 18px; border-left: 3px solid var(--coral); padding: 4px 0 4px 18px; }
         .or-step h4 { margin: 0; font-family: var(--font-geist-mono), monospace; font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--coral); }
         .or-step p { margin: 6px 0 0; font-size: 1.04rem; line-height: 1.6; color: var(--ink); }
-        .or-proof { display: flex; align-items: center; gap: 18px; margin-top: 22px; padding: 16px 18px; border: 1px dashed rgba(34,51,44,0.2); border-radius: 16px; text-decoration: none; color: inherit; transition: border-color 0.2s ease, background 0.2s ease; }
-        .or-proof:hover { border-color: var(--coral); background: #FFF8F5; }
+        .or-proof { display: flex; align-items: center; gap: 18px; margin-top: 22px; padding: 16px 18px; border: 1px dashed rgba(34,51,44,0.2); border-radius: 16px; }
         .or-proof b { flex-shrink: 0; font-size: 1.6rem; font-weight: 600; letter-spacing: -0.02em; color: var(--coral); white-space: nowrap; }
         .or-proof span { font-size: 0.94rem; line-height: 1.45; color: var(--body); }
-        .or-proof em { font-style: normal; display: block; font-weight: 600; color: var(--ink); }
+        .or-proof em { font-style: normal; display: block; font-family: var(--font-geist-mono), monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
 
         /* ── close ── */
         .or-close { margin-top: 72px; background: var(--ink); color: #fff; border-radius: 28px; padding: 48px 52px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px 40px; align-items: center; position: relative; overflow: hidden; }
@@ -189,6 +186,10 @@ export default function OpsReport() {
         .or-close h2 { margin: 0; font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.4rem); font-weight: 500; line-height: 1.15; color: #fff; }
         .or-close p { margin: 12px 0 0; color: rgba(255,255,255,0.78); line-height: 1.65; max-width: 56ch; }
         .or-close .btn-coral { position: relative; z-index: 1; }
+        .or-close.is-soft { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+        .or-close.is-soft::after { display: none; }
+        .or-close.is-soft h2 { color: var(--ink); }
+        .or-close.is-soft p { color: var(--body); }
         .or-foot { padding: 28px 0 88px; text-align: center; font-size: 0.9rem; color: var(--muted); }
         .or-foot a { color: var(--ink); font-weight: 600; }
 
@@ -232,11 +233,11 @@ export default function OpsReport() {
             <span className="or-eyebrow">Your Ops Roadmap</span>
             <h1 className="or-h1">{v.title}</h1>
             <p className="or-lede">
-              {v.line} Below: what each of the six parts means, where you stand, and what to do first. Weakest first.
+              {v.line} Weakest part first.
             </p>
             <div className="or-meta">
               <span>{date}</span>
-              <span>12 answers</span>
+              <span>{QUESTIONS.length} answers</span>
               <span>Weakest: {w1.name}</span>
             </div>
             <div className="or-actions">
@@ -324,10 +325,10 @@ export default function OpsReport() {
                   </div>
 
                   {proof && (
-                    <a className="or-proof" href={`/case-studies?case=${proof.id}`}>
+                    <div className="or-proof">
                       <b>{rep.proof.figure}</b>
-                      <span><em>{proof.title} · {splitTag(proof.tag).company}</em>{rep.proof.line}</span>
-                    </a>
+                      <span><em>From my work · {splitTag(proof.tag).company}</em>{rep.proof.line}</span>
+                    </div>
                   )}
                 </article>
               );
@@ -336,17 +337,14 @@ export default function OpsReport() {
         </div>
 
         {/* close */}
-        <div className="or-close">
+        {/* the level decides the message and how hard we ask (lib/opsCheck.ts) */}
+        <div className={`or-close${v.cta.tone === "soft" ? " is-soft" : ""}`}>
           <div>
-            <span className="or-eyebrow" style={{ color: "#FFB199" }}>Your next step</span>
-            <h2 style={{ marginTop: 10 }}>Start with &ldquo;{w1.name.toLowerCase()}&rdquo;. I can help.</h2>
-            <p>
-              Thirty minutes, free. Bring this roadmap and you&apos;ll leave with a straight answer on what to
-              do next. If it makes sense, the next step is a two-week Ops &amp; AI Diagnostic: $1,500, and if
-              the Day 14 walkthrough isn&apos;t worth it to you, I refund it in full.
-            </p>
+            <span className="or-eyebrow" style={{ color: v.cta.tone === "soft" ? "var(--coral)" : "#FFB199" }}>Your next step</span>
+            <h2 style={{ marginTop: 10 }}>{v.cta.heading}</h2>
+            <p>{v.cta.body}</p>
           </div>
-          <CalBookingButton className="btn-coral">Book a free 30-min fit call →</CalBookingButton>
+          <CalBookingButton className={v.cta.tone === "soft" ? "btn-ghost" : "btn-coral"}>{v.cta.button}</CalBookingButton>
         </div>
         <p className="or-foot">
           Rizwan Mahmood · Fractional COO · <a href="/">consultwithriz.com</a> · <a href="/ops-check">Take the check again</a>
