@@ -6,29 +6,36 @@ Built with Next.js (App Router), React, TypeScript and Tailwind. Deployed on Ver
 
 ## Pages
 
-| Page | Link | Status |
-|---|---|---|
-| Home (operating system colour-coded) | [consultwithriz.com](https://www.consultwithriz.com) | Not hidden |
-| Case studies | [consultwithriz.com/case-studies](https://www.consultwithriz.com/case-studies) | Not hidden |
-| CV (with PDF download) | [consultwithriz.com/cv](https://www.consultwithriz.com/cv) | Not hidden |
-| Your Ops Roadmap: the Ops Health Check (footer link) | [consultwithriz.com/ops-check](https://www.consultwithriz.com/ops-check) | Not hidden |
-| Ops Roadmap report (personal, opened from a result) | [consultwithriz.com/ops-check/report](https://www.consultwithriz.com/ops-check/report) | Hidden |
-| AI summary of the site | [consultwithriz.com/llms.txt](https://www.consultwithriz.com/llms.txt) | Not hidden |
-| Services | [consultwithriz.com/services](https://www.consultwithriz.com/services) | Hidden |
-| Home V2 (original homepage) | [consultwithriz.com/home-v2](https://www.consultwithriz.com/home-v2) | Hidden |
-| Home V3 (first merged homepage) | [consultwithriz.com/home-v3](https://www.consultwithriz.com/home-v3) | Hidden |
-| Home V4 (merged homepage with "Hi, I'm Riz") | [consultwithriz.com/home-v4](https://www.consultwithriz.com/home-v4) | Hidden |
-| Next 1 (operating system as bold cards) | [consultwithriz.com/next-1](https://www.consultwithriz.com/next-1) | Hidden |
-| Next 2 (operating system as spotlight) | [consultwithriz.com/next-2](https://www.consultwithriz.com/next-2) | Hidden |
-| Next 3 (operating system as plain cards, the previous homepage design) | [consultwithriz.com/next-3](https://www.consultwithriz.com/next-3) | Hidden |
-| Next 6 (operating system as lighter spotlight) | [consultwithriz.com/next-6](https://www.consultwithriz.com/next-6) | Hidden |
-| Next 7 (operating system as colour with meaning: COO, Chief of Staff, Automation) | [consultwithriz.com/next-7](https://www.consultwithriz.com/next-7) | Hidden |
-| Next 8 (operating system as powering up) | [consultwithriz.com/next-8](https://www.consultwithriz.com/next-8) | Hidden |
-| Next 9 (operating system as click to trace) | [consultwithriz.com/next-9](https://www.consultwithriz.com/next-9) | Hidden |
-| Next 10 (operating system as assembles as you scroll) | [consultwithriz.com/next-10](https://www.consultwithriz.com/next-10) | Hidden |
-| Next 11 (operating system rewritten for Fractional COO: rhythm, process, owners, off your desk, cost, automation) | [consultwithriz.com/next-11](https://www.consultwithriz.com/next-11) | Hidden |
+| Page | What it is | Status | Visibility | Google | In sitemap | In top menu | In footer |
+|---|---|---|---|---|---|---|---|
+| [consultwithriz.com](https://www.consultwithriz.com) | Homepage (operating system colour-coded) | Live | Not hidden | Indexed | Yes | Logo | Explore |
+| [consultwithriz.com/case-studies](https://www.consultwithriz.com/case-studies) | Case studies: split view, 11 cases | Live | Not hidden | Indexed | Yes | Case studies | Explore |
+| [consultwithriz.com/cv](https://www.consultwithriz.com/cv) | CV, with PDF download | Live | Not hidden | Indexed | Yes | My CV | Explore |
+| [consultwithriz.com/ops-check](https://www.consultwithriz.com/ops-check) | Ops Health Check (lead magnet) | Live | Not hidden | Indexed | Yes | No | Explore ("Your Ops Roadmap") |
+| [consultwithriz.com/ops-check/report](https://www.consultwithriz.com/ops-check/report) | A founder's personal Ops Roadmap | Live | Hidden (opened from a result) | Not indexed | No | No | No |
+| [consultwithriz.com/support](https://www.consultwithriz.com/support) | Support the channel (tip jar) | Live, Stripe links pending | Hidden (link-only, for YouTube) | Not indexed | No | No | No |
+| [consultwithriz.com/support/thanks](https://www.consultwithriz.com/support/thanks) | Thank-you after a tip | Live | Hidden (Stripe returns here) | Not indexed | No | No | No |
+| [consultwithriz.com/services](https://www.consultwithriz.com/services) | Former services page | Archived | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/home-v2](https://www.consultwithriz.com/home-v2) | Original homepage | Archived | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/home-v3](https://www.consultwithriz.com/home-v3) | First merged homepage | Archived | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/home-v4](https://www.consultwithriz.com/home-v4) | Merged homepage with "Hi, I'm Riz" | Archived | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/next-1](https://www.consultwithriz.com/next-1) | Operating system: bold cards | Design option | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/next-2](https://www.consultwithriz.com/next-2) | Operating system: spotlight | Design option | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/next-3](https://www.consultwithriz.com/next-3) | Operating system: plain cards (previous homepage) | Design option | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/next-6](https://www.consultwithriz.com/next-6) | Operating system: lighter spotlight | Design option | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/next-7](https://www.consultwithriz.com/next-7) | Operating system: colour with meaning | Design option | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/next-8](https://www.consultwithriz.com/next-8) | Operating system: powering up | Design option | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/next-9](https://www.consultwithriz.com/next-9) | Operating system: click to trace | Design option | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/next-10](https://www.consultwithriz.com/next-10) | Operating system: assembles as you scroll | Design option | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/next-11](https://www.consultwithriz.com/next-11) | Operating system rewritten for Fractional COO | Design option | Hidden | Not indexed | No | No | No |
+| [consultwithriz.com/llms.txt](https://www.consultwithriz.com/llms.txt) | Plain-text summary for AI tools | Live | Not hidden | Readable by crawlers | No | No | No |
 
-Hidden pages open by URL but are not linked anywhere on the site and are kept out of search (`noindex`, not in the sitemap).
+- **Status:** *Live* is part of the site today. *Archived* is an earlier version kept for reference. *Design option* is a review page for a section's design.
+- **Visibility:** *Not hidden* pages are linked from the site. *Hidden* pages open by URL only and aren't linked anywhere.
+- **Google:** *Not indexed* pages tell search engines to leave them out (`noindex`).
+- Footer "Work with me" links (Ops & AI Diagnostic, Fractional COO, Free fit call) jump to a section on the homepage, not separate pages.
+
+Positioning changes are logged in [POSITIONING-CHANGE.md](POSITIONING-CHANGE.md), with how to revert each one.
 
 ## Reverting
 
@@ -103,6 +110,7 @@ Where to change things:
 - **Testimonials:** `components/Testimonials.tsx`. Each client also has a direct link, e.g. `/#brian-portnoy`.
 - **Case studies:** `lib/caseStudies.ts` (one entry per case; `testimonialId` links a case to its testimonial). The page is `components/CaseStudiesPage.tsx`, the split view `components/cases/CasesD.tsx`. Filters and the counts at the top update on their own. Link to one case with `/case-studies?case=cs-08`.
 - **Ops Health Check / Ops Roadmap:** every question, score, piece of advice, report chapter and score tier (thresholds, headlines, calls to action) is in `lib/opsCheck.ts`. The email step is built but off; set `NEXT_PUBLIC_OPS_EMAIL=on` in Vercel once Kit is connected (`app/api/ops-check/route.ts`).
+- **Support page (tip jar):** the Stripe Payment Link for each card goes in `lib/support.ts`. Each link's "after payment" setting redirects to `https://www.consultwithriz.com/support/thanks`.
 - **Booking link:** `components/CalModal.tsx`. Every "Book a call" button uses it.
 - **CV:** `components/cv/cvData.ts`, then run `npm run cv:pdf` to refresh the PDF.
 - **Navigation and footer:** `components/Navbar.tsx`, `components/Footer.tsx`.
