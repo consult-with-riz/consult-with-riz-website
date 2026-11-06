@@ -1,3 +1,4 @@
+import { Carlito } from "next/font/google";
 import CalBookingButton from "@/components/CalModal";
 import {
   CV_ACHIEVEMENTS,
@@ -9,6 +10,17 @@ import {
   CV_SKILLS,
   CV_SUMMARY,
 } from "@/components/cv/cvData";
+
+/* Calibri can't be self-hosted (Microsoft licence), so the CV asks for the
+   installed Calibri first and falls back to Carlito, an open-licence font
+   metric-compatible with Calibri, served from our own domain by next/font. */
+const carlito = Carlito({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal"],
+  variable: "--font-carlito",
+  display: "swap",
+});
 
 /* Small line icons for the contact row, drawn in currentColor. */
 const ICON = {
@@ -40,9 +52,16 @@ function ContactIcon({ name }: { name: keyof typeof ICON }) {
  */
 export type CvLogoMode = "none" | "with-name" | "logo-only";
 
-export default function CvView({ logoMode = "none" }: { logoMode?: CvLogoMode }) {
+export default function CvView({
+  logoMode = "none",
+  tight = false,
+}: {
+  logoMode?: CvLogoMode;
+  /** Sizing retuned for Calibri: bigger type, tighter leading (see /cv-2). */
+  tight?: boolean;
+}) {
   return (
-    <div className="cv-wrap">
+    <div className={`cv-wrap ${carlito.variable}`}>
       <style>{`
         .cv-wrap { background: var(--cream); padding: 112px 16px 80px; }
         .cv-bar {
@@ -58,9 +77,11 @@ export default function CvView({ logoMode = "none" }: { logoMode?: CvLogoMode })
           border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow-lg);
           padding: 56px 60px; color: var(--cv-ink);
           font-size: 14px; line-height: 1.55;
+          font-family: Calibri, var(--font-carlito), "Carlito", sans-serif;
         }
         /* the site's global p/li sizes and list reset don't apply inside the CV */
         .cv p, .cv li, .cv dd, .cv dt { font-size: inherit; line-height: inherit; }
+        .cv h1, .cv h2, .cv h3, .cv h4 { font-family: inherit; }
         .cv ul { list-style: disc; }
         .cv li::marker { color: var(--coral); }
         .cv a { color: inherit; text-decoration: none; }
@@ -79,7 +100,7 @@ export default function CvView({ logoMode = "none" }: { logoMode?: CvLogoMode })
         .cv-h2 {
           margin: 28px 0 14px; padding: 7px 12px;
           background: var(--cream); border-left: 4px solid var(--coral); border-radius: 0 6px 6px 0;
-          font-family: var(--font-geist-mono), monospace; font-size: 12px; font-weight: 700;
+          font-family: inherit; font-size: 12px; font-weight: 700;
           letter-spacing: 0.14em; text-transform: uppercase; color: #22332C;
         }
         /* skills as labelled tiles, one per category */
@@ -87,7 +108,7 @@ export default function CvView({ logoMode = "none" }: { logoMode?: CvLogoMode })
         .cv-skill { border: 1px solid var(--line); border-top: 3px solid var(--coral); border-radius: 8px; padding: 9px 12px 10px; background: #FDFBF7; break-inside: avoid; }
         .cv-skill dt {
           margin-bottom: 3px;
-          font-family: var(--font-geist-mono), monospace; font-size: 11px; font-weight: 700;
+          font-family: inherit; font-size: 11px; font-weight: 700;
           letter-spacing: 0.08em; text-transform: uppercase; color: var(--coral);
         }
         .cv-skill dd { margin: 0; }
@@ -106,17 +127,34 @@ export default function CvView({ logoMode = "none" }: { logoMode?: CvLogoMode })
         .cv-logo { display: block; height: calc(var(--lh) * 1px); width: auto; max-width: none; object-fit: contain; margin-right: 4px; }
         .cv-company.is-self, .cv-company.is-self a { color: var(--coral); }
         .cv-company small { font-weight: 400; font-size: 13.5px; color: #4A4A4A; }
-        .cv-dates { font-family: var(--font-geist-mono), monospace; font-size: 12.5px; white-space: nowrap; }
+        .cv-dates { font-family: inherit; font-size: 12.5px; white-space: nowrap; }
         .cv-role-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
         .cv-role-title { font-weight: 600; }
         .cv-role-title em { font-style: normal; font-weight: 400; color: #4A4A4A; }
         .cv-scope { font-size: 12.5px; color: #4A4A4A; white-space: nowrap; }
+
+        /* Calibri tuning: its lowercase is shorter than Wix Madefor's, so the
+           same px reads small and loose. Up the size, pull the leading in. */
+        .cv.cv-tight { font-size: 15px; line-height: 1.38; }
+        .cv-tight .cv-name { font-size: 36px; font-weight: 700; letter-spacing: -0.01em; }
+        .cv-tight .cv-role { font-size: 17px; margin: 4px 0 10px; }
+        .cv-tight .cv-contact { font-size: 14px; }
+        .cv-tight .cv-summary { margin-top: 14px; }
+        .cv-tight .cv-h2 { margin: 24px 0 12px; font-size: 13px; letter-spacing: 0.1em; }
+        .cv-tight .cv-skill dt { font-size: 12px; letter-spacing: 0.06em; margin-bottom: 2px; }
+        .cv-tight .cv-group { font-size: 15px; margin: 10px 0 3px; }
+        .cv-tight li { margin: 2px 0; }
+        .cv-tight .cv-company { font-size: 16px; }
+        .cv-tight .cv-company small, .cv-tight .cv-dates, .cv-tight .cv-scope { font-size: 14px; }
+        .cv-tight .cv-role-row { margin-top: 4px; }
 
         @media (max-width: 640px) {
           .cv-wrap { padding-top: 96px; }
           .cv { padding: 28px 20px; border-radius: 12px; font-size: 13.5px; }
           .cv-name { font-size: 28px; }
           .cv-skills { grid-template-columns: 1fr; }
+          .cv.cv-tight { font-size: 14.5px; }
+          .cv-tight .cv-name { font-size: 30px; }
         }
 
         /* Print / PDF: plain A4, no site chrome */
@@ -146,6 +184,18 @@ export default function CvView({ logoMode = "none" }: { logoMode?: CvLogoMode })
           .cv-logo-slot { flex-basis: 60pt; }
           .cv-company small, .cv-dates, .cv-scope, .cv-role-title em { font-size: 8.5pt; }
           .cv-role-row { margin-top: 2pt; }
+          .cv.cv-tight { font-size: 9.6pt; line-height: 1.2; }
+          .cv-tight .cv-name { font-size: 21pt; }
+          .cv-tight .cv-role { font-size: 11.5pt; margin: 1pt 0 4pt; }
+          .cv-tight .cv-contact { font-size: 9.5pt; }
+          .cv-tight .cv-summary { margin-top: 5pt; }
+          .cv-tight .cv-h2 { margin: 9pt 0 5pt; font-size: 8.5pt; }
+          .cv-tight .cv-skill dt { font-size: 7.5pt; margin-bottom: 1pt; }
+          .cv-tight .cv-group { margin: 4pt 0 1pt; font-size: 9.6pt; }
+          .cv-tight li { margin: 1pt 0; }
+          .cv-tight .cv-company { font-size: 10pt; }
+          .cv-tight .cv-company small, .cv-tight .cv-dates, .cv-tight .cv-scope, .cv-tight .cv-role-title em { font-size: 9pt; }
+          .cv-tight .cv-role-row { margin-top: 2pt; }
           * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
       `}</style>
@@ -158,7 +208,7 @@ export default function CvView({ logoMode = "none" }: { logoMode?: CvLogoMode })
         </div>
       </div>
 
-      <article className="cv">
+      <article className={`cv${tight ? " cv-tight" : ""}`}>
         <div className="cv-head">
           <h1 className="cv-name">{CV_CONTACT.name}</h1>
           <p className="cv-role">{CV_CONTACT.role}</p>

@@ -7,5 +7,5 @@ export const metadata = {
 };
 
 export default function CvPage() {
-  return <CvView logoMode="logo-only" />;
+  return <CvView logoMode="logo-only" tight />;
 }
