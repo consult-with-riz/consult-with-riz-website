@@ -2,7 +2,7 @@
  * The CV, as data. The /cv page renders it and the downloadable PDF is
  * printed from that page (scripts/cv-pdf.mjs), so the two never drift.
  *
- * Source: Rizwan_Mahmood_Sep_2026_CV.pdf. Roles, dates and figures are
+ * Source: CV_for_SWI.pdf (Nov 2026; replaced Rizwan_Mahmood_Sep_2026_CV.pdf). Roles, dates and figures are
  * carried over unchanged; the framing is Fractional COO
  * to match the site. The hidden keyword block and the investor line from
  * the original are deliberately left out.
@@ -20,13 +20,13 @@ export const CV_CONTACT = {
 };
 
 export const CV_SUMMARY =
-  "Fractional COO for Seed to Series B founders. 10+ years delivering operational, product and AI transformation inside high-growth technology businesses (Wise, Bolt, Motive, Careem). I diagnose broken processes, design the target operating model, install the cadence and ship the tooling, including AI agents, automations and reporting, that delivers measurable cost, speed, risk and compliance gains across 70+ markets.";
+  "Operator who builds Strategy & Operations functions from scratch inside high-growth technology companies. 10+ years across Wise, Bolt, Careem and Motive standing up operating models, internal tooling, reporting and compliance systems. Since 2025, I have learned and adopted AI automation workflows using n8n and Claude (chat, code) to be AI-first in my strategy and operations domain.";
 
 export const CV_SKILLS: { label: string; value: string }[] = [
-  { label: "Operations Leadership", value: "Operating model design, process mapping, workflow audits, KPI & reporting design, change management" },
-  { label: "Business Management", value: "Strategy planning, business expansion, resource allocation, P&L optimisation" },
-  { label: "AI & Automation", value: "n8n, Anthropic, LLM agent design, prompt engineering, Make/Zapier, Attio & ClickUp" },
+  { label: "AI & Automation", value: "n8n, Claude, LLM agent design, prompt engineering, Make/Zapier, ClickUp & others" },
+  { label: "Transformation Toolkit", value: "Process mapping, operating model design, workflow audits, change management, KPI & reporting design" },
   { label: "Product Management", value: "Discovery, prioritisation, impact assessment, experimentation, implementation" },
+  { label: "Business Management", value: "Strategy planning, business expansion, resource allocation, P&L optimisation" },
   { label: "Cross-Functional Leadership", value: "Delivery with Engineering, Product, Public Policy, Legal and Risk teams" },
   { label: "Technical", value: "Tableau & Looker (business user), Microsoft Office & G-Suite (advanced), Confluence, Jira, SQL (basic)" },
   { label: "Soft Skills", value: "Executive communication, team management, C-suite reporting, critical thinking" },
@@ -39,7 +39,7 @@ export const CV_ACHIEVEMENTS: { group: string; items: { tag: string; text: strin
       { tag: "(Wise) Reconciliation Automation", text: "Shipped bank/scheme auto-recs and exception tooling achieving ~92% straight-through matching; reduced month-end close from ~8 to ~3 days and manual journals by ~65% across Finance Ops." },
       { tag: "(Wise) Revenue & Fee Recognition", text: "Standardised fee mapping and IFRS-aligned revenue recognition for transfers; improved revenue accuracy and audit traceability." },
       { tag: "(Wise) Tax & Regulatory Reporting", text: "Integrated VAT/GST rules into the finance data pipeline; enabled compliant filings across EU/UK and lowered ad-hoc analyst time by ~30%." },
-      { tag: "(Wise) Treasury & Liquidity Insights", text: "Delivered cash-position dashboards fed by ledger events; reduced idle balances and improved FX P&L attribution for Treasury and Controllership." },
+      { tag: "(Wise) Treasury & Liquidity Insights (cross-functional)", text: "Delivered cash-position dashboards fed by ledger events; reduced idle balances and improved FX P&L attribution for Treasury and Controllership." },
     ],
   },
   {
@@ -78,17 +78,37 @@ export const CV_EXPERIENCE: CvJob[] = [
   {
     company: "Fractional COO",
     self: true,
-    descriptor: "Independent",
-    dates: "Jun ’25 – Present",
+    descriptor: "Contractor",
+    dates: "Mar ’26 – Present",
     roles: [
       {
-        title: "Fractional COO, Ops & AI Transformation",
+        title: "Fractional COO, Ops & AI Transformation (including Chief of Staff work)",
         scope: "Client engagements",
         bullets: [
-          "Embedded with founders and leadership teams as fractional COO, including the Chief of Staff work on the founder's side: operating cadence, metrics, process design and follow-through.",
+          "Embedding with founders and leadership teams as Fractional COO, including the Chief of Staff work on the founder's side: operating cadence, metrics, process design and follow-through.",
           "Engagements run end to end, from process discovery and workflow audit through solution design, build, deployment and handover to the client's own team.",
           "Shipped production automations on n8n and the Anthropic Claude API, replacing manual back-office processes across sales, finance and client operations; 20+ workflows live across 7+ clients.",
+          "Delivery across sectors: automated reporting, document generation and client-intake workflows for edtech, accelerator and financial services clients, removing ~40 hours of manual work per week per engagement.",
+        ],
+      },
+    ],
+  },
+  {
+    company: "Soch",
+    logoH: 24,
+    logo: "/logos/soch.png",
+    descriptor: "AI Workflow Automation & Transformation Consultancy",
+    href: "https://withsoch.com",
+    dates: "Jun ’25 – Nov ’26",
+    roles: [
+      {
+        title: "Co-founder, AI & Ops Transformations (Back-office AI Workflow Automations)",
+        scope: "Led an org of 8 people",
+        bullets: [
+          "Founded an AI transformation practice serving Seed to Series B startups; engagements ran end to end, including process discovery, workflow audit, solution design, build, deployment and handover to the client's own team.",
           "Client delivery across sectors: automated reporting, document generation and client-intake workflows for edtech, accelerator and financial services clients, removing ~40 hours of manual work per week per engagement.",
+          "Launched Academy by Soch, a cohort-based AI training programme taking non-technical founders and operating teams from zero to working automations they own and maintain.",
+          "Grew the team from 2 to 4, then 6 and eventually 8 people.",
         ],
       },
     ],
@@ -100,7 +120,7 @@ export const CV_EXPERIENCE: CvJob[] = [
     logoClass: "is-wide",
     descriptor: "Behavioural Finance Training & AI Platform",
     href: "https://www.shapingwealth.com",
-    dates: "Oct ’25 – Sep ’26",
+    dates: "Oct ’25 – Oct ’26",
     roles: [
       {
         title: "Business Transformation Consultant (Fractional), Lydia AI Platform",
@@ -146,8 +166,8 @@ export const CV_EXPERIENCE: CvJob[] = [
         meta: "Delivery Central Operations · 1 yr 7 mos",
         scope: "Managing 2 people",
         bullets: [
-          "Owned two workstreams, Logistics & Inventory and Regulatory & Compliance, revamping courier processes in line with the EU's Workers' Directive to reach 80%+ compliance without disrupting business continuity, and integrating the internal admin tool with two new microservices to cut manual effort by 70%.",
-          "Introduced courier reporting frameworks in 15 countries, unlocking faster problem identification, knowledge sharing and upskilling of local teams.",
+          "Owned two workstreams: Logistics & Inventory and Regulatory & Compliance. Revamped courier processes in line with the EU's Workers' Directive to reach 80%+ compliance without disrupting business continuity, and integrated the internal admin tool with two new microservices to cut manual effort by 70%.",
+          "Introduced courier reporting frameworks in 15 countries, unlocking faster problem identification and higher engagement across the vertical, with quicker knowledge sharing and upskilling of local teams.",
         ],
       },
       {
@@ -155,8 +175,8 @@ export const CV_EXPERIENCE: CvJob[] = [
         meta: "Food Central Operations · 2 yrs",
         scope: "Managed 1 person",
         bullets: [
-          "Led the rollout of courier segmentation with PMs and engineers, reducing courier costs by 1.3% of GMV through data-driven strategies and technical optimisations.",
-          "Partnered with Engineering to optimise delivery assignment logic, increasing courier efficiency by 12%. Implemented A/B testing for delivery fees, driving a $2.1M revenue increase in 6 months.",
+          "Led the rollout of courier segmentation in close partnership with PMs and engineers, reducing courier costs by 1.3% of GMV through data-driven strategies and technical optimisations.",
+          "Feature development: partnered with Engineering to optimise delivery assignment logic, increasing courier efficiency by 12%. Implemented A/B testing for delivery fees, driving a $2.1M revenue increase in 6 months.",
           "Operated as Product Operations Manager through testing, rollout and scaling of new features, UI improvements and tools, ensuring technical solutions met business and user requirements.",
         ],
       },
