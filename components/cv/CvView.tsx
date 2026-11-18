@@ -103,16 +103,12 @@ export default function CvView({
           font-family: inherit; font-size: 12px; font-weight: 700;
           letter-spacing: 0.14em; text-transform: uppercase; color: #22332C;
         }
-        /* skills as labelled tiles, one per category */
-        .cv-skills { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; }
-        .cv-skill { border: 1px solid var(--line); border-top: 3px solid var(--coral); border-radius: 8px; padding: 9px 12px 10px; background: #FDFBF7; break-inside: avoid; }
-        .cv-skill dt {
-          margin-bottom: 3px;
-          font-family: inherit; font-size: 11px; font-weight: 700;
-          letter-spacing: 0.08em; text-transform: uppercase; color: var(--coral);
-        }
-        .cv-skill dd { margin: 0; }
-        .cv-skill:last-child:nth-child(odd) { grid-column: 1 / -1; }
+        /* skills: label, a fine dotted leader, then the list, like a contents page */
+        .cv-skills { margin: 0; }
+        .cv-skills > div { display: grid; grid-template-columns: 206px 1fr; align-items: baseline; padding: 3px 0; break-inside: avoid; }
+        .cv-skills dt { display: flex; align-items: baseline; font-weight: 700; color: #22332C; white-space: nowrap; }
+        .cv-skills dt::after { content: ""; flex: 1; min-width: 12px; margin: 0 8px 0 6px; border-bottom: 1px dotted #C9C1B0; transform: translateY(-0.25em); }
+        .cv-skills dd { margin: 0; }
 
         .cv-group { margin: 12px 0 4px; font-weight: 700; font-size: 13.5px; }
         .cv ul { margin: 4px 0 0; padding-left: 18px; }
@@ -141,7 +137,6 @@ export default function CvView({
         .cv-tight .cv-contact { font-size: 14px; }
         .cv-tight .cv-summary { margin-top: 14px; }
         .cv-tight .cv-h2 { margin: 24px 0 12px; font-size: 13px; letter-spacing: 0.1em; }
-        .cv-tight .cv-skill dt { font-size: 12px; letter-spacing: 0.06em; margin-bottom: 2px; }
         .cv-tight .cv-group { font-size: 15px; margin: 10px 0 3px; }
         .cv-tight li { margin: 2px 0; }
         .cv-tight .cv-company { font-size: 16px; }
@@ -152,7 +147,8 @@ export default function CvView({
           .cv-wrap { padding-top: 96px; }
           .cv { padding: 28px 20px; border-radius: 12px; font-size: 13.5px; }
           .cv-name { font-size: 28px; }
-          .cv-skills { grid-template-columns: 1fr; }
+          .cv-skills > div { grid-template-columns: 1fr; }
+          .cv-skills dt::after { display: none; }
           .cv.cv-tight { font-size: 14.5px; }
           .cv-tight .cv-name { font-size: 30px; }
         }
@@ -171,9 +167,8 @@ export default function CvView({
           .cv-ic { width: 9pt; height: 9pt; }
           .cv-summary { margin-top: 5pt; }
           .cv-h2 { margin: 9pt 0 5pt; padding: 3pt 7pt; font-size: 8pt; border-left-width: 2.5pt; }
-          .cv-skills { gap: 4pt; }
-          .cv-skill { padding: 4pt 7pt 5pt; border-top-width: 2pt; border-radius: 4pt; }
-          .cv-skill dt { font-size: 7pt; margin-bottom: 1pt; }
+          .cv-skills > div { grid-template-columns: 130pt 1fr; padding: 0.5pt 0; }
+          .cv-skills dt::after { border-bottom-width: 0.7pt; margin: 0 5pt 0 4pt; }
           .cv-group { margin: 4pt 0 1pt; font-size: 9pt; }
           .cv ul { margin-top: 1pt; padding-left: 13pt; }
           .cv li { margin: 1pt 0; }
@@ -190,7 +185,6 @@ export default function CvView({
           .cv-tight .cv-contact { font-size: 9.5pt; }
           .cv-tight .cv-summary { margin-top: 5pt; }
           .cv-tight .cv-h2 { margin: 9pt 0 5pt; font-size: 8.5pt; }
-          .cv-tight .cv-skill dt { font-size: 7.5pt; margin-bottom: 1pt; }
           .cv-tight .cv-group { margin: 4pt 0 1pt; font-size: 9.6pt; }
           .cv-tight li { margin: 1pt 0; }
           .cv-tight .cv-company { font-size: 10pt; }
@@ -224,7 +218,7 @@ export default function CvView({
         <h2 className="cv-h2">Skills &amp; expertise</h2>
         <dl className="cv-skills">
           {CV_SKILLS.map((s) => (
-            <div key={s.label} className="cv-skill">
+            <div key={s.label}>
               <dt>{s.label}</dt>
               <dd>{s.value}</dd>
             </div>
